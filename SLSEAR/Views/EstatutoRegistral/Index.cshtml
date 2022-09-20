@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@{
+    ViewBag.Title = "Index";
+}
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+<br />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">7. Estatuto o partida Registral</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        Envía el estatuto o partida registral de la entidad jurídica al sistema SEAR con el botón “CARGAR”
+
+                        <br />
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <input type="file" class="form-control" name="file" id="file" value="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md4">
+                        <button type="button" class="btn btn-success" id="btncargar"><i class="fe fe-upload me-2"></i>Cargar</button>
+                    </div>
+                </div>
+                <center>
+                    <div class="col-sm-4 col-md-2">
+                        <div class="alert alert-danger" role="alert">
+                            Solo se admite PDF maximo (10 MB)
+                        </div>
+                    </div>
+                </center>
+                <br />
+                <div class="text-center">
+                    <center>
+                        <table id="tblarchivos" class="table table-green" style="width:20% !important">
+                            <tbody>
+                                <tr class="table-success">
+                                    <td style="color:black">Estatuto o partida registral</td>
+                                    <td id="filadescargar"><a href="javascript:void(0);" id="ahrefdescargar"><i class="bi bi-file-earmark-pdf"></i></a></td>
+                                    <td id="fileeliminar"><a href="javascript:void(0);" id="ahrefeliminar"><i class="bi bi-x-circle-fill"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/EstatutoRegistral/Index.js?noCache=@Guid.NewGuid().ToString()"></script>

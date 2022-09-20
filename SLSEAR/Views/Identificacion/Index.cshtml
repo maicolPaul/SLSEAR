@@ -1,0 +1,657 @@
+﻿
+@{
+    ViewBag.Title = "Identificacion";
+}
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+
+<br />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">Identificación</h4>
+            </div>
+            <div class="card-body">
+                <h5 style="font-weight:bold">2.1 DESCRIPCION DE LA SITUACION ACTUAL</h5>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <h6 style="font-weight:bold">2.1.1 Rango de tecnologias usadas en las unidades productivas</h6>
+                <div class="col-sm-12 col-md-12" style="text-align:right">
+                    <button type="button" class="btn btn-success" id="btnagregartecnologia"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</button>
+                </div>
+                @*<table id="tbltecnologias" class="table table-bordered text-nowrap border-bottom" width="100%"> </table>*@
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tbltecnologias">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">Tecnologias/practicas usadas en la situacion actual</th>
+                            <th scope="col">Tecnologias/practicas presentes en el mercado</th>
+                            <th scope="col">Tecnologia idonea para los productores (las que necesita el productor)</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <h5 style="font-weight:bold">2.1.2 Limitaciones</h5>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <textarea cols="170" id="vLimitaciones" rows="10"></textarea>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <h5 style="font-weight:bold">2.1.3 Estado Situacional</h5>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <textarea cols="170" id="vEstadoSituacional" rows="10"></textarea>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <h5 style="font-weight:bold">2.2 IDENTIFICACION DEL PROBLEMA CENTRAL CAUSAS Y EFECTOS</h5>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <h6 style="font-weight:bold">2.2.1 Definición y caracterización del problema central</h6>
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Problema Central<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vproblemacentral" placeholder="Problema Central">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <div class="form-group" style="display: -webkit-box;">
+                            <label class="form-label">Causas Directas<span class="text-red"></span></label>&nbsp;
+                            <img src="~/Content/assets/images/add.png" id="btnagregarcausasdirectas" style="cursor:pointer" />
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcausasdirectas">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">Descripcion Causa Directa</th>
+                            <th scope="col">detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <div class="form-group" style="display: -webkit-box;">
+                            <label class="form-label">Efectos Directos<span class="text-red"></span></label>&nbsp;
+                            <img src="~/Content/assets/images/add.png" id="btnagregarefectosdirectos" style="cursor:pointer" />
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblefectosdirectos">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">Descripcion Efecto Directo</th>
+                            <th scope="col">detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <h5 style="font-weight:bold">2.3 POBLACION OBJETIVO</h5>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <h6 style="font-weight:bold">2.3.1 Población afectada en el subsector de agricultura / ganaderia</h6>
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+                            <label class="form-label">Numero de Unidades productivas de la cadena productiva beneficiarias del servicio<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vnumerounidadesproductivas" placeholder="Numero de Unidades productivas de la cadena productiva beneficiarias del servicio">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Unidad de medida de las unidades productivas de la cadena productiva<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vunidadmedidaproductivas" placeholder="Unidad de medida de las unidades productivas de la cadena productiva">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Numero de familias beneficiarias<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vnumerosfamiliares" placeholder="Numero de familias beneficiarias">
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-md-2">
+                        <div class="form-group">
+                            <label class="form-label">Cantidad<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vcantidad" placeholder="Cantidad">
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-md-2">
+                        <div class="form-group">
+                            <label class="form-label">Unidad de Medida<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vunidadmedida" placeholder="Unidad de Medida">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Rendimiento o promedio de la cadena productiva<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vrendimientocadenaproductiva" placeholder="Rendimiento o promedio de la cadena productiva">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+                            <label class="form-label">Gremios organizacionales a las que esta vinculada la cadena productiva<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vgremios" placeholder="Gremios organizacionales a las que esta vinculada la cadena productiva">
+                        </div>
+                    </div>
+                </div>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <h5 style="font-weight:bold">2.4 DEFINICION DEL OBJETIVO DEL SERVICIO</h5>
+                <hr style="border: 1px solid black;height:0px !important" />
+                <h6 style="font-weight:bold">2.4.1 Objetivo</h6>
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Descripcion del Objetivo Central<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vobjetivocentral" placeholder="Descripcion del Objetivo Central">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12" style="text-align:right">
+                    <button type="button" class="btn btn-success" id="btnagregarobjetivo"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                </div>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblobjetivo">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">Indicador</th>
+                            <th scope="col">Unidad de Medida</th>
+                            <th scope="col">Meta</th>
+                            <th scope="col">Medio de Verificación</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Descripcion del Componente 1<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vdesccomponente1" placeholder="Descripcion del Componente 1">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12" style="text-align:right">
+                    <button type="button" class="btn btn-success" id="btnagregarcomponente1"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                </div>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcomponente">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">Indicador</th>
+                            <th scope="col">Unidad de Medida</th>
+                            <th scope="col">Meta</th>
+                            <th scope="col">Medio de Verificación</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="col-sm-12 col-md-12" style="text-align:right">
+                    <button type="button" class="btn btn-success" id="btnagregaractividad1"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                </div>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblActividades1">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">Actividades</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Unidad de Medida</th>
+                            <th scope="col">Meta</th>
+                            <th scope="col">Medio de Verificación</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Descripcion del Componente 2<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vdesccomponente2" placeholder="Descripcion del Componente 2">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12" style="text-align:right">
+                    <button type="button" class="btn btn-success" id="btnagregarcomponente2"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                </div>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcomponente2">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">Indicador</th>
+                            <th scope="col">Unidad de Medida</th>
+                            <th scope="col">Meta</th>
+                            <th scope="col">Medio de Verificación</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="col-sm-12 col-md-12" style="text-align:right">
+                    <button type="button" class="btn btn-success" id="btnagregaractividad2"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                </div>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblActividades2">
+                    <thead class="table-success">
+                        <tr>
+                            <th scope="col">Actividades</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Unidad de Medida</th>
+                            <th scope="col">Meta</th>
+                            <th scope="col">Medio de Verificación</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div style="text-align:right">
+                    <button class="btn btn-success bg-primary-gradient mt-4" id="btnguardar">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaltecnologia" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Tecnología</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <label class="form-group">
+                            <label class="form-label">Tecnologias/practicas usadas en la situacion actual<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vtecnologia1" placeholder="Tecnologias/practicas usadas en la situacion actual">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Tecnologias/practicas presentes en el mercado<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Tecnologias/practicas presentes en el mercado" id="vtecnologia2">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Tecnologia idonea para los productores (las que necesita el productor)<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Tecnologia idonea para los productores (las que necesita el productor)" id="vtecnologia3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardartecnologia" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalcausasdirectas" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Causas Directas</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <label class="form-group">
+                            <label class="form-label">Causa Directa<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vcausadirecta" placeholder="Causa Directa">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardarcausasdirectas" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalcausasindirectas" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-lg " role="document">
+    <div class="modal-content">
+        <div class="modal-header cardheadertitle">
+            <h5 class="modal-title">Agregar Causas InDirectas</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-8 col-md-12">
+                    <label class="form-group">
+                        <label class="form-label">Causa InDirecta<span class="text-red"></span></label>
+                        <input type="text" class="form-control mayuscula" id="vcausaindirecta" placeholder="Causa InDirecta">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+            <button class="btn btn-primary" id="btnguardarcausasindirectas" type="submit">Guardar</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="modalefectosdirectos" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Efectos Directos</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <label class="form-group">
+                            <label class="form-label">Efecto Directo<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vefectodirecto" placeholder="Efecto Directo">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardarefectodirecto" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalefectosindirectos" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Efectos InDirectos</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-md-12">
+                        <label class="form-group">
+                            <label class="form-label">Efecto InDirecto<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" id="vefectoindirecto" placeholder="Efecto InDirecto">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardarefectoindirecto" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalobjetivo" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Objetivo</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <label class="form-group">
+                            <label class="form-label">Indicador<span class="text-red"></span></label>
+                            <select class="form-select leading-none" id="cboindicador">
+                                <option selected="" value="">Seleccione</option>
+                                <option value="1">Numero de Paquetes tecnologicos implementados</option>
+                                <option value="2">Numero de productores que implementan tecnologias</option>
+                                <option value="3">Numero de unidades productivas que implementan tecnologias</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Unidad de Medida<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Unidad de Medida" id="vunidadmedidaind">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+                            <label class="form-label">Meta<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Meta" id="vmeta">
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Medio de Verificación<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Medio de Verificación" id="vmedio">
+                        </div>
+                    </div>
+                </div>               
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardarobjetivo" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalcomponente1" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Componente 1</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <label class="form-group">
+                            <label class="form-label">Indicador<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Indicador" id="vindicadorcomp1">          
+                        </label>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Unidad de Medida<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Unidad de Medida" id="vunidadmedidaindcomp1">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+                            <label class="form-label">Meta<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Meta" id="vmetacomp1">
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Medio de Verificación<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Medio de Verificación" id="vmediocomp1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardarcomp1" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalcomponente2" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Componente 2</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <label class="form-group">
+                            <label class="form-label">Indicador<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Indicador" id="vindicadorcomp2">
+                        </label>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Unidad de Medida<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Unidad de Medida" id="vunidadmedidaindcomp2">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+                            <label class="form-label">Meta<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Meta" id="vmetacomp2">
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Medio de Verificación<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Medio de Verificación" id="vmediocomp2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardarcomp2" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalactividad1" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Actividad</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <label class="form-group">
+                            <label class="form-label">Actividad<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Actividad" id="vactividadact1" readonly disabled>
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <label class="form-group">
+                            <label class="form-label">Descripción<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Descripción" id="vdescactividadact1">
+                        </label>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Unidad de Medida<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Unidad de Medida" id="vunidadmedidadact1">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+                            <label class="form-label">Meta<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Meta" id="vmetaact1">
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Medio de Verificación<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Medio de Verificación" id="vmedioact1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardaractividad" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalactividad2" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Actividad</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <label class="form-group">
+                            <label class="form-label">Actividad<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Actividad" id="vactividadact2" readonly disabled>
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <label class="form-group">
+                            <label class="form-label">Descripción<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Descripción" id="vdescactividadact2">
+                        </label>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Unidad de Medida<span class="text-red"></span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Unidad de Medida" id="vunidadmedidadact2">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <div class="form-group">
+                            <label class="form-label">Meta<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Meta" id="vmetaact2">
+                        </div>
+                    </div>
+                    <div class="col-sm-2 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Medio de Verificación<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Medio de Verificación" id="vmedioact2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardaractividad2" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/Identificacion/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
+

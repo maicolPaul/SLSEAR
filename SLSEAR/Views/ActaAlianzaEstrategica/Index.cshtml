@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+<br />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">
+                    2. Acta de Alianza Estratégica
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12" style="text-align:right">
+                        <button type="button" class="btn btn-success" id="btnagregar"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</button>
+                    </div>
+                </div>
+                <table id="tblComunidadOpa" class="table table-bordered text-nowrap border-bottom" width="100%"> </table>
+
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <button type="button" class="btn btn-success" id="btndescargar" disabled><i class="fe fe-download me-2"></i>Descargar</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <input type="file" class="form-control" name="file" id="file" value="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md4">
+                        <button type="button" class="btn btn-success" id="btncargar"><i class="fe fe-upload me-2"></i>Cargar</button>
+                    </div>
+                </div>
+                <center>
+                    <div class="col-sm-4 col-md-2">
+                        <div class="alert alert-danger" role="alert">
+                            Solo se admite PDF maximo (10 MB)
+                        </div>
+                    </div>
+                </center>
+                <br />
+                <div class="text-center">
+                    <center>
+                        <table id="tblarchivos" class="table table-green" style="width:20% !important">
+                            <tbody>
+                                <tr class="table-success">
+                                    <td style="color:black">Acta de Alianza Estrategica</td>
+                                    <td id="filadescargar"><a href="javascript:void(0);" id="ahrefdescargar"><i class="bi bi-file-earmark-pdf"></i></a></td>
+                                    <td id="fileeliminar"><a href="javascript:void(0);" id="ahrefeliminar"><i class="bi bi-x-circle-fill"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="productormodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 id="titulomodalproductor" class="modal-title">Registrar Productor</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Dni<span class="text-red">*</span></label>
+                            <input type="text" class="form-control solonumeros" placeholder="Dni" id="vDni" maxlength="8">
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-md-8">
+                        <label class="form-group">
+                            <label class="form-label">Apellidos y Nombres<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" id="vApellidosNombres" placeholder="Apellidos y Nombres">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Celular<span class="text-red">*</span></label>
+                            <input type="text" class="form-control solonumeros" placeholder="Celular" id="vCelular" maxlength="9">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <label class="form-group">
+                            <label class="form-label">Edad<span class="text-red">*</span></label>
+                            <input type="text" class="form-control" id="iEdad" placeholder="Edad" maxlength="2">
+                        </label>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Sexo<span class="text-red">*</span></label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cbosexo" required>
+                                <option value="" label="Seleccione">Seleccione</option>
+                                <option value="1" label="Masculino">Masculino</option>
+                                <option value="0" label="Femenino">Femenino</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-check" id="divorganizacion">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Organizacion
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-check" id="divrepresentante">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" readonly="readonly" disabled onclick="javascript: return false;">
+                            <label class="form-check-label" for="flexCheckDefault1">
+                                Es Representante
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                    <div class="form-check" id="divrecibiocapa">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+                        <label class="form-check-label" for="flexCheckDefault2">
+                            Recibio Capacitacion / Asistencia Técnica
+                        </label>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <label class="form-group">
+                            <label class="form-label">Nombre de la Organizacion<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" id="vNombreOrganizacion" placeholder="Nombre de la Organizacion" readonly>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardarproductor" type="button">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarproductor" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Productor</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">                    
+                    <span>Esta Seguro de eliminar el Productor ?</span>                 
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarproductor" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/ActaAlianzaEstrategica/Index.js?noCache=@Guid.NewGuid().ToString()"></script>

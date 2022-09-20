@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+<input type="hidden" name="hdrutasessioncerrar1" id="hdrutasessioncerrar1" value="@Url.Action("Salir","Indicaciones")" />
+<br />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">
+                    Indicaciones
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row" style="font-size:18px !important">
+                    <div class="col-sm-8 col-md-12">
+                        El Sistema en Línea de los Servicios de Extensión Agraria Rural, en adelante SLSEAR, es el medio que permite a los extensionistas presentar sus propuestas de servicios de extensión de manera rápida y fácil, asegurando una adecuada gestión del proceso de postulación.
+
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <div class="col-sm-8 col-md-12">
+                        Antes de iniciar su postulación, debes tener en cuenta las siguientes recomendaciones:
+                    </div>
+                    <br />
+                    <br />
+                    <div class="col-sm-8 col-md-12">
+                        <span style="font-weight:bold">Para el correcto funcionamiento del sistema:</span>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="col-sm-8 col-md-12">
+                        <ol>
+                            <li>
+                                Navegador Internet: Google Chrome <img src="~/Content/assets/images/logochrome.png" width="22" />  , Mozilla Firefox <img src="~/Content/assets/images/logofirefox.png" width="22" />  ,
+                                Safari<img src="~/Content/assets/images/safari_icon-icons.com_75763.png" width="26" />   o Explorer 7.0 <img src="~/Content/assets/images/Internet-Explorer-icon.png" width="26" />   o superior.
+                            </li>
+                            <li> Pc o Laptop con sistema operativo Windows versión 7,8, 10 o 11.</li>
+                        </ol>
+                    </div>
+                    <br />
+                    <br />
+
+                    <div class="col-sm-8 col-md-12">
+                        <span style="font-weight:bold">
+                            Antes de iniciar la postulación:
+                        </span>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="col-sm-8 col-md-12">
+                        <ol>
+                            <li>
+                                Leer las bases del concurso
+                            </li>
+                            <li>
+                                Tener la información que se solicita en los formatos.
+                            </li>
+                            <li>
+                                Respetar la fecha y hora de inicio y cierre de la postulación.
+                            </li>
+                        </ol>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="col-sm-8 col-md-12">
+                        <span style="font-weight:bold">
+                            Éxitos
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/Indicaciones/Index.js?noCache=@Guid.NewGuid().ToString()"></script>

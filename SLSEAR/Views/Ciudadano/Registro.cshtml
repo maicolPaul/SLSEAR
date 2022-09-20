@@ -1,0 +1,618 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+
+    <!-- META DATA -->
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="SEAR - Sistema de Servicios de Extensión Agraria Rural">
+    <meta name="author" content="Spruko Technologies Private Limited">
+    <meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
+
+    <!-- FAVICON -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/assets/images/brand/favicon.ico" />
+
+    <!-- TITLE -->
+    <title>SEAR - Sistema de Servicios de Extensión Agraria Rural</title>
+
+    <!-- BOOTSTRAP CSS -->
+    <link id="style" href="~/Content/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- STYLE CSS -->
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/dark-style.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/transparent-style.css" rel="stylesheet">
+    <link href="~/Content/assets/css/skin-modes.css" rel="stylesheet" />
+
+    <!--- FONT-ICONS CSS -->
+    <link href="~/Content/assets/css/icons.css" rel="stylesheet" />
+
+    <!-- COLOR SKIN CSS -->
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="~/Content/assets/colors/color1.css" />
+
+</head>
+
+<body class="app sidebar-mini ltr">
+
+    <!-- BACKGROUND-IMAGE -->
+    <div class="login-img">
+
+        <!-- GLOABAL LOADER -->
+        <div id="global-loader">
+            <img src="~/Content/assets/images/loader.svg" class="loader-img" alt="Loader">
+        </div>
+        <!-- /GLOABAL LOADER -->
+        <!-- PAGE -->
+        <div class="page">
+            <div class="">
+
+                <!-- CONTAINER OPEN -->
+                <div class="col col-login mx-auto mt-7">
+                    <div class="text-center">
+                        <img src="~/Content/assets/images/logo agrorural.png" class="header-brand-img m-0" alt="" style="width: 287px;">
+                    </div>
+                </div>
+                <div class="container-login100">
+                    <input type="hidden" name="hdruta" id="hdruta" value="@Url.Action("Login","Ciudadano")" />
+                    <input type="hidden" name="hdtipopersona" id="hdtipopersona" value="" />
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" id="txttitulo">Registro de Persona Natural</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="panel panel-primary">
+                                    <div class="tab-menu-heading">
+                                        @*<div class="form-group">
+                                            <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" name="chkpersona" value="" id="chkpersona">
+                                                <span class="custom-control-label">Persona Jurídica</span>
+                                            </label>
+                                        </div>*@
+                                        <!--<div class="tabs-menu">-->
+                                        <!-- Tabs -->
+                                        <!--<ul class="nav panel-tabs panel-success">
+                                            <li><a href="#tab17" class="active" data-bs-toggle="tab"><span><i class="fe fe-user me-1"></i></span>Persona Natural</a></li>
+                                            <li><a href="#tab18" data-bs-toggle="tab"><span><i class="fe fe-user me-1"></i></span>Persona Jurídica</a></li>
+                                        </ul>
+                                    </div>-->
+                                    </div>
+                                    <div class="panel-body tabs-menu-body">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab17">
+                                                <div class="row">
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Nombres<span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="Nombres" id="txtnomnat">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Apellido Paterno <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="Apellido Paterno" id="txtapepatnat">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Apellido Materno <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="Apellido Materno" id="txtapematnat">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Genero<span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbosexonat">
+                                                                <option selected="" value="">Seleccione</option>
+                                                                <option value="1">Masculino</option>
+                                                                <option value="2">Femenino</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Fecha de nacimiento <span class="text-red">*</span></label>
+                                                            <input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="txtfechanacnat">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Dni <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="Dni" id="txtdninat" maxlength="8">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">RUC <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="RUC" id="txtrucnat" maxlength="11">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Correo electrónico <span class="text-red">*</span></label>
+                                                            <input type="email" class="form-control" placeholder="yo@empresa.com" id="txtcorreonat">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Domicilio Fiscal <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control mayuscula" placeholder="Dirección" id="txtdireccionnat">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Departamento <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboregionnat">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Provincia <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboprovincianat">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Distrito <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbodistritonat">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Teléfono <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="Teléfono" id="txttelnat">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Celular <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="Celular" id="txtcelnat" maxlength="9">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Nivel de instrucción <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbonivelnat">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Dirección Regional de Agricultura <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbodireccionregionalnat">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Agencia Agraria <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboagenciaagrarianat">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Usuario<span class="text-red"></span></label>
+                                                            <input type="text" class="form-control" placeholder="Usuario" readonly id="txtsuuario" minlength="5">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Contraseña <span class="text-red">*</span></label>
+                                                            <input type="password" class="form-control" placeholder="Contraseña" id="txtpassword" minlength="5">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab18">
+                                                <div class="row">
+                                                    <div class="col-sm-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Razón Social <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control mayuscula" placeholder="Razón social" id="txtrazonsocial">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Iniciales o siglas <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control mayuscula" placeholder="Siglas" id="txtsiglas">
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Procedencia <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboprocedencia">
+                                                                <option selected="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>*@
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Régimen <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboregimen">
+                                                                <option selected="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Tipo de entidad <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbotipoentidad">
+                                                                <option selected="">Seleccione</option>
+                                                                <option value="1">Masculino</option>
+                                                                <option value="2">Femenino</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">RUC <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="RUC" id="txtruc" maxlength="11">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Dirección<span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control mayuscula" placeholder="Direción" id="txtdireccion">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Departamento <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboregion">
+                                                                <option selected="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Provincia <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboprovincia">
+                                                                <option selected="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Distrito <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbodistrito">
+                                                                <option selected="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Teléfono <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="Teléfono" id="txttelefono">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Celular <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="Celular" maxlength="9" id="txtcelular">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Domicilio fiscal <span class="text-red">*</span></label>
+                                                            <input type="email" class="form-control mayuscula" placeholder="Domicilio fiscal" id="txtdomiciliofiscal">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Ámbito al que postula</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Dirección/Gerencia Regional de Agricultura <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbodireccionregional">
+                                                                <option selected="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Agencia Agraria <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboagenciaagraria">
+                                                                <option selected="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Datos del representante legal</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Nombres<span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="Nombres" id="txtnombrerep">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Apellido Paterno <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="Apellido Paterno" id="txtapepatrep">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Apellido Materno <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="Apellido Materno" id="txtapematrep">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Genero<span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbosexorep">
+                                                                <option selected="" value="">Seleccione</option>
+                                                                <option value="1">Masculino</option>
+                                                                <option value="2">Femenino</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">DNI <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="DNI" id="txtdnirep" maxlength="8">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Cargo que desempeña <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="CARGO" id="txtcargorep">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Teléfono <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="Telefono" id="txttelrlrep">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Celular <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="Celular" maxlength="9" id="txtcelrlrep">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Correo electrónico <span class="text-red">*</span></label>
+                                                            <input type="email" class="form-control" placeholder="Correo" id="txtcorreorlrep">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Datos del Extensionista</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Nombres<span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="Nombres" id="txtnomnatext">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Apellido Paterno <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="Apellido Paterno" id="txtapepatnatext">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Apellido Materno <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control sololetras mayuscula" placeholder="Apellido Materno" id="txtapematnatext">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Genero<span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbosexonatext">
+                                                                <option selected="" value="">Seleccione</option>
+                                                                <option value="1">Masculino</option>
+                                                                <option value="2">Femenino</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Fecha de nacimiento <span class="text-red">*</span></label>
+                                                            <input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="txtfechanacnatext">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">DNI <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="DNI" id="txtdninatext" maxlength="8">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">RUC <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control" placeholder="RUC" id="txtrucnatext" maxlength="11">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Correo electrónico <span class="text-red">*</span></label>
+                                                            <input type="email" class="form-control" placeholder="yo@empresa.com" id="txtcorreonatext">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Teléfono <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="Teléfono" id="txttelnatext">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Celular <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control solonumeros" placeholder="Celular" maxlength="9" id="txtcelnatext">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Departamento <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboregionnatext">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Provincia <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboprovincianatext">
+                                                                <option selected="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Distrito <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbodistritonatext">
+                                                                <option selected="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Domicilio Fiscal <span class="text-red">*</span></label>
+                                                            <input type="text" class="form-control mayuscula" placeholder="Dirección" id="txtdireccionnatext">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Nivel de instrucción <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbonivelnatext">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Dirección Regional de Agricultura <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cbodireccionregionalnatext">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Agencia Agraria <span class="text-red">*</span></label>
+                                                            <select class="form-select leading-none" id="cboagenciaagrarianatext">
+                                                                <option selected="" value="">Seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Usuario<span class="text-red"></span></label>
+                                                            <input type="text" class="form-control" placeholder="Usuario" readonly id="Usuarioext" minlength="5">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Contraseña <span class="text-red">*</span></label>
+                                                            <input type="password" class="form-control" placeholder="Contraseña" id="txtpasswordrext">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-grid gap-2">
+                                                <button type="button" class="btn btn-primary mb-1" id="btnregistro">Registrar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- CONTAINER CLOSED -->
+            </div>
+        </div>
+        <!-- END PAGE -->
+        <div class="modal fade" id="largemodal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Seleccione Tipo de Persona</h5>
+                        @*<button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>*@
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            @*<div class="form-label">Radios</div>*@
+                            <div class="col-sm-6 col-md-6">
+                                <label class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="example-radios" id="r1" value="1">
+                                    <span class="custom-control-label">Persona Natural</span>
+                                </label>
+                            </div>
+                            <div class="col-sm-6 col-md-6">
+                                <label class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="example-radios" id="r2" value="2">
+                                    <span class="custom-control-label">Persona Juridica</span>
+                                </label>
+                            </div>                                
+                            </div>       
+                        </div>
+                    <div class="modal-footer">
+                        @*<button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>*@
+                        <button class="btn btn-primary" id="btnokTipoPersona" type="submit">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- BACKGROUND-IMAGE CLOSED -->
+    <!-- JQUERY JS -->
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="~/Content/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="~/Content/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- SHOW PASSWORD JS -->
+    <script src="~/Content/assets/js/show-password.min.js"></script>
+
+    <!-- Perfect SCROLLBAR JS-->
+    <script src="~/Content/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
+
+    <!-- Color Theme js -->
+    <script src="~/Content/assets/js/themeColors.js"></script>
+
+    <!-- INTERNAL Notifications js -->
+    <script src="~/Content/assets/plugins/notify/js/rainbow.js"></script>
+    <script src="~/Content/assets/plugins/notify/js/sample.js"></script>
+    <script src="~/Content/assets/plugins/notify/js/jquery.growl.js"></script>
+    <script src="~/Content/assets/plugins/notify/js/notifIt.js"></script>
+
+    <!-- CUSTOM JS -->
+    <script src="~/Content/assets/js/custom.js"></script>
+    <script type="text/javascript" src="~/Scripts/CiudadanoRegistro/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+<br />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle" >
+                <h4 class="card-title">1. Lista De Chequeo De Requisitos</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md12">
+                        <label class="form-label">Nombre de Propuesta</label>
+                        <input type="text" class="form-control mayuscula" placeholder="Nombre de Propuesta" id="propuesta">
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="card text-info bg-info-transparent card-transparent">
+                        <div class="card-body text-center">
+                            <p class="card-text">La <b>ALIANZA ESTRATÉGICA</b> esta conformada por el proveedor del SEAR (extensionista) y los productores organizados (beneficiarios)</p>
+                            <p class="card-text">La <b>ACREDITACIÓN</b>, es un compromiso asumido entre el proveedor del SEAR (extensionista) y los productores beneficiarios a fin de cumplir con la modalidad de postulación de las bases.</p>
+
+                        </div>
+                    </div>
+                </div>                
+                <div class="table-responsive">
+                    <table class="table border text-nowrap text-md-nowrap table-sm mb-0 table-striped text-center align-middle">
+                        <thead class="table-primary">
+                            <tr class="d-flex">
+                                <th class="col-8">REQUISITOS</th>
+                                <th class="col-2">SI CUMPLE</th>
+                                <th class="col-2">NO CUMPLE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="d-flex">
+                                <td class="col-8" style="word-wrap: break-word;white-space:normal;text-align:justify">A. Que la propuesta presentada no es copia textual de otras propuestas evaluadas, en ejecución o culminados de otras fuentes de financiamiento</td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioA" id="ra" value="1" data-idrequisito="1"></td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioA" id="rb" value="0" data-idrequisito="1"></td>
+                            </tr>
+                            <tr class="d-flex">
+                                <td class="col-8" style="word-wrap: break-word;white-space:normal;text-align:justify">B. Que el proveedor del SEAR no está observado por otra fuente de financiamiento a la que se tenga acceso por un mal desempeño o incumpliendo contractual en un proyecto culminado o en ejecución.</td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioB" id="rc" value="1" data-idrequisito="2"></td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioB" id="rd" value="0" data-idrequisito="2"></td>
+                            </tr>
+                            <tr class="d-flex">
+                                <td class="col-8" style="word-wrap: break-word;white-space:normal;text-align:justify">C. Que el proveedor del SEAR no se encuentre impedido de contratar con el Estado.</td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioC" id="re" value="1" data-idrequisito="3"></td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioC" id="rf" value="0" data-idrequisito="3"></td>
+                            </tr>
+                            <tr class="d-flex">
+                                <td class="col-8" style="word-wrap: break-word;white-space:normal;text-align:justify">D. Que el proveedor del SEAR no presenta deudas coactivas con el Estado reportadas por la SUNAT</td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioD" id="rg" value="1" data-idrequisito="4"></td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioD" id="rh" value="0" data-idrequisito="4"></td>
+                            </tr>
+                            <tr class="d-flex">
+                                <td class="col-8" style="word-wrap: break-word;white-space:normal;text-align:justify">E. Que el proveedor del SEAR cumple con las condiciones establecidas en el Ítems 1.10.1 condiciones del proveedor, de las presentes bases.</td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioE" id="ri" value="1" data-idrequisito="5"></td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioE" id="rj" value="0" data-idrequisito="5"></td>
+                            </tr>
+                            <tr class="d-flex">
+                                <td class="col-8" style="word-wrap: break-word;white-space:normal;text-align:justify">F. Que los beneficiarios cumplen con las condiciones establecidas en el Ítems 1.10.2 condiciones del proveedor, de las presentes bases.</td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioF" id="rk" value="1" data-idrequisito="6"></td>
+                                <td class="col-2"><input type="radio" class="control-input" name="radioF" id="rl" value="0" data-idrequisito="6"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                <div class="text-center">
+                    <button type="button" class="btn btn-success" id="btnguardar"><i class="fe fe-save me-2"></i>Guardar</button>
+                </div>
+                <br />
+                <div class="card text-info bg-info-transparent card-transparent">
+                    <div class="card-body">
+                        <p class="card-text text-center">Para continuar con el registro, descargue el documento (lista de chequeo) con el botón "DESCARGAR". Luego de imprimir el documento lo firma. Posteriormente, el documento lo escanea y lo envia al sistema con el botón "CARGAR"</p>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <button type="button" class="btn btn-success" id="btndescargarrequisitos" disabled><i class="fe fe-download me-2"></i>Descargar</button>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <input type="file" class="form-control" name="file" id="file" value="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md4">
+                        <button type="button" class="btn btn-success" id="btncargarrequitos"><i class="fe fe-upload me-2"></i>Cargar</button>
+                    </div>
+                    <center>
+                        <div class="col-sm-4 col-md-2">
+                            <div class="alert alert-danger" role="alert">
+                                Solo se admite PDF maximo (10 MB)
+                            </div>
+                        </div>
+                    </center>                    
+                </div>
+                <br />
+                <div class="text-center">
+                    <center>
+                        <table id="tblarchivos" class="table table-green" style="width:20% !important">
+                            <tbody>
+                                <tr class="table-success">
+                                    <td style="color:black">Lista de chequeo</td>
+                                    <td id="filadescargar"><a href="javascript:void(0);" id="ahrefdescargar"><i class="bi bi-file-earmark-pdf"></i></a></td>
+                                    <td id="fileeliminar"><a href="javascript:void(0);" id="ahrefeliminar"><i class="bi bi-x-circle-fill"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </center>
+                </div>
+            </div>
+        </div>        
+     </div>
+  </div>
+<script type="text/javascript" src="~/Scripts/ListaChequeo/Index.js?noCache=@Guid.NewGuid().ToString()"></script>

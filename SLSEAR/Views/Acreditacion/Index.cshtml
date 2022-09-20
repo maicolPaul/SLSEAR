@@ -1,0 +1,220 @@
+﻿
+@{
+    ViewBag.Title = "Acreditación";
+}
+
+<!-- PAGE-HEADER -->
+<div class="page-header">
+    <h1 class="page-title">Acreditación</h1>
+</div>
+<!-- PAGE-HEADER END -->
+<!-- ROW-1 -->
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="panel panel-primary">
+                    <div class=" tab-menu-heading">
+                        <div class="tabs-menu1">
+                            <!-- Tabs -->
+                            <ul class="nav panel-tabs">
+                                <li><a href="#tab5" class="active" data-bs-toggle="tab">1. Lista De Chequeo De Requisitos</a></li>
+                                <li><a href="#tab6" data-bs-toggle="tab" class="">2. Acta De Alianza Estratégica</a></li>
+                                <li><a href="#tab7" data-bs-toggle="tab" class="">3. Acta De Compromiso De Asociación</a></li>
+                                <li><a href="#tab8" data-bs-toggle="tab" class="">4. Cirriculum Vitae</a></li>
+                                <li><a href="#tab9" data-bs-toggle="tab" class="">5. Registro Unico de Contribuyentes</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body tabs-menu-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab5">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center">Lista De Chequeo De Requisistos</h5>
+                                        <div class="card-body">
+                                            <div class="card text-info bg-info-transparent card-transparent">
+                                                <div class="card-body text-center">
+                                                    <p class="card-text">La <b>ALIANZA ESTRATÉGICA</b> esta conformada por el proveedor del SEAR (extensionista) y los productores organizados (beneficiarios)</p>
+                                                    <p class="card-text">La <b>ACREDITACIÓN</b>, es un compromiso asumido entre el proveedor del SEAR (extensionista) y los productores beneficiarios a fin de cumplir con la modalidad de postulación de las bases.</p>
+
+                                                </div>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="table border text-nowrap text-md-nowrap table-sm mb-0 table-striped text-center align-middle">
+                                                    <thead class="table-primary">
+                                                        <tr class="d-flex">
+                                                            <th class="col-6">REQUISITOS</th>
+                                                            <th class="col-3">SI CUMPLE</th>
+                                                            <th class="col-3">NO CUMPLE</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="d-flex">
+                                                            <td class="col-6" style="word-wrap: break-word;white-space:normal;">A. Que la propuesta presentada no es copia textual de otras propuestas evaluadas, en ejecución o culminados de otras fuentes de financiamiento</td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioA" id="ra" value="1" data-idrequisito="1"></td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioA"  id="rb"value="0" data-idrequisito="1"></td>
+                                                        </tr>
+                                                        <tr class="d-flex">
+                                                            <td class="col-6" style="word-wrap: break-word;white-space:normal;">B. Que el proveedor del SEAR no está observado por otra fuente de financiamiento a la que se tenga acceso por un mal desempeño o incumpliendo contractual en un proyecto culminado o en ejecución.</td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioB" id="rc" value="1" data-idrequisito="2"></td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioB" id="rd" value="0" data-idrequisito="2"></td>
+                                                        </tr>
+                                                        <tr class="d-flex">
+                                                            <td class="col-6" style="word-wrap: break-word;white-space:normal;">C. Que el proveedor del SEAR no se encuentre impedido de contratar con el Estado.</td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioC" id="re" value="1" data-idrequisito="3"></td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioC" id="rf" value="0" data-idrequisito="3"></td>
+                                                        </tr>
+                                                        <tr class="d-flex">
+                                                            <td class="col-6" style="word-wrap: break-word;white-space:normal;">D. Que el proveedor del SEAR no presenta deudas coactivas con el Estado reportadas por la SUNAT</td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioD" id="rg" value="1" data-idrequisito="4"></td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioD" id="rh" value="0" data-idrequisito="4"></td>
+                                                        </tr>
+                                                        <tr class="d-flex">
+                                                            <td class="col-6" style="word-wrap: break-word;white-space:normal;">E. Que el proveedor del SEAR cumple con las condiciones establecidas en el Ítems 1.10.1 condiciones del proveedor, de las presentes bases.</td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioE" id="ri" value="1" data-idrequisito="5"></td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioE" id="rj" value="0" data-idrequisito="5"></td>
+                                                        </tr>
+                                                        <tr class="d-flex">
+                                                            <td class="col-6" style="word-wrap: break-word;white-space:normal;">F. Que los beneficiarios cumplen con las condiciones establecidas en el Ítems 1.10.2 condiciones del proveedor, de las presentes bases.</td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioF" id="rk" value="1" data-idrequisito="6"></td>
+                                                            <td class="col-3"><input type="radio" class="control-input" name="radioF" id="rl" value="0" data-idrequisito="6"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <br />
+                                            <div class="card text-info bg-info-transparent card-transparent">
+                                                <div class="card-body text-center">
+                                                    <h4 class="card-title">TENER EN CUENTA:</h4>
+                                                    <p class="card-text">Si no cumple con algunos de requisitos, absténgase de participar. El presente documento forma parte integral de las bases de la presente convocatoria, y su contenido no puede ser modificado parcial o totalmente.</p>
+                                                    <p class="card-text">En caso de descubrirse que la información entregada es falsa o no estuviera acreditada, el proveedor del SEAR (extensionista) y la propuesta quedan descalificados en forma automática.</p>
+                                                    <p class="card-text">AGRO RURAL tiene la facultad de realizar la fiscalización o validación, en cualquier etapa del concurso, de la información declarada en el presente formato, según Ley de Procedimiento Administrativo General.</p>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-success" id="btnguardar"><i class="fe fe-save me-2"></i>Guardar</button>
+                                            </div>
+                                            <br />
+                                            <div class="card text-info bg-info-transparent card-transparent">
+                                                <div class="card-body">
+                                                    <p class="card-text text-center">Para continuar con el registro, descargue el documento (lista de chequeo) con el botón "DESCARGAR". Luego de imprimir el documento lo firma. Posteriormente, el documento lo escanea y lo envia al sistema con el botón "CARGAR"</p>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-success" id="btndescargarrequisitos" disabled><i class="fe fe-download me-2"></i>Descargar</button> <button type="button" class="btn btn-success"><i class="fe fe-upload me-2"></i>Cargar</button>
+                                            </div>
+                                            <br />
+                                            <div class="text-center">
+                                                <div class="alert alert-danger mb-0" role="alert">
+                                                    <span class="alert-inner--text"><strong>Atención!</strong> Aún no carga este archivo!</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center">Acta De Alianza Estratégica</h5>
+                                        <div class="card text-info bg-info-transparent card-transparent">
+                                            <div class="card-body text-center">
+                                                <p class="card-text">Descargue el documento "Acta de de la Alianza Estratégica", con el botón "DESCARGAR". Luego de imprimir el documento, llena la información solicitada en el Acta. Posteriormente lo escanea y lo envia al sistema con el botón "CARGAR"</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-success" id="btndescargarAlianzaEstrategica"><i class="fe fe-download me-2"></i>Descargar</button> <button type="button" class="btn btn-success"><i class="fe fe-upload me-2"></i>Cargar</button>
+                                </div>
+                                <br />
+                                <div class="text-center">
+                                    <div class="alert alert-danger mb-0" role="alert">
+                                        <span class="alert-inner--text"><strong>Atención!</strong> Aún no carga este archivo!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab7">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center">Acta De Compromiso De Asociación</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted text-center">(Sólo para aquellos productores individuales que por mutuo acuerdo se asocian y deciden participar en el concurso)</h6>
+                                        <hr />
+                                        <div class="card text-info bg-info-transparent card-transparent">
+                                            <div class="card-body text-center">
+                                                <p class="card-text">Descargue el documento "Acta de de la Alianza Estratégica", con el botón "DESCARGAR". Luego de imprimir el documento, llena la información solicitada en el Acta. Posteriormente lo escanea y lo envia al sistema con el botón "CARGAR"</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-success" id="btndescargaracta"><i class="fe fe-download me-2"></i>Descargar</button>
+                                    <button type="button" class="btn btn-success"><i class="fe fe-upload me-2"></i>Cargar</button>
+                                </div>
+                                <br />
+                                <div class="text-center">
+                                    <div class="alert alert-danger mb-0" role="alert">
+                                        <span class="alert-inner--text"><strong>Atención!</strong> Aún no carga este archivo!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center">Curriculum Vitae</h5>
+                                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                        <a href="javascript:void(0)" class="card-link">Card link</a>
+                                        <a href="javascript:void(0)" class="card-link">Another link</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab9">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center">Acreditación Del Registro Único De Contribuyentes - RUC</h5>
+                                        <hr />
+                                        <div class="card text-info bg-info-transparent card-transparent">
+                                            <div class="card-body text-center">
+                                                <p class="card-text">A través del siguiente enlace puede acceder a "Consultar el estado del RUC" <a href="https://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/FrameCriterioBusquedaWeb.jsp" target="_blank">https://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/FrameCriterioBusquedaWeb.jsp</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-success" ><i class="fe fe-download me-2"></i>Descargar</button> <button type="button" class="btn btn-success"><i class="fe fe-upload me-2"></i>Cargar</button>
+                                </div>
+                                <br />
+                                <div class="text-center">
+                                    <div class="alert alert-danger mb-0" role="alert">
+                                        <span class="alert-inner--text"><strong>Atención!</strong> Aún no carga este archivo!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ROW-1 END -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Progreso</h5>
+                <p class="card-text">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-green-1" style="width: 60%;">60%</div>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/Acreditacion/Index.js?noCache=@Guid.NewGuid().ToString()"></script>

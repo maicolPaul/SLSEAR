@@ -1,0 +1,447 @@
+﻿
+@{
+    ViewBag.Title = "Información General";
+}
+
+<div class="page-header">
+    <div>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <table width="100%" style=" border-spacing: 0px;">
+                    <tr>
+                        <td><h4 class="card-title">INFORMACIÓN GENERAL</h4></td>
+                        <td style="text-align:right"><button class="btn btn-success bg-primary-gradient mt-4" id="btnguardar">Guardar</button></td>
+                    </tr>
+                </table>                                
+            </div>
+            <div class="card-body">
+
+                <div class="panel panel-primary">
+                    <div class="tab-menu-heading">
+                        <div class="tabs-menu">
+                            <!-- Tabs -->
+                            <ul class="nav panel-tabs panel-info">
+                                <li><a href="#tab21" class="active" data-bs-toggle="tab"><span><i class="fe fe-user me-1"></i></span>1.1 DATOS GENERALES DEL SEAR</a></li>
+                                <li><a href="#tab22" data-bs-toggle="tab"><span><i class="fe fe-calendar me-1"></i></span>1.2 DATOS DE LA ENTIDAD PROMOTORA</a></li>
+                                <li><a href="#tab23" data-bs-toggle="tab"><span><i class="fe fe-settings me-1"></i></span>1.3 DATOS DEL PROVEEDOR</a></li>
+                                <li><a href="#tab24" data-bs-toggle="tab"><span><i class="fe fe-bell me-1"></i></span>1.4 DATOS DE LA(S) ENTIDAD(ES) BENEFICIARIA(S)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel-body tabs-menu-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab21">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.1.1 Nombre del SEAR <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Nombre del SEAR" id="vNombreSearT1" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.1.2 Naturaleza de la Intervención<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Naturaleza de la Intervención" id="vNaturalezaIntervencionT1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.1.3 Sub Sector<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Sub Sector" id="vSubSectorT1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.1.4 Nombre de la cadena productiva priorizada<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Nombre de la cadena productiva priorizada" id="vCadenaProductivaT1">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.1.5 Proceso de la cadena productiva<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Proceso de la cadena productiva" id="vProcesoProductivaT1">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.1.6 Línea prioritaria<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Línea prioritaria" id="vLineaPrioritariaT1">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.1.7 Producto o servicio a ampliar / mejorar / recuperar<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Producto o servicio a ampliar / mejorar / recuperar" id="vProductoServicioAmpliarT1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="form-label">1.1.8 Localización del servicio<span class="text-red">*</span></label>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Region<span class="text-red">*</span></label>
+                                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboregion">
+                                                <option label="Seleccione">Seleccione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Provincia<span class="text-red">*</span></label>
+                                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboprovincia">
+                                                <option label="Seleccione">Seleccione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Distrito<span class="text-red">*</span></label>
+                                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="iCodUbigeoT1">
+                                                <option label="Seleccione">Seleccione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Localidad<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Localidad" id="vLocalidadT1">
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <label class="form-label">1.1.9 Ubicacion del servicio<span class="text-red">*</span></label>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Zona UTM<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Zona UTM" id="vZonaUTMT1">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Coordenadas UTM (Norte)<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Coordenadas UTM (Norte)" id="vCoordenadasUTMNorteT1">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Coordenadas UTM (Este)<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Coordenadas UTM (Este)" id="vCoordenadasUTMEsteT1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="form-label">1.1.10 Fecha de inicio y fin del servicio<span class="text-red">*</span></label>
+                                    <div class="col-sm-4 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Inicio<span class="text-red">*</span></label>
+                                            <input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="dFechaInicioServicioT1">                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-3">
+                                        <div class="form-group">                                            
+                                            <label class="form-label">Fin<span class="text-red">*</span></label>
+                                            <input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="dFechaFinServicioT1">
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">1.1.11 Duración (días)<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control solonumeros" placeholder="Duración (días)" id="iDuracionT1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab22">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.2.1 Nombre de la entidad proponente (Agencia Agraria) <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Nombre de la entidad proponente (Agencia Agraria)" id="vNombreEntidadProponenteT2">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.2.5 Correo electrónico <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Correo electrónico" id="vCorreoElectronicoT2">
+                                        </div>
+                                    </div>                                   
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.2.2 Nombre de la Dirección Regional a la que pertenece<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Nombre de la Dirección Regional a la que pertenece" id="vNombreDireccionPerteneceT2">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.2.6 Nombre del director de la Agencia Agraria<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Nombre del director de la Agencia Agraria" id="vNombreDirectorAgenciaAgrariaT2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.2.3 Dirección<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Dirección" id="vDireccionT2">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.2.7 Dirección Zonal AGRORURAL<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Dirección Zonal AGRORURAL" id="vDireccionZonaAgroruralT2">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.2.4 Teléfono<span class="text-red">*</span></label>
+                                            <input type="email" class="form-control solonumeros" placeholder="Teléfono" id="vTelefonoT2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab23">
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.1 Tipo de personeria juridica<span class="text-red">*</span></label>                                            
+                                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="iCodTipoPersoneriaT3">
+                                                <option label="Seleccione">Seleccione</option>
+                                                <option label="Natural">Natural</option>
+                                                <option label="Juridica">Juridica</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.7 Teléfono<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control solonumeros" placeholder="Teléfono" id="vTelefonoT3">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.8 Celular<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control solonumeros" placeholder="Celular" id="vCelularT3">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.2 Nombre o razón social del proveedor <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Nombre o razón social del proveedor" id="vNombreRazonSocialProveedorT3">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.9 Correo electrónico<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Correo electrónico" id="vCorreoElectronicoT3">
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.3 Nombre del representante legal<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Nombre del representante legal" id="vNombreRepresentanteLegalT3">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.10 Página web<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Página web" id="vPaginaWebT3">
+                                        </div>
+                                    </div>                                 
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.4 N° DNI <span class="text-red">*</span></label>
+                                            <input type="email" class="form-control solonumeros" placeholder="N° DNI" maxlength="8" id="vDniT3">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.5 N° RUC <span class="text-red">*</span></label>
+                                            <input type="email" class="form-control solonumeros" placeholder="N° RUC" maxlength="11" id="vRucT3">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.11 Especialidad o Profesión del proveedor<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Especialidad o Profesión del proveedor" id="vEpecialidadProveedorT3">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.6 Dirección <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Dirección" id="vDireccionT3">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.3.12 Tipo de Proovedor<span class="text-red">*</span></label>
+                                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="iCodTipoProveedorT3">
+                                                <option label="Seleccione">Seleccione</option>                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab24">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.4.1 Nombre o razón social <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Nombre o razón social">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.4.2 Nombre del representante<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Nombre o razón social">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">1.4.3 N° RUC<span class="text-red">*</span></label>
+                                            <input type="text" class="form-control solonumeros" placeholder="N° RUC">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">1.4.4 Teléfono<span class="text-red">*</span></label>
+                                            <input type="email" class="form-control solonumeros" placeholder="Teléfono">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">1.4.5 Celular<span class="text-red">*</span></label>
+                                            <input type="email" class="form-control solonumeros" placeholder="Celular">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.4.6 Dirección <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Dirección">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label">1.4.7 Correo electrónico <span class="text-red">*</span></label>
+                                            <input type="text" class="form-control" placeholder="Correo electrónico ">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">1.4.8 Tipo de Organización<span class="text-red">*</span></label>
+                                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cbotipoorganizacion">
+                                                <option label="Seleccione">Seleccione</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <button class="btn btn-success bg-primary-gradient mt-4" data-bs-toggle="modal" data-bs-target="#largemodal">Agregar Productores</button>
+                                        <button class="btn btn-secondary bg-secondary-gradient mt-4" id="btnlimpiar">Limpiar</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-bottom-0">N°</th>
+                                                    <th class="border-bottom-0">Apellidos y Nombres</th>
+                                                    <th class="border-bottom-0">Dni</th>
+                                                    <th class="border-bottom-0">Celular</th>
+                                                    <th class="border-bottom-0">Edad</th>
+                                                    <th class="border-bottom-0">Sexo</th>
+                                                    <th class="border-bottom-0">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                             
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="largemodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registro de Productores</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">          
+                <form class="needs-validation was-validated">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Apellidos y Nombres<span class="text-red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Apellidos y Nombres" id="txtapeynom" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Dni<span class="text-red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Dni" id="txtdni" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Celular<span class="text-red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Celular" id="txtcelular">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Edad<span class="text-red">*</span></label>
+                                <input type="email" class="form-control" placeholder="Edad" id="txtedad" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Sexo<span class="text-red">*</span></label>
+                                <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cbosexo" required>
+                                    <option value="" label="Seleccione">Seleccione</option>
+                                    <option value="1" label="Masculino">Masculino</option>
+                                    <option value="0" label="Femenino">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>               
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardarproductor" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/InformacionGeneral/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
+
