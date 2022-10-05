@@ -126,6 +126,7 @@
     <Compile Include="Controllers\ActaCompromisoAsociacionController.cs" />
     <Compile Include="Controllers\CargaArchivoController.cs" />
     <Compile Include="Controllers\CiudadanoController.cs" />
+    <Compile Include="Controllers\CostosController.cs" />
     <Compile Include="Controllers\CronogramaController.cs" />
     <Compile Include="Controllers\CurriculumVitaeController.cs" />
     <Compile Include="Controllers\EstatutoRegistralController.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Controllers\InfoGeneralController.cs" />
     <Compile Include="Controllers\InformacionGeneralController.cs" />
     <Compile Include="Controllers\ListaChequeoController.cs" />
+    <Compile Include="Controllers\PlanCapaController.cs" />
     <Compile Include="Controllers\RegistroProveedorController.cs" />
     <Compile Include="Controllers\RegistroRucController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1461,6 +1463,7 @@
     <Content Include="Scripts\CargaArchivo\Index.js" />
     <Content Include="Scripts\CiudadanoRegistro\Index.js" />
     <Content Include="Scripts\CiudadanoRegistro\Login.js" />
+    <Content Include="Scripts\Costos\Index.js" />
     <Content Include="Scripts\Cronograma\Index.js" />
     <Content Include="Scripts\CurriculumVitae\Index.js" />
     <Content Include="Scripts\EstatutoRegistral\Index.js" />
@@ -1480,6 +1483,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\ListaChequeo\Index.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\PlanCapa\Index.js" />
     <Content Include="Scripts\RegistroProveedor\Index.js" />
     <Content Include="Scripts\RegistroRuc\Index.js" />
     <Content Include="Web.config" />
@@ -1514,6 +1518,8 @@
     <Content Include="Views\AcreditacionExtensionista\Index.cshtml" />
     <Content Include="Views\InfoGeneral\Index.cshtml" />
     <Content Include="Views\Cronograma\Index.cshtml" />
+    <Content Include="Views\Costos\Index.cshtml" />
+    <Content Include="Views\PlanCapa\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
