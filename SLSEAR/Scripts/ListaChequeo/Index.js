@@ -96,6 +96,7 @@ function EjecutarDetalleInformacionGeneral() {
         });
 
     $('#btnguardar').on('click', function (e) {
+        debugger;
         console.log($("input:radio:checked").length);
         
         if ($("input:radio:checked").length != 6) {
@@ -172,8 +173,23 @@ function EjecutarDetalleInformacionGeneral() {
             } else {
 
                 $.post(globals.urlWebApi + "api/ListaChequeoRequisitos/ActualizarDardeBajaListaChequeoRequisitos", usuario)
-                    .done((respuesta) => {                        
+                    .done((respuesta) => {            
+                        debugger;
                         if (respuesta.iCodListaChequeo == 1) {
+
+                            //debugger;
+                            // grabacion de propuesta - inicio
+                            var datos = { iCodExtensionista: general.usuario, vNombrePropuesta: $('#propuesta').val() };
+
+                            $.post(globals.urlWebApi + "api/Extensionista/ActualizarPropuestaExtensionista", datos)
+                                .done((respuesta) => {
+                                    console.log('registro propuesta');
+                                    console.log(respuesta);
+                                }).fail((error) => {
+                                    console.log(error);
+                                });
+                                                // grabacion de propuesta - fin
+
                             $(lista).each(function (index, value) {
                                 //console.log(value);
                                 $.post(globals.urlWebApi +"api/ListaChequeoRequisitos/InsertarListaChequeoRequisitos", value)
@@ -187,18 +203,7 @@ function EjecutarDetalleInformacionGeneral() {
                                             });
                                             return;
                                         } else {
-                                            //debugger;
-                                            // grabacion de propuesta - inicio
-                                            var datos = { iCodExtensionista: general.usuario, vNombrePropuesta: $('#propuesta').val() };
-
-                                            $.post(globals.urlWebApi + "api/Extensionista/ActualizarPropuestaExtensionista", datos)
-                                                .done((respuesta) => {
-                                                    console.log('registro propuesta');
-                                                    console.log(respuesta);
-                                                }).fail((error) => {
-                                                    console.log(error);
-                                                });
-                                                // grabacion de propuesta - fin
+                                           
 
                                             loadhide();
                                             notif({
