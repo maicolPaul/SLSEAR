@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">
+                    Registro de Plan Capacitación
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <h4>Lista de Actividades</h4>
+                </div>
+
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblactividad">
+                </table>
+               
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <h4>Lista de Costos Por Actividad</h4>
+                </div>
+
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcosto">
+                </table>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12" style="text-align:right">
+                        <button type="button" class="btn btn-success" id="btnvistaprevia"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i> Vista Previa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<div class="modal fade" id="modalcostos" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Costo</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Actividad</label>
+                            <input type="text" class="form-control mayuscula" placeholder="Actividad" id="vActividad" disabled>
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Tipo Material Servicio<span class="text-red">*</span></label>
+                            <select class="form-select leading-none" id="cboTipoServMat">
+                                <option selected="" value="">Seleccione</option>
+                                <option value="1">Servicios no personales</option>
+                                <option value="2">Servicios de terceros</option>
+                                <option value="3">Materiales e insumos</option>
+
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Descripcion<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Ingrese descripcion" id="vdescripcion">
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Unidad de Medida<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Ingrese unidad de medida" id="vUnidadMedida">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Cantidad<span class="text-red">*</span></label>
+                            <input type="number" class="form-control mayuscula" placeholder="Ingrese cantidad" id="iCantidad">
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Costo Unitario<span class="text-red">*</span></label>
+                            <input type="number" class="form-control mayuscula" placeholder="Ingrese costo" id="dCostoUnitario">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Dia<span class="text-red">*</span></label>
+                            <input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="vdia">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardar" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarcostos" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Costo</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta Seguro de eliminar el costo seleccionado ?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarcosto" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+                @*<script type="text/javascript" src="~/Scripts/CurriculumVitae/Index.js?noCache=@Guid.NewGuid().ToString()"></script>*@
+                <script type="text/javascript" src="~/Scripts/PlanCapa/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
