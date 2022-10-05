@@ -28,9 +28,10 @@ function EjecutarDetalleInformacionGeneral() {
     var dato = {};
 
     dato.iCodExtensionista = general.usuario;
-
+    debugger;
     $.post(globals.urlWebApi + "api/Identificacion/ListarIdentificacion", dato)
         .done((respuesta) => {
+            console.log("Datos Identificacion");                        
             console.log(respuesta);                        
             if (respuesta.length > 0) {
                 general.iCodIdentificacion = respuesta[0].iCodIdentificacion;
@@ -45,6 +46,9 @@ function EjecutarDetalleInformacionGeneral() {
                 $('#vrendimientocadenaproductiva').val(respuesta[0].vRendimientoCadenaProductiva);
                 $('#vgremios').val(respuesta[0].vGremios);
                 $('#vobjetivocentral').val(respuesta[0].vObjetivoCentral);   
+                $('#vdesccomponente1').val(respuesta[0].vDescComponente1);
+                $('#vdesccomponente2').val(respuesta[0].vDescComponente2);
+
                 general.acciongeneral = 2;
                 // *cargar tecnologias* //
                 var datoidentificacion = {};

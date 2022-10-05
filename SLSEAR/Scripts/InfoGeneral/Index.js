@@ -30,6 +30,7 @@ function EjecutarDetalleInformacionGeneral() {
         .done((respuesta) => {                        
             if (respuesta.length > 0) {
                 general.accion = 2;
+                console.log(respuesta);
                 general.iCodFichaTecnica = respuesta[0].iCodFichaTecnica;
                 $('#vNombreSearT1').val(respuesta[0].vNombreSearT1);
                 $('#vNaturalezaIntervencionT1').val(respuesta[0].vNaturalezaIntervencionT1);
@@ -44,10 +45,7 @@ function EjecutarDetalleInformacionGeneral() {
                 var codigodistrito = respuesta[0].iCodUbigeoT1;
                 var codigoprovincia = codigodistrito.substr(0, 4);
                 var codigodepartamento = codigodistrito.substr(0, 2);
-
-                //console.log(codigodistrito);
-                //console.log(codigoprovincia);
-                //console.log(codigodepartamento);
+                                
                 general.codigodepartamento = codigodepartamento;
                 general.codigoprovincia = codigoprovincia;
                 general.codigodistrito = codigodistrito;
@@ -59,6 +57,13 @@ function EjecutarDetalleInformacionGeneral() {
                 $('#dFechaInicioServicioT1').val(respuesta[0].dFechaInicioServicioT1);
                 $('#dFechaFinServicioT1').val(respuesta[0].dFechaFinServicioT1);
 
+                $('#vNombreEntidadProponenteT2').val(respuesta[0].vNombreEntidadProponenteT2);
+                $('#vCorreoElectronicoT2').val(respuesta[0].vCorreoElectronicoT2);
+                $('#vNombreDireccionPerteneceT2').val(respuesta[0].vNombreDireccionPerteneceT2);
+                $('#vNombreDirectorAgenciaAgrariaT2').val(respuesta[0].vNombreDirectorAgenciaAgrariaT2);
+                $('#vDireccionT2').val(respuesta[0].vDireccionT2);
+                $('#vDireccionZonaAgroruralT2').val(respuesta[0].vDireccionZonaAgroruralT2);
+                $('#vTelefonoT2').val(respuesta[0].vTelefonoT2);
             } 
             // Cargar Regiones ///
             $('#cboregion').empty();
@@ -154,15 +159,10 @@ function EjecutarDetalleInformacionGeneral() {
                         $('#cbolineaprioritaria').append("<option value='" + value.iCodLineaPriori + "' data-value='" + JSON.stringify(value.iCodLineaPriori) + "'>" + value.vDescLineaPriori + "</option>");
                         $('#cbolineaprioritaria').val(general.vLineaPrioritariaT1);
                     });
-                });
+                    debugger;
+                 
 
-            $('#vNombreEntidadProponenteT2').val(respuesta[0].vNombreEntidadProponenteT2);
-            $('#vCorreoElectronicoT2').val(respuesta[0].vCorreoElectronicoT2);
-            $('#vNombreDireccionPerteneceT2').val(respuesta[0].vNombreDireccionPerteneceT2);
-            $('#vNombreDirectorAgenciaAgrariaT2').val(respuesta[0].vNombreDirectorAgenciaAgrariaT2);
-            $('#vDireccionT2').val(respuesta[0].vDireccionT2);
-            $('#vDireccionZonaAgroruralT2').val(respuesta[0].vDireccionZonaAgroruralT2);
-            $('#vTelefonoT2').val(respuesta[0].vTelefonoT2);
+                });
         });  
 
     // Cargar Provincia ///
@@ -670,7 +670,7 @@ function EjecutarDetalleInformacionGeneral() {
         //alert('grabar');
         var parametros = {};
         /// 1.1
-
+        debugger;
         parametros.vNombreSearT1 = $('#vNombreSearT1').val(); //1
 
         parametros.vNaturalezaIntervencionT1 = $('#vNaturalezaIntervencionT1').val(); //2

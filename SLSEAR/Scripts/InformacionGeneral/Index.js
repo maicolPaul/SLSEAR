@@ -121,6 +121,7 @@ function EjecutarDetalleInformacionGeneral() {
     });
 
     function GenerarNombre() {
+        debugger;
         var vNaturalezaIntervencionT1 = $('#vNaturalezaIntervencionT1').val();
 
         var vLineaPrioritariaT1 = $('#vLineaPrioritariaT1').val();
