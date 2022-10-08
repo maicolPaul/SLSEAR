@@ -12,12 +12,16 @@ let general = {
     indiceseleccionadodirecta: 0,
     listaefectosdirectos: [],
     listacomponente: [],
-    listaactividades:[]
+    listaactividades: [],
+    tblcomponentes: null,
+    elementoSeleccionado: null,
+    iCodComponente: null,
+    tblactividades:null
 };
 
 function CargarComponentes() {
     //tblcomponentes
-    general.tablaproductores = $("#tblcomponentes").DataTable({
+    general.tblcomponentes = $("#tblcomponentes").DataTable({
         bFilter: false
         , serverSide: true
         , searching: false
@@ -55,9 +59,9 @@ function CargarComponentes() {
                         recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
                         recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
                     });
-                    if (general.tablaproductores.data().length > 0) {
-                        $('#btndescargar').removeAttr('disabled');
-                    }
+                    //if (general.tablaproductores.data().length > 0) {
+                    //    $('#btndescargar').removeAttr('disabled');
+                    //}
                 })
                 .fail(function (error) {
                     console.log(error);
@@ -113,7 +117,8 @@ function CargarComponentes() {
                     //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
                     acciones += `<a href="javascript:void(0);" onclick ="EditarProductor(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
-                    acciones += `<a href="javascript:void(0);" onclick ="eliminarProductor(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
+                    acciones += `<a href="javascript:void(0);" onclick ="eliminarProductor(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="agregaractividad(this);"  data-toggle="tooltip" title="Agregar Actiividad"><i class="fa fa-plus-circle" aria-hidden="true"></a>`;
                     //}
                     acciones += `</div>`;
                     return acciones;
@@ -124,7 +129,7 @@ function CargarComponentes() {
 
     $('#tblcomponentes tbody').on('click', 'td.dt-control', function () {
         var tr = $(this).closest('tr');
-        var row = general.tablaproductores.row(tr);
+        var row = general.tblcomponentes.row(tr);
 
         if (row.child.isShown()) {
             // This row is already open - close it
@@ -135,7 +140,78 @@ function CargarComponentes() {
             row.child(format(row.data())).show();
             console.log(row.data());
             tr.addClass('shown');
-            $('#tblactividades' + row.data().iCodComponente).DataTable();
+            general.tblactividades=$('#tblactividades' + row.data().iCodComponente).DataTable({
+                bFilter: false
+                , serverSide: true
+                , searching: false
+                , lengthChange: true
+                , paging: true
+                , autoWidth: false
+                , processing: true
+                //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
+                , drawCallback: function () {
+                    //$('select[name="tblComunidadOpa_length"]').formSelect();
+                    //$('.tooltipped').tooltip();
+                    $('#tblactividades' + row.data().iCodComponente+' thead').attr('class', 'table-success');
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
+                , language: globals.lenguajeDataTable
+                , ajax: function (data, callback, settings) {
+                    let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+                    let parametro = {
+                        piPageSize: parseInt(settings._iDisplayLength)
+                        , piCurrentPage: paginaActual
+                        , pvSortColumn: "iCodActividad"
+                        , pvSortOrder: "asc"
+                        , iCodIdentificacion: row.data().iCodComponente
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: globals.urlWebApi + "api/Identificacion/ListarActividadesPorComponente",
+                        headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                        dataType: 'json',
+                        data: parametro
+                    })
+                        .done(function (data) {
+                            callback({
+                                data: data,
+                                recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                                recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                            });
+                            //if (general.tablaproductores.data().length > 0) {
+                            //    $('#btndescargar').removeAttr('disabled');
+                            //}
+                        })
+                        .fail(function (error) {
+                            console.log(error);
+                            cuandoAjaxFalla(error.status);
+                        });
+                }
+                , columns: [
+                    //{
+                    //    className: 'dt-control',
+                    //    orderable: false,
+                    //    data: null,
+                    //    defaultContent: '',
+                    //},
+                    { data: "iCodActividad", title: "iCodActividad", visible: false, orderable: false },
+                    { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
+                    { data: "vDescripcion", title: "vDescripcion", visible: true, orderable: false },
+                    { data: "vActividad", title: "vActividad", visible: true, orderable: false },
+                    { data: "vUnidadMedida", title: "vUnidadMedida", visible: true, orderable: false },
+                    { data: "vMeta", title: "vMeta", visible: true, orderable: false },
+                    { data: "vMedio", title: "vMedio", visible: true, orderable: false },         
+                    {
+                        data: (row) => {
+                            let acciones = `<div class="nav-actions">`;                            
+                            acciones += `<a href="javascript:void(0);" onclick ="EditarProductor(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;                            
+                            acciones += `<a href="javascript:void(0);" onclick ="eliminaractividad(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;                            
+                            acciones += `</div>`;
+                            return acciones;
+                        }, title: "Acciones", visible: true, orderable: false
+                    }
+                ]
+            });
         }
     });
 }
@@ -145,45 +221,28 @@ function format(d) {
     // `d` is the original data object for the row
     return (
         '<table id="tblactividades' + d.iCodComponente +'" class="table table-bordered text-nowrap border-bottom dataTable" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-        //'<tr>' +
-        //'<td>Full name:</td>' +
-        //'<td>' +
-        //d.vDescripcion +
-        //'</td>' +
-        //'</tr>' +
-        //'<tr>' +
-        //'<td>Extension number:</td>' +
-        //'<td>' +
-        //d.extn +
-        //'</td>' +
-        //'</tr>' +
-        //'<tr>' +
-        //'<td>Extra info:</td>' +
-        //'<td>And any further details here (images etc)...</td>' +
-        //'</tr>' +
-           '<thead>'+
-            '<tr>'+
-                '<th>Name</th>'+
-                '<th>Position</th>'+
-                '<th>Office</th>'+
-                '<th>Age</th>'+
-                '<th>Start date</th>'+
-                '<th>Salary</th>'+
-            '</tr>'+
-        '</thead>'+
-        '<tbody>'+
-            '<tr>'+
-                '<td>Tiger Nixon</td>'+
-                '<td>System Architect</td>'+
-                '<td>Edinburgh</td>'+
-                '<td>61</td>'+
-                '<td>2011-04-25</td>'+
-                '<td>$320,800</td>'+
-            '</tr>'+
         '</table>'
-    );
+    );   
+}
+function eliminaractividad(obj) {
+    general.elementoSeleccionado = general.tblactividades.row($(obj).parents('tr')).data();
 
-   
+    $('#modaleliminaractividad').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminaractividad').modal('show');
+    
+}
+function agregaractividad(obj) {
+
+    general.elementoSeleccionado = general.tblcomponentes.row($(obj).parents('tr')).data();
+
+    general.accion = 1;
+    limpiaractividad();
+    var contador = ContarActividades(1);
+    console.log("actividad 1 -" + contador);
+    $('#vactividadact1').val("Actividad 1." + contador);
+    $('#modalactividad1').modal({ backdrop: 'static', keyboard: false });
+    $('#modalactividad1').modal('show');
+
 }
 function EjecutarDetalleInformacionGeneral() {
 
@@ -251,7 +310,7 @@ function EjecutarDetalleInformacionGeneral() {
                     });
                 // Listar Componentes
                 //CargarComponentes();
-                general.tablaproductores.draw().clear();
+                general.tblcomponentes.draw().clear();
                 $.post(globals.urlWebApi + "api/Identificacion/ListarComponentePorUsuario", datoidentificacion)
                     .done((respuesta) => {
                         console.table(respuesta);
@@ -289,6 +348,27 @@ function EjecutarDetalleInformacionGeneral() {
 
             }            
         });
+
+    $('#btneliminaractividad').on('click', function () {
+        //alert('elimino');
+        console.log(general.elementoSeleccionado);
+
+        let datos = {};
+        datos.iCodActividad = general.elementoSeleccionado.iCodActividad;
+
+        $.post(globals.urlWebApi + "api/Identificacion/EliminarActividad", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodActividad != 0) {
+                    general.tblactividades.draw().clear();
+                    $('#modaleliminaractividad').modal('hide');
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });
+
+    });
 
     $('#btnagregarcausasdirectas').on('click', function () {
         $('#vcausadirecta').val('');
@@ -725,17 +805,40 @@ function EjecutarDetalleInformacionGeneral() {
         var unidadmedida = $('#vunidadmedidaindcomp1').val();
         var meta = $('#vmetacomp1').val();
         var medioverificacion = $('#vmediocomp1').val();
-        if (general.accion == 1) {
-            $("#tblcomponente > tbody").append("<tr><td>" + indicador + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medioverificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-            general.listacomponente.push({ vIndicador: indicador, vUnidadMedida: unidadmedida, vMeta: meta, vMedio: medioverificacion, nTipoComponente:1});
 
-        } else {
-            general.tractual.cells[0].innerHTML = indicador;
-            general.tractual.cells[1].innerHTML = unidadmedida;
-            general.tractual.cells[2].innerHTML = meta;   
-            general.tractual.cells[3].innerHTML = medioverificacion;   
-        }        
-        $('#modalcomponente1').modal('hide');
+        //if (general.accion == 1) {
+        //    $("#tblcomponente > tbody").append("<tr><td>" + indicador + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medioverificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+        //    general.listacomponente.push({ vIndicador: indicador, vUnidadMedida: unidadmedida, vMeta: meta, vMedio: medioverificacion, nTipoComponente:1});
+
+
+        //} else {
+        //    general.tractual.cells[0].innerHTML = indicador;
+        //    general.tractual.cells[1].innerHTML = unidadmedida;
+        //    general.tractual.cells[2].innerHTML = meta;
+        //    general.tractual.cells[3].innerHTML = medioverificacion;
+        //}        
+        let datos = {};
+        datos.iCodIdentificacion = general.iCodIdentificacion;
+        datos.vDescripcion = $('#vdescripcioncom').val();
+        datos.vIndicador = indicador;
+        datos.vUnidadMedida = unidadmedida;
+        datos.vMeta = meta;
+
+        datos.vMedio = medioverificacion;
+        datos.nTipoComponente = 1;
+
+        $.post(globals.urlWebApi + "api/Identificacion/InsertarComponente", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodComponente != 0) {
+                    $('#modalcomponente1').modal('hide');
+                    general.tblcomponentes.draw().clear();
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });
+      
     });
 
     $('#btnguardarcomp2').on('click', function () {
@@ -839,25 +942,50 @@ function EjecutarDetalleInformacionGeneral() {
             $('#vmedioact1').focus();
             return;
         }
+        debugger;
+        //elementoSeleccionado
+        let datos = {};
 
         var actividad = $('#vactividadact1').val();
         var descripcion = $('#vdescactividadact1').val();
         var unidadmedida = $('#vunidadmedidadact1').val();
         var meta = $('#vmetaact1').val();
         var medio = $('#vmedioact1').val();
-        if (general.accion == 1) {
-            //debugger;
-            var cantidad = general.listaactividades.length == 0 ? 1 : general.listaactividades.length+1;
 
-            $('#tblActividades1 > tbody').append("<tr id=1"+cantidad+" ><td>" + actividad + "</td><td>" + descripcion + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editaractividad(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-            general.listaactividades.push({ id:"1"+cantidad, vActividad: actividad, vDescripcion: descripcion, vUnidadMedida: unidadmedida, vMeta: meta, vMedio: medio, nTipoActividad:1});
-        } else {
-            general.tractual.cells[0].innerHTML = actividad;
-            general.tractual.cells[1].innerHTML = descripcion;
-            general.tractual.cells[2].innerHTML = unidadmedida;     
-            general.tractual.cells[3].innerHTML = meta;     
-            general.tractual.cells[4].innerHTML = medio;     
-        }
+        datos.iCodIdentificacion = general.elementoSeleccionado.iCodComponente;
+        datos.vActividad = actividad;
+        datos.vDescripcion = descripcion;
+        datos.vUnidadMedida = unidadmedida;
+        datos.vMeta = meta;
+        datos.vMedio = medio;
+        datos.nTipoActividad = 1;
+
+        $.post(globals.urlWebApi + "api/Identificacion/InsertarActividad", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodComponente != 0) {
+                    //$('#modalcomponente1').modal('hide');
+                    general.tblcomponentes.draw().clear();
+                    $('#tblactividades' + datos.iCodComponente).draw().clear();
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });
+
+        //if (general.accion == 1) {
+        //    //debugger;
+        //    var cantidad = general.listaactividades.length == 0 ? 1 : general.listaactividades.length+1;
+
+        //    $('#tblactividades47 > tbody').append("<tr id=1" + cantidad + " ><td>" + descripcion + "</td><td>" + actividad + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editaractividad(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+        //    general.listaactividades.push({ id: "1" + cantidad, vDescripcion: descripcion, vActividad: actividad, vUnidadMedida: unidadmedida, vMeta: meta, vMedio: medio, nTipoActividad:1});
+        //} else {
+        //    general.tractual.cells[0].innerHTML = actividad;
+        //    general.tractual.cells[1].innerHTML = descripcion;
+        //    general.tractual.cells[2].innerHTML = unidadmedida;     
+        //    general.tractual.cells[3].innerHTML = meta;     
+        //    general.tractual.cells[4].innerHTML = medio;     
+        //}
         
         $('#modalactividad1').modal('hide');
     });
@@ -1138,30 +1266,30 @@ function AgregarEfectoIndirecto(efectodirecto) {
     general.listaefectosdirectos.push({ id: cantidadfilas, vdescefectodirecto: efectodirecto, listaefectoindirecto:[]});
 }
 
-function eliminaractividad(obj, ind) {
-    debugger;
-    general.indiceseleccionado = obj.parentElement.parentElement.parentElement.rowIndex;
-    var indice = obj.parentElement.parentElement.parentElement.id;
+//function eliminaractividad(obj, ind) {
+//    debugger;
+//    general.indiceseleccionado = obj.parentElement.parentElement.parentElement.rowIndex;
+//    var indice = obj.parentElement.parentElement.parentElement.id;
 
-    console.log(general.indiceseleccionado);
-    let table;
-    if (ind == 1) {
-        table = document.getElementById('tblActividades1');
-    } else {
-        table = document.getElementById('tblActividades2');
-    }
+//    console.log(general.indiceseleccionado);
+//    let table;
+//    if (ind == 1) {
+//        table = document.getElementById('tblActividades1');
+//    } else {
+//        table = document.getElementById('tblActividades2');
+//    }
     
-    table.deleteRow(general.indiceseleccionado);
+//    table.deleteRow(general.indiceseleccionado);
 
-      $.each(general.listaactividades, function (key, value) {
-        if (value.id == indice & value.nTipoActividad==ind) {
-            //general.indiceseleccionado = key; 
-            general.listaactividades.splice(key, 1);
-            return false;
-        }
-    });
+//      $.each(general.listaactividades, function (key, value) {
+//        if (value.id == indice & value.nTipoActividad==ind) {
+//            //general.indiceseleccionado = key; 
+//            general.listaactividades.splice(key, 1);
+//            return false;
+//        }
+//    });
 
-}
+//}
 
 function eliminarcausaindirecta(obj) {    
     console.log(obj.parentElement.parentElement.rowIndex);
