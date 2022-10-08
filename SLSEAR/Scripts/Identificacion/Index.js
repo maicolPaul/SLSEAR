@@ -15,6 +15,176 @@ let general = {
     listaactividades:[]
 };
 
+function CargarComponentes() {
+    //tblcomponentes
+    general.tablaproductores = $("#tblcomponentes").DataTable({
+        bFilter: false
+        , serverSide: true
+        , searching: false
+        , lengthChange: true
+        , paging: true
+        , autoWidth: false
+        , processing: true
+        //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
+        , drawCallback: function () {
+            //$('select[name="tblComunidadOpa_length"]').formSelect();
+            //$('.tooltipped').tooltip();
+            $('#tblcomponentes thead').attr('class', 'table-success');
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        , language: globals.lenguajeDataTable
+        , ajax: function (data, callback, settings) {
+            let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+            let parametro = {
+                piPageSize: parseInt(settings._iDisplayLength)
+                , piCurrentPage: paginaActual
+                , pvSortColumn: "iCodComponente"
+                , pvSortOrder: "asc"
+                , iCodIdentificacion: general.iCodIdentificacion                
+            };
+            $.ajax({
+                type: "POST",
+                url: globals.urlWebApi + "api/Identificacion/ListarComponentesPaginadoPorUsuario",
+                headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                dataType: 'json',
+                data: parametro
+            })
+                .done(function (data) {
+                    callback({
+                        data: data,
+                        recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                        recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                    });
+                    if (general.tablaproductores.data().length > 0) {
+                        $('#btndescargar').removeAttr('disabled');
+                    }
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    cuandoAjaxFalla(error.status);
+                });
+        }
+        , columns: [
+            {
+                className: 'dt-control',
+                orderable: false,
+                data: null,
+                defaultContent: '',
+            },
+            { data: "iCodComponente", title: "iCodComponente", visible: false, orderable: false },
+            { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
+            { data: "vDescripcion", title: "vDescripcion", visible: true, orderable: false },
+            { data: "vIndicador", title: "vIndicador", visible: true, orderable: false },
+            { data: "vUnidadMedida", title: "vUnidadMedida", visible: true, orderable: false },
+            { data: "vMeta", title: "vMeta", visible: true, orderable: false },
+            { data: "vMedio", title: "vMedio", visible: true, orderable: false },
+            //{
+            //    data: (row) => {
+            //        if (row.iSexo == 1) {
+            //            return "MASCULINO";
+            //        } else {
+            //            return "FEMENINO";
+            //        }
+            //    }, title: "Sexo", visible: true, orderable: false
+            //},
+            //{ data: "iPerteneceOrganizacion", title: "iPerteneceOrganizacion", visible: false, orderable: false },
+            //{
+            //    data: (row) => {
+            //        if (row.iEsRepresentante) {
+            //            return "SI";
+            //        } else {
+            //            return "NO";
+            //        }
+            //    }, title: "Es Representante", visible: true, orderable: false
+            //},
+            //{
+            //    data: (row) => {
+            //        if (row.iRecibioCapacitacion) {
+            //            return "SI";
+            //        } else {
+            //            return "NO";
+            //        }
+            //    }, title: "Recibio Capacitación", visible: true, orderable: false
+            //},
+            //{ data: "vNombreOrganizacion", title: "Nombre Organizacion", visible: true, orderable: false },
+            {
+                data: (row) => {
+                    let acciones = `<div class="nav-actions">`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
+                    acciones += `<a href="javascript:void(0);" onclick ="EditarProductor(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    //if (row.existe == 0) {
+                    acciones += `<a href="javascript:void(0);" onclick ="eliminarProductor(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
+                    //}
+                    acciones += `</div>`;
+                    return acciones;
+                }, title: "Acciones", visible: true, orderable: false
+            }
+        ]
+    });
+
+    $('#tblcomponentes tbody').on('click', 'td.dt-control', function () {
+        var tr = $(this).closest('tr');
+        var row = general.tablaproductores.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            row.child(format(row.data())).show();
+            console.log(row.data());
+            tr.addClass('shown');
+            $('#tblactividades' + row.data().iCodComponente).DataTable();
+        }
+    });
+}
+/* Formatting function for row details - modify as you need */
+function format(d) {
+    debugger;
+    // `d` is the original data object for the row
+    return (
+        '<table id="tblactividades' + d.iCodComponente +'" class="table table-bordered text-nowrap border-bottom dataTable" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        //'<tr>' +
+        //'<td>Full name:</td>' +
+        //'<td>' +
+        //d.vDescripcion +
+        //'</td>' +
+        //'</tr>' +
+        //'<tr>' +
+        //'<td>Extension number:</td>' +
+        //'<td>' +
+        //d.extn +
+        //'</td>' +
+        //'</tr>' +
+        //'<tr>' +
+        //'<td>Extra info:</td>' +
+        //'<td>And any further details here (images etc)...</td>' +
+        //'</tr>' +
+           '<thead>'+
+            '<tr>'+
+                '<th>Name</th>'+
+                '<th>Position</th>'+
+                '<th>Office</th>'+
+                '<th>Age</th>'+
+                '<th>Start date</th>'+
+                '<th>Salary</th>'+
+            '</tr>'+
+        '</thead>'+
+        '<tbody>'+
+            '<tr>'+
+                '<td>Tiger Nixon</td>'+
+                '<td>System Architect</td>'+
+                '<td>Edinburgh</td>'+
+                '<td>61</td>'+
+                '<td>2011-04-25</td>'+
+                '<td>$320,800</td>'+
+            '</tr>'+
+        '</table>'
+    );
+
+   
+}
 function EjecutarDetalleInformacionGeneral() {
 
     var arreglousuario = new Array();
@@ -24,6 +194,7 @@ function EjecutarDetalleInformacionGeneral() {
     general.usuario = arreglousuario[0];
 
     cargarusuario();
+    CargarComponentes();
 
     var dato = {};
 
@@ -79,7 +250,8 @@ function EjecutarDetalleInformacionGeneral() {
                         });                        
                     });
                 // Listar Componentes
-
+                //CargarComponentes();
+                general.tablaproductores.draw().clear();
                 $.post(globals.urlWebApi + "api/Identificacion/ListarComponentePorUsuario", datoidentificacion)
                     .done((respuesta) => {
                         console.table(respuesta);
