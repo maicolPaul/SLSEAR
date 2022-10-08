@@ -20,14 +20,27 @@
 
                 <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblactividad">
                 </table>
-               
+
             </div>
             <div class="card-body">
                 <div class="row">
-                    <h4>Lista de Costos Por Actividad</h4>
+                    <h4>Lista de Plan de Capacitación</h4>
                 </div>
 
-                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcosto">
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblPlanCapa">
+                </table>
+                @*<div class="row">
+                        <div class="col-sm-12 col-md-12" style="text-align:right">
+                            <button type="button" class="btn btn-success" id="btnvistaprevia"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i> Vista Previa</button>
+                        </div>
+                    </div>*@
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <h4>Lista de Plan de Sesion</h4>
+                </div>
+
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblPlanSesion">
                 </table>
                 <div class="row">
                     <div class="col-sm-12 col-md-12" style="text-align:right">
@@ -36,13 +49,13 @@
                 </div>
             </div>
         </div>
-        </div>
     </div>
-<div class="modal fade" id="modalcostos" tabindex="-1" role="dialog">
+</div>
+<div class="modal fade" id="modalplan" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg " role="document">
         <div class="modal-content">
             <div class="modal-header cardheadertitle">
-                <h5 class="modal-title">Agregar Costo</h5>
+                <h5 class="modal-title">Agregar Plan de Capacitación</h5>
                 <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -55,53 +68,53 @@
                             <input type="text" class="form-control mayuscula" placeholder="Actividad" id="vActividad" disabled>
                         </div>
                     </div>
-                    <div class="col-sm-8 col-md-6">
+                    <div class="col-sm-6 col-md-6">
                         <label class="form-group">
-                            <label class="form-label">Tipo Material Servicio<span class="text-red">*</span></label>
-                            <select class="form-select leading-none" id="cboTipoServMat">
-                                <option selected="" value="">Seleccione</option>
-                                <option value="1">Servicios no personales</option>
-                                <option value="2">Servicios de terceros</option>
-                                <option value="3">Materiales e insumos</option>
-
-                            </select>
+                            <label class="form-label">Modulo<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Ingrese modulo" id="vModuloTema">
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
                         <label class="form-group">
-                            <label class="form-label">Descripcion<span class="text-red">*</span></label>
-                            <input type="text" class="form-control mayuscula" placeholder="Ingrese descripcion" id="vdescripcion">
+                            <label class="form-label">Objetivo<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Ingrese objetivo" id="vObjetivo">
                         </label>
                     </div>
                     <div class="col-sm-6 col-md-6">
                         <label class="form-group">
-                            <label class="form-label">Unidad de Medida<span class="text-red">*</span></label>
-                            <input type="text" class="form-control mayuscula" placeholder="Ingrese unidad de medida" id="vUnidadMedida">
+                            <label class="form-label">Meta<span class="text-red">*</span></label>
+                            <input type="number" class="form-control mayuscula" placeholder="Ingrese meta" id="iMeta">
                         </label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
                         <label class="form-group">
-                            <label class="form-label">Cantidad<span class="text-red">*</span></label>
-                            <input type="number" class="form-control mayuscula" placeholder="Ingrese cantidad" id="iCantidad">
+                            <label class="form-label">Cant. Beneficiados<span class="text-red">*</span></label>
+                            <input type="number" class="form-control mayuscula" placeholder="Ingrese Cantidad Beneficiados" id="iBeneficiario">
                         </label>
                     </div>
-                    <div class="col-sm-6 col-md-6">
-                        <label class="form-group">
-                            <label class="form-label">Costo Unitario<span class="text-red">*</span></label>
-                            <input type="number" class="form-control mayuscula" placeholder="Ingrese costo" id="dCostoUnitario">
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-6 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Dia<span class="text-red">*</span></label>
                             <input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="vdia">
                         </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">H. Teoricas<span class="text-red">*</span></label>
+                            <input type="number" min="0" class="form-control mayuscula" placeholder="Ingrese Horas Teoria" id="iTotalTeoria">
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">H. Practicas<span class="text-red">*</span></label>
+                            <input type="number" min="0" class="form-control mayuscula" placeholder="Ingrese Horas Práctica" id="iTotalPractica">
+                        </label>
                     </div>
                 </div>
             </div>
@@ -112,7 +125,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modaleliminarcostos" tabindex="-1" role="dialog">
+<div class="modal fade" id="modaleliminarPlanCapa" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -123,7 +136,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <span>Esta Seguro de eliminar el costo seleccionado ?</span>
+                    <span>Esta seguro de eliminar el plan de capacitación seleccionado ?</span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -133,5 +146,83 @@
         </div>
     </div>
 </div>
-                @*<script type="text/javascript" src="~/Scripts/CurriculumVitae/Index.js?noCache=@Guid.NewGuid().ToString()"></script>*@
-                <script type="text/javascript" src="~/Scripts/PlanCapa/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
+
+<div class="modal fade" id="modalplanSesion" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Agregar Plan de Sesion</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Módulo</label>
+                            <input type="text" class="form-control mayuscula" placeholder="Ingrese Modulo" id="vModulo" disabled>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-8 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Duracion</label>
+                            <input type="text" class="form-control mayuscula" placeholder="Ingrese Duracion" id="iDuracion">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Temática<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Ingrese Temática" id="vTematica">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Metodología<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Ingrese Metodología" id="vDescripMetodologia">
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Materiales<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Ingrese Materiales" id="vMateriales">
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardarsesion" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarPlanCapa" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Costo</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta seguro de eliminar el plan de capacitación seleccionado ?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarcosto" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script type="text/javascript" src="~/Scripts/CurriculumVitae/Index.js?noCache=@Guid.NewGuid().ToString()"></script>*@
+<script type="text/javascript" src="~/Scripts/PlanCapa/Index.js?noCache=@Guid.NewGuid().ToString()"></script>

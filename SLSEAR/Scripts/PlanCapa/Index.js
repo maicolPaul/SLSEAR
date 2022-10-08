@@ -3,8 +3,10 @@
     iCodActividad:0,
     tblactividad: null,
     tblPlanCapa: null,
+    tblPlanSesion: null,
     elementoSeleccionado: null,
-    planCapaSeleccionado:null,
+    planCapaSeleccionado: null,
+    planSesionSeleccionado: null,
     accion:1
 };
 
@@ -113,7 +115,7 @@ function EjecutarDetalleInformacionGeneral() {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
                     acciones += `&nbsp&nbsp&nbsp<a href="javascript:void(0);" onclick ="VerPlanCapa(this);" data-toggle="tooltip" title="Ver Detalle"><i class="bi bi-card-checklist"></i></a>&nbsp&nbsp&nbsp`;
-                    acciones += `<a href="javascript:void(0);" onclick ="AgregarCosto(this);" data-toggle="tooltip" title="Agregar"><i class="bi bi-plus-circle-fill"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="AgregarPlanCapa(this);" data-toggle="tooltip" title="Agregar"><i class="bi bi-plus-circle-fill"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
                     //acciones += `<a href="javascript:void(0);" onclick ="eliminarCosto(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
                     //}
@@ -136,25 +138,26 @@ function EjecutarDetalleInformacionGeneral() {
         , drawCallback: function () {
             //$('select[name="tblComunidadOpa_length"]').formSelect();
             //$('.tooltipped').tooltip();
-            $('#tblComunidadOpa thead').attr('class', 'table-success');
+            $('#tblComunidadOpa1 thead').attr('class', 'table-success');
             $('[data-toggle="tooltip"]').tooltip();
         }
         , language: globals.lenguajeDataTable
         , ajax: function (data, callback, settings) {
             let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
-            let parametro = {
+            let parametros = {
                 piPageSize: parseInt(settings._iDisplayLength)
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodPlanCap"
                 , pvSortOrder: "asc"
-                , iCodActividad: general.elementoSeleccionado !== null ? general.elementoSeleccionado.iCodActividad : 0            
+               , iCodActividad: general.elementoSeleccionado !== null ? general.elementoSeleccionado.iCodActividad : 0            
             };
+            debugger;
             $.ajax({
                 type: "POST",
                 url: globals.urlWebApi + "api/PlanCapacitacion/ListarPlanCapacitacion",
                 headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
                 dataType: 'json',
-                data: parametro
+                data: parametros
             })
                 .done(function (data) {
                     callback({
@@ -177,21 +180,22 @@ function EjecutarDetalleInformacionGeneral() {
             //{ data: "Nro", title: "Nro", visible: true, orderable: false },
             { data: "iCodPlanCap", title: "iCodPlanCap", visible: false, orderable: false },
             { data: "iCodActividad", title: "iCodActividad", visible: false, orderable: false },
-            { data: "vModuloTema", title: "vModuloTema", visible: false, orderable: false },
-            { data: "vObjetivo", title: "vObjetivo", visible: false, orderable: false },
+            { data: "vModuloTema", title: "Modulo/Tema", visible: true, orderable: false },
+            { data: "vObjetivo", title: "Objetivo", visible: true, orderable: false },
             { data: "iMeta", title: "iMeta", visible: false, orderable: false },
-            { data: "iBeneficiario", title: "iBeneficiario", visible: true, orderable: false },
-            { data: "dFechaActividad", title: "dFechaActividad", visible: true, orderable: false },
-            { data: "iTotalTeoria", title: "U. Med", visible: true, orderable: false },
-            { data: "iTotalPractica", title: "Cant.", visible: true, orderable: false },       
+            { data: "iBeneficiario", title: "iBeneficiario", visible: false, orderable: false },
+            { data: "dFechaActividad", title: "dFechaActividad", visible: false, orderable: false },
+            { data: "iTotalTeoria", title: "H. Teoria", visible: true, orderable: false },
+            { data: "iTotalPractica", title: "H. Práctica", visible: true, orderable: false },       
              
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
-                    //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
-                    //acciones += `<a href="javascript:void(0);" onclick ="MostrarEditarPlanCapa(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="VerSesiones(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="bi bi-card-checklist"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="AgregarPlanSesion(this);" data-toggle="tooltip" title="Agregar"><i class="bi bi-plus-circle-fill"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="MostrarEditarPlanCapa(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil-fill"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
-                    //acciones += `<a href="javascript:void(0);" onclick ="eliminarPlanCapa(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
+                    acciones += `<a href="javascript:void(0);" onclick ="eliminarPlanCapa(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
                     //}
                     acciones += `</div>`;
                     return acciones;
@@ -200,6 +204,79 @@ function EjecutarDetalleInformacionGeneral() {
         ]
     });
 
+    general.tblPlanSesion = $("#tblPlanSesion").DataTable({
+        bFilter: false
+        , serverSide: true
+        , searching: false
+        , lengthChange: false
+        , paging: true
+        , autoWidth: false
+        , processing: true
+        //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
+        , drawCallback: function () {
+            //$('select[name="tblComunidadOpa_length"]').formSelect();
+            //$('.tooltipped').tooltip();
+            $('#tblComunidadOpa1 thead').attr('class', 'table-success');
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        , language: globals.lenguajeDataTable
+        , ajax: function (data, callback, settings) {
+            let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+            let parametros = {
+                piPageSize: parseInt(settings._iDisplayLength)
+                , piCurrentPage: paginaActual
+                , pvSortColumn: "iCodPlanCap"
+                , pvSortOrder: "asc"
+                , iCodPlanCap: general.planCapaSeleccionado !== null ? general.planCapaSeleccionado.iCodPlanCap : 0
+            };
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: globals.urlWebApi + "api/PlanCapacitacion/ListarPlanSesion",
+                headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                dataType: 'json',
+                data: parametros
+            })
+                .done(function (data) {
+                    callback({
+                        data: data,
+                        recordsTotal: data.length !== 0 ? data[0].iRecordCount : 0,
+                        recordsFiltered: data.length !== 0 ? data[0].iRecordCount : 0
+                        //holasjdhsjdhsjhdjshdsjhddsdsd
+
+                    });
+                    //if (general.tablaproductores.data().length > 0) {
+                    //    $('#btndescargar').removeAttr('disabled');
+                    //}
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    cuandoAjaxFalla(error.status);
+                });
+        }
+        , columns: [
+            { data: "iCodPlanSesion", title: "iCodPlanSesion", visible: false, orderable: false },
+            { data: "iCodPlanCap", title: "iCodPlanCap", visible: false, orderable: false },
+            { data: "iDuracion", title: "Duracion", visible: true, orderable: false },
+            { data: "vTematica", title: "Tematica", visible: true, orderable: false },
+            { data: "vDescripMetodologia", title: "Descripción Metodologia", visible: true, orderable: false },
+            { data: "vMateriales", title: "Materiales", visible: true, orderable: false },
+         
+
+            {
+                data: (row) => {
+                    let acciones = `<div class="nav-actions">`;
+                    acciones += `<a href="javascript:void(0);" onclick ="VerSesiones(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="bi bi-card-checklist"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="MostrarEditarPlanCapa(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil-fill"></i></a>&nbsp&nbsp&nbsp`;
+                    //if (row.existe == 0) {
+                    acciones += `<a href="javascript:void(0);" onclick ="eliminarPlanCapa(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
+                    //}
+                    acciones += `</div>`;
+                    return acciones;
+                }, title: "Acciones", visible: true, orderable: false
+            }
+        ]
+    });
 
 
     //$('#btnagregar').on('click', function () {
@@ -216,10 +293,10 @@ function EjecutarDetalleInformacionGeneral() {
         
         var datos = {};
 
-        datos.iCodCosto = general.costoSeleccionado.iCodCosto;
+        datos.iCodPlanCap = general.planCapaSeleccionado.iCodPlanCap;
         datos.iopcion = general.accion;
 
-        $.post(globals.urlWebApi + "api/Costo/InsertarCosto", datos)
+        $.post(globals.urlWebApi + "api/PlanCapacitacion/InsertarPlanCapacitacion", datos)
             .done((respuesta) => {
                 console.log(respuesta);
                 notif({
@@ -227,82 +304,74 @@ function EjecutarDetalleInformacionGeneral() {
                     type: "success"
                 });
                 general.tblcosto.clear().draw();
-                $('#modaleliminarcostos').modal('hide');
+                $('#modaleliminarPlanCapa').modal('hide');
             }).fail((error) => {
                 console.log(error);
             });   
     });
 
     $('#btnguardar').on('click', function () {
-        var iCodCosto = general.costoSeleccionado == null ? 0 : general.costoSeleccionado.iCodCosto;
-        var iTipoMatServ = $('#cboTipoServMat').val();
-        var vDescripcion = $('#vdescripcion').val(); 
-        var vUnidadMedida = $('#vUnidadMedida').val(); 
-        var iCantidad = $('#iCantidad').val(); 
-        var dCostoUnitario = $('#dCostoUnitario').val();
-        var dia = $('#vdia').val();
+        var vModuloTema = $('#vModuloTema').val();
+        var vObjetivo = $('#vObjetivo').val();
+        var iMeta = $('#iMeta').val();
+        var iBeneficiario = $('#iBeneficiario').val();
+        var vdia = $('#vdia').val();
+        var iTotalTeoria = $('#iTotalTeoria').val();
+        var iTotalPractica = $('#iTotalPractica').val();
 
-        if (iTipoMatServ == '') {
+        var iCodPlanCap = general.planCapaSeleccionado == null ? 0 : general.planCapaSeleccionado.iCodPlanCap;
+
+        if (vModuloTema.trim() == '') {
             notif({
-                msg: "<b>Incorrecto:</b>Seleccionar Componente",
+                msg: "<b>Incorrecto:</b>Ingresar Modulo/Tema",
                 type: "error"
             });
-            $('#cboTipoServMat').focus();
+            $('#vModuloTema').focus();
             return;
         }
 
-        if (vDescripcion.trim() == '') {
+        if (vObjetivo.trim() == '') {
             notif({
-                msg: "<b>Incorrecto:</b>Ingresar descripcion",
+                msg: "<b>Incorrecto:</b>Ingresar Objetivo",
                 type: "error"
             });
-            $('#vDescripcion').focus();
-            return;
-        }
-
-        if (vUnidadMedida.trim() == '') {
-            notif({
-                msg: "<b>Incorrecto:</b>Ingresar unidad de medida",
-                type: "error"
-            });
-            $('#vUnidadMedida').focus();
+            $('#vObjetivo').focus();
             return;
         } 
 
-        if (iCantidad.trim() == '') {
+        if (iMeta.trim() == '') {
             notif({
-                msg: "<b>Incorrecto:</b>Ingresar cantidad",
+                msg: "<b>Incorrecto:</b>Ingresar Meta",
                 type: "error"
             });
-            $('#iCantidad').focus();
+            $('#iMeta').focus();
             return;
         } else {
-            if (iCantidad <= 0) {
+            if (iMeta <= 0) {
                 notif({
-                    msg: "<b>Incorrecto:</b>El Valor de la cantidad debe ser mayor a 0",
+                    msg: "<b>Incorrecto:</b>El Valor de la meta debe ser mayor a 0",
                     type: "error"
                 });
                 return;
             }
         }
 
-        if (dCostoUnitario.trim() == '') {
+        if (iBeneficiario.trim() == '') {
             notif({
-                msg: "<b>Incorrecto:</b>Ingresar costo unitario",
+                msg: "<b>Incorrecto:</b>Ingresar Cantidad Beneficiarios",
                 type: "error"
             });
-            $('#dCostoUnitario').focus();
+            $('#iBeneficiario').focus();
             return;
         } else {
-            if (parseFloat(dCostoUnitario) <= 0) {
+            if (iMeta <= 0) {
                 notif({
-                    msg: "<b>Incorrecto:</b>El valor del costo unitario debe ser mayor a 0",
+                    msg: "<b>Incorrecto:</b>El Valor de la cantidad de los beneficiarios debe ser mayor a 0",
                     type: "error"
                 });
                 return;
             }
         }
-        
 
         if ($('#vdia').val().trim() == '') {
             notif({
@@ -313,64 +382,153 @@ function EjecutarDetalleInformacionGeneral() {
             return;
         }
 
+        if (iTotalTeoria.trim() == '') {
+            notif({
+                msg: "<b>Incorrecto:</b>Ingresar Total de Horas Teóricas",
+                type: "error"
+            });
+            $('#iTotalTeoria').focus();
+            return;
+        } else {
+            if (parseInt(iTotalTeoria) <= 0) {
+                notif({
+                    msg: "<b>Incorrecto:</b>El valor del Horas Teóricas debe ser mayor a 0",
+                    type: "error"
+                });
+                return;
+            }
+        }
 
+        if (iTotalPractica.trim() == '') {
+            notif({
+                msg: "<b>Incorrecto:</b>Ingresar Total de Horas Prácticas",
+                type: "error"
+            });
+            $('#iTotalPractica').focus();
+            return;
+        } else {
+            if (parseInt(iTotalPractica) <= 0) {
+                notif({
+                    msg: "<b>Incorrecto:</b>El valor del Horas Prácticas debe ser mayor a 0",
+                    type: "error"
+                });
+                return;
+            }
+        }
 
-        //var cbocomponente = $('#cboComponente').val();
-        //var metaActividad = $("#cboActividad").find(':selected').data('value');
-        //debugger;
-
-        //if (parseInt(iTipoMatServ) == 1) {
-        //    if (parseInt(metaActividad) != parseInt(meta)) {
-        //        notif({
-        //            msg: "<b>Incorrecto:</b>La Meta debe Ser Igual a " + metaActividad,
-        //            type: "error"
-        //        });
-        //        return;
-        //    }
-        //} else {
-        //    var resumen = $("#cboActividad").find(':selected').data('resumen');
-        //    var sumado =parseInt(resumen) +parseInt(meta);
-
-        //    console.log(resumen);
-
-        //    if (sumado > metaActividad) {
-
-        //        notif({
-        //            msg: "<b>Incorrecto:</b>El Limite es " + metaActividad + " , resumen es " +resumen,
-        //            type: "error"
-        //        });
-        //        return;
-        //    }
-        //}
-
+        
         var datos = {};
-        datos.iCodCosto = general.elementoSeleccionado != null ? iCodCosto : 0;
+        datos.iCodPlanCap = iCodPlanCap;
         datos.iCodActividad = general.elementoSeleccionado.iCodActividad;
-        datos.iTipoMatServ = parseInt(iTipoMatServ);
-        datos.vDescripcion = vDescripcion;
-        datos.vUnidadMedida = vUnidadMedida;
-        datos.iCantidad = parseInt(iCantidad);
-        datos.dCostoUnitario = parseFloat(dCostoUnitario);
-        datos.dFecha= dia;
+        datos.vModuloTema = vModuloTema;
+        datos.vObjetivo = vObjetivo;
+        datos.iMeta = parseInt(iMeta);
+        datos.iBeneficiario = parseInt(iBeneficiario);
+        datos.dFechaActividad = vdia;
+        datos.iTotalTeoria = parseInt(iTotalTeoria);
+        datos.iTotalPractica = parseInt(iTotalPractica);
         datos.iopcion = general.accion;
         
-        if (general.accion == 2) {
-            datos.iCodCosto = general.costoSeleccionado.iCodCosto;
-        }       
+        //if (general.accion == 2) {
+        //    datos.iCodPlanCap = general.costoSeleccionado.iCodPlanCap;
+        //}       
 
-        $.post(globals.urlWebApi + "api/Costo/InsertarCosto", datos)
+        $.post(globals.urlWebApi + "api/PlanCapacitacion/InsertarPlanCapacitacion", datos)
             .done((respuesta) => {
                 console.log(respuesta);
                 notif({
                     msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                     type: "success"
                 });
-                general.tblcosto.clear().draw();
-                $('#modalcostos').modal('hide');                
+                general.tblPlanCapa.clear().draw();
+                $('#modalplan').modal('hide');                
             }).fail((error) => {
                 console.log(error);
             });        
     });
+
+    $('#btnguardarsesion').on('click', function () {
+        var iDuracion = $('#iDuracion').val();
+        var vTematica = $('#vTematica').val();
+        var vDescripMetodologia = $('#vDescripMetodologia').val();
+        var vMateriales = $('#vMateriales').val();
+     
+
+        var iCodPlanSesion = general.planSesionSeleccionado == null ? 0 : general.planSesionSeleccionado.iCodPlanSesion;
+
+        if (vTematica.trim() == '') {
+            notif({
+                msg: "<b>Incorrecto:</b>Ingresar Tematica/Tema",
+                type: "error"
+            });
+            $('#vTematica').focus();
+            return;
+        }
+
+        if (vDescripMetodologia.trim() == '') {
+            notif({
+                msg: "<b>Incorrecto:</b>Ingresar descrip de metodologia",
+                type: "error"
+            });
+            $('#vDescripMetodologia').focus();
+            return;
+        }
+
+        if (iDuracion.trim() == '') {
+            notif({
+                msg: "<b>Incorrecto:</b>Ingresar Duración",
+                type: "error"
+            });
+            $('#iDuracion').focus();
+            return;
+        } else {
+            if (iDuracion <= 0) {
+                notif({
+                    msg: "<b>Incorrecto:</b>El Valor de la Duración debe ser mayor a 0",
+                    type: "error"
+                });
+                return;
+            }
+        }
+
+        if (vMateriales.trim() == '') {
+            notif({
+                msg: "<b>Incorrecto:</b>Ingresar Materiales",
+                type: "error"
+            });
+            $('#vMateriales').focus();
+            return;
+        }
+
+
+        var datos = {};
+        datos.iCodPlanSesion = iCodPlanSesion;
+        datos.iDuracion = parseInt(iDuracion);
+        datos.iCodPlanCap = general.planCapaSeleccionado.iCodPlanCap;
+        datos.vTematica = vTematica;
+        datos.vDescripMetodologia = vDescripMetodologia;
+        datos.vMateriales = vMateriales;
+        datos.iopcion = general.accion;
+
+        //if (general.accion == 2) {
+        //    datos.iCodPlanCap = general.costoSeleccionado.iCodPlanCap;
+        //}       
+
+        $.post(globals.urlWebApi + "api/PlanCapacitacion/InsertarPlanSesion", datos)
+            .done((respuesta) => {
+                console.log(respuesta);
+                notif({
+                    msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                    type: "success"
+                });
+                general.tblPlanSesion.clear().draw();
+                $('#modalplanSesion').modal('hide');
+            }).fail((error) => {
+                console.log(error);
+            });
+    });
+
+    
 
     //$('#menuformulacion').addClass('is-expanded');
     ////$('#submenuacreditacion').addClass('is-expanded');
@@ -378,28 +536,50 @@ function EjecutarDetalleInformacionGeneral() {
     //$('#subitemmenu23').css('color', '#6c5ffc');  
 }
 
+function VerSesiones(obj) {
+    general.planCapaSeleccionado = general.tblPlanCapa.row($(obj).parents('tr')).data();
+    general.tblPlanSesion.clear().draw();
+}
+
+function modalplanSesion(obj) {
+    general.planCapaSeleccionado = general.tblPlanCapa.row($(obj).parents('tr')).data();
+    general.tblPlanSesion.clear().draw();
+}
+
+function AgregarPlanSesion(obj) {
+    //debugger;
+    general.accion = 1;
+    general.planCapaSeleccionado = general.tblPlanCapa.row($(obj).parents('tr')).data();
+    $('#vModulo').val(general.planCapaSeleccionado.vModuloTema);
+    $('#modalplanSesion').modal({ backdrop: 'static', keyboard: false });
+    $('#modalplanSesion').modal('show');
+}
+
 function VerPlanCapa(obj) {
-    debugger;
     general.elementoSeleccionado = general.tblactividad.row($(obj).parents('tr')).data();
     general.tblPlanCapa.clear().draw();
+    general.tblPlanSesion.clear().draw();
 }
 
 function limpiar() {
-    $('#cboTipoServMat').val('');
-    $('#vdescripcion').val('');
-    $('#vUnidadMedida').val('');
-    $('#iCantidad').val('');
-    $('#dCostoUnitario').val('');
+    $('#vActividad').val('');
+    $('#vModuloTema').val('');
+    $('#vObjetivo').val('');
+    $('#iMeta').val('');
+    $('#iBeneficiario').val('');
     $('#vdia').val('');
+    $('#iTotalTeoria').val('');
+    $('#iTotalPractica').val('');
    
 }
 
-function AgregarCosto(obj) {
-    //debugger;
+function AgregarPlanCapa(obj) {
     limpiar();
+    general.accion = 1;
     general.elementoSeleccionado = general.tblactividad.row($(obj).parents('tr')).data();
-    $('#modalcostos').modal({ backdrop: 'static', keyboard: false });
-    $('#modalcostos').modal('show'); 
+    $('#vActividad').val(general.elementoSeleccionado.vActividad);
+    $('#modalplan').modal({ backdrop: 'static', keyboard: false });
+    $('#modalplan').modal('show'); 
 }
 
 //function eliminarCostos(obj) {
@@ -409,11 +589,11 @@ function AgregarCosto(obj) {
 //}
 
 
-function eliminarCostos(obj) {
+function eliminarPlanCapa(obj) {
     general.accion = 3;
-    general.costoSeleccionado = general.tblcosto.row($(obj).parents('tr')).data();
-    $('#modaleliminarcostos').modal({ backdrop: 'static', keyboard: false });
-    $('#modaleliminarcostos').modal('show');    
+    general.planCapaSeleccionado = general.tblPlanCapa.row($(obj).parents('tr')).data();
+    $('#modaleliminarPlanCapa').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminarPlanCapa').modal('show');    
 }
 
 function MostrarEditar(obj) {
@@ -426,8 +606,8 @@ function MostrarEditar(obj) {
     $('#iCantidad').val(general.costoSeleccionado.iCantidad);
     $('#dCostoUnitario').val(general.costoSeleccionado.dCostoUnitario);
     $('#vdia').val(general.costoSeleccionado.vFecha);
-    $('#modalcostos').modal({ backdrop: 'static', keyboard: false });
-    $('#modalcostos').modal('show');
+    $('#modalplan').modal({ backdrop: 'static', keyboard: false });
+    $('#modalplan').modal('show');
 }
 
 function EditarCosto(obj) {

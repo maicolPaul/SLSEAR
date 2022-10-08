@@ -401,6 +401,7 @@ function AgregarCosto(obj) {
     //debugger;
     limpiar();
     general.elementoSeleccionado = general.tblactividad.row($(obj).parents('tr')).data();
+    $('#vActividad').val(general.elementoSeleccionado.vActividad);
     $('#modalcostos').modal({ backdrop: 'static', keyboard: false });
     $('#modalcostos').modal('show'); 
 }
@@ -428,7 +429,7 @@ function MostrarEditar(obj) {
     $('#vUnidadMedida').val(general.costoSeleccionado.vUnidadMedida);
     $('#iCantidad').val(general.costoSeleccionado.iCantidad);
     $('#dCostoUnitario').val(general.costoSeleccionado.dCostoUnitario);
-    $('#vdia').val(general.costoSeleccionado.vFecha);
+    $('#vdia').val(general.costoSeleccionado.dFecha);
     $('#modalcostos').modal({ backdrop: 'static', keyboard: false });
     $('#modalcostos').modal('show');
 }
