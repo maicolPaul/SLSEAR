@@ -1,7 +1,7 @@
 ﻿
 let general = {
     usuario: 0,
-    listatecnologias: [],
+    tbltecnologias:null,
     listaindicadores:[],
     indiceseleccionado: 0,
     tractual: null,
@@ -15,10 +15,466 @@ let general = {
     listaactividades: [],
     tblcomponentes: null,
     elementoSeleccionado: null,
+    elementoSeleccionadoActividad: null,
+    elementoSeleccionadoTecnologia:null,
     iCodComponente: null,
-    tblactividades:null
+    tblactividades: null,
+    iCodActividad: null,
+    tblcausadirectas: null,
+    elementoSeleccionadoCausaDirecta: null,
+    tblcausasindirectas: null,
+    iCodCausaDirecta: null,
+    iCodCausaIndirecta: null,
+    tblefectosdirectos: null,
+    elementoSeleccinadoEfectoDirecto: null,
+    tblcausasefectosindirectas: null,
+    iCodEfecto: null,
+    iCodEfectoIndirecto: null,
+    tblindicadores: null,
+    elementoSeleccionadoIndicador:null
 };
 
+function Indicadores() {
+
+    //tblobjetivo
+    general.tblindicadores = $("#tblobjetivo").DataTable({
+        bFilter: false
+        , serverSide: true
+        , searching: false
+        , lengthChange: true
+        , paging: true
+        , autoWidth: false
+        , processing: true
+        //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
+        , drawCallback: function () {
+            $('#tblobjetivo thead').attr('class', 'table-success');
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        , language: globals.lenguajeDataTable
+        , ajax: function (data, callback, settings) {
+            let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+            let parametro = {
+                piPageSize: parseInt(settings._iDisplayLength)
+                , piCurrentPage: paginaActual
+                , pvSortColumn: "iCodIndicador"
+                , pvSortOrder: "asc"
+                , iCodIdentificacion: general.iCodIdentificacion
+            };
+            $.ajax({
+                type: "POST",
+                url: globals.urlWebApi + "api/Identificacion/ListarIndicadoresPaginado",
+                headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                dataType: 'json',
+                data: parametro
+            })
+                .done(function (data) {
+                    callback({
+                        data: data,
+                        recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                        recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                    });
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    cuandoAjaxFalla(error.status);
+                });
+        }
+        , columns: [          
+            { data: "iCodIndicador", title: "iCodIndicador", visible: false, orderable: false },
+            { data: "iCodigoIdentificador", title: "iCodigoIdentificador", visible: false, orderable: false },
+            { data: "vDescIdentificador", title: "vDescIdentificador", visible: true, orderable: false },
+            { data: "vUnidadMedida", title: "vUnidadMedida", visible: true, orderable: false },
+            { data: "vMeta", title: "vMeta", visible: true, orderable: false },
+            { data: "vMedioVerificacion", title: "vMedioVerificacion", visible: true, orderable: false },
+            {
+                data: (row) => {
+                    let acciones = `<div class="nav-actions">`;
+                    acciones += `<a href="javascript:void(0);" onclick ="EditarIndicador(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="EliminarIndicador(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>&nbsp&nbsp&nbsp`;                    
+                    acciones += `</div>`;
+                    return acciones;
+                }, title: "Acciones", visible: true, orderable: false
+            }
+        ]
+    });
+
+
+}
+
+function EfectosDirectos() {
+    general.tblefectosdirectos = $("#tblefectosdirectos").DataTable({
+        bFilter: false
+        , serverSide: true
+        , searching: false
+        , lengthChange: true
+        , paging: true
+        , autoWidth: false
+        , processing: true
+        //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
+        , drawCallback: function () {
+            $('#tblefectosdirectos thead').attr('class', 'table-success');
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        , language: globals.lenguajeDataTable
+        , ajax: function (data, callback, settings) {
+            let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+            let parametro = {
+                piPageSize: parseInt(settings._iDisplayLength)
+                , piCurrentPage: paginaActual
+                , pvSortColumn: "iCodEfecto"
+                , pvSortOrder: "asc"
+                , iCodIdentificacion: general.iCodIdentificacion
+            };
+            $.ajax({
+                type: "POST",
+                url: globals.urlWebApi + "api/Identificacion/ListarEfectoDirecto",
+                headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                dataType: 'json',
+                data: parametro
+            })
+                .done(function (data) {
+                    callback({
+                        data: data,
+                        recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                        recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                    });
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    cuandoAjaxFalla(error.status);
+                });
+        }
+        , columns: [
+            {
+                className: 'dt-control',
+                orderable: false,
+                data: null,
+                defaultContent: '',
+            },
+            { data: "iCodEfecto", title: "iCodEfecto", visible: false, orderable: false },
+            { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
+            { data: "vDescEfecto", title: "Descripcion", visible: true, orderable: false },
+            {
+                data: (row) => {
+                    let acciones = `<div class="nav-actions">`;
+                    acciones += `<a href="javascript:void(0);" onclick ="EditarEfectoDirecto(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="EliminarEfectoDirecto(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="agregarEfectoIndirecto(${row.iCodEfecto});"  data-toggle="tooltip" title="Agregar Efecto Indirecto"><i class="fa fa-plus-circle" aria-hidden="true"></a>`;
+                    acciones += `</div>`;
+                    return acciones;
+                }, title: "Acciones", visible: true, orderable: false
+            }
+        ]
+    });
+
+    $('#tblefectosdirectos tbody').on('click', 'td.dt-control', function () {
+        var tr = $(this).closest('tr');
+        var row = general.tblefectosdirectos.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            row.child(format2(row.data())).show();
+            console.log(row.data());
+            tr.addClass('shown');
+            CargarEfectosIndirectos(row.data().iCodEfecto);
+        }
+    });
+}
+
+function CargarEfectosIndirectos(iCodEfecto) {
+    if (!$.fn.dataTable.isDataTable('#tblcausasefectosindirectas' + iCodEfecto)) {
+        general.tblcausasefectosindirectas = $('#tblcausasefectosindirectas' + iCodEfecto).DataTable({
+            bFilter: false
+            , serverSide: true
+            , searching: false
+            , lengthChange: true
+            , paging: true
+            , autoWidth: false
+            , processing: true
+            //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'    
+            , drawCallback: function () {
+                //$('select[name="tblComunidadOpa_length"]').formSelect();
+                //$('.tooltipped').tooltip();
+                $('#tblcausasefectosindirectas' + iCodEfecto + ' thead').attr('class', 'table-success');
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+            , language: globals.lenguajeDataTable
+            , ajax: function (data, callback, settings) {
+                let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+                let parametro = {
+                    piPageSize: parseInt(settings._iDisplayLength)
+                    , piCurrentPage: paginaActual
+                    , pvSortColumn: "iCodEfectoIndirecto"
+                    , pvSortOrder: "asc"
+                    , iCodIdentificacion: general.iCodIdentificacion,
+                      iCodEfectoDirecto: iCodEfecto
+                };
+                $.ajax({
+                    type: "POST",
+                    url: globals.urlWebApi + "api/Identificacion/ListarEfectoIndirecto",
+                    headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                    dataType: 'json',
+                    data: parametro
+                })
+                    .done(function (data) {
+                        callback({
+                            data: data,
+                            recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                            recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                        });
+                    })
+                    .fail(function (error) {
+                        console.log(error);
+                        cuandoAjaxFalla(error.status);
+                    });
+            }
+            , columns: [
+                { data: "iCodEfectoIndirecto", title: "iCodEfectoIndirecto", visible: false, orderable: false },
+                { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
+                { data: "iCodEfectoDirecto", title: "iCodEfectoDirecto", visible: false, orderable: false },
+                { data: "vDescEfectoIndirecto", title: "vDescEfectoIndirecto", visible: true, orderable: false },
+                {
+                    data: (row) => {
+                        let acciones = `<div class="nav-actions">`;
+                        acciones += `<a href="javascript:void(0);" onclick ="EditarEfectoIndirecto(${row.iCodEfectoIndirecto},${row.iCodEfectoDirecto},'${row.vDescEfectoIndirecto}');" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                        acciones += `<a href="javascript:void(0);" onclick ="EliminarEfectoIndirecto(${row.iCodEfectoIndirecto},${row.iCodEfectoDirecto});"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
+                        acciones += `</div>`;
+                        return acciones;
+                    }, title: "Acciones", visible: true, orderable: false
+                }
+            ]
+        });
+    } else {
+        general.tblcausasindirectas.draw().clear();
+    }
+}
+function CausasDirectas() {
+    general.tblcausasdirectas = $("#tblcausasdirectas").DataTable({
+        bFilter: false
+        , serverSide: true
+        , searching: false
+        , lengthChange: true
+        , paging: true
+        , autoWidth: false
+        , processing: true
+        //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
+        , drawCallback: function () {            
+            $('#tblcausasdirectas thead').attr('class', 'table-success');
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        , language: globals.lenguajeDataTable
+        , ajax: function (data, callback, settings) {
+            let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+            let parametro = {
+                piPageSize: parseInt(settings._iDisplayLength)
+                , piCurrentPage: paginaActual
+                , pvSortColumn: "iCodCausaDirecta"
+                , pvSortOrder: "asc"
+                , iCodIdentificacion: general.iCodIdentificacion
+            };
+            $.ajax({
+                type: "POST",
+                url: globals.urlWebApi + "api/Identificacion/ListarCausasDirectas",
+                headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                dataType: 'json',
+                data: parametro
+            })
+                .done(function (data) {
+                    callback({
+                        data: data,
+                        recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                        recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                    });                    
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    cuandoAjaxFalla(error.status);
+                });
+        }
+        , columns: [
+            {
+                className: 'dt-control',
+                orderable: false,
+                data: null,
+                defaultContent: '',
+            },
+            { data: "iCodCausaDirecta", title: "iCodCausaDirecta", visible: false, orderable: false },
+            { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
+            { data: "vdescrcausadirecta", title: "Descripcion", visible: true, orderable: false },            
+            {
+                data: (row) => {
+                    let acciones = `<div class="nav-actions">`;                    
+                    acciones += `<a href="javascript:void(0);" onclick ="EditarCausaDirecta(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;                    
+                    acciones += `<a href="javascript:void(0);" onclick ="EliminarCausaDirecta(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="agregarCausaIndirecta(${row.iCodCausaDirecta},${row.iCodIdentificacion});"  data-toggle="tooltip" title="Agregar Causa Indirecta"><i class="fa fa-plus-circle" aria-hidden="true"></a>`;                    
+                    acciones += `</div>`;
+                    return acciones;
+                }, title: "Acciones", visible: true, orderable: false
+            }
+        ]
+    });
+
+    $('#tblcausasdirectas tbody').on('click', 'td.dt-control', function () {
+        var tr = $(this).closest('tr');
+        var row = general.tblcausasdirectas.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            row.child(format1(row.data())).show();
+            console.log(row.data());
+            tr.addClass('shown');
+            CargarCausasIndirectas(row.data().iCodCausaDirecta, row.data().iCodIdentificacion);
+        }
+    });
+
+}
+function CargarCausasIndirectas(iCodCausaDirecta, iCodComponente) {
+    if (!$.fn.dataTable.isDataTable('#tblcausasindirectas' + iCodCausaDirecta)) {
+        general.tblcausasindirectas = $('#tblcausasindirectas' + iCodCausaDirecta).DataTable({
+            bFilter: false
+            , serverSide: true
+            , searching: false
+            , lengthChange: true
+            , paging: true
+            , autoWidth: false
+            , processing: true
+            //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'    
+            , drawCallback: function () {
+                //$('select[name="tblComunidadOpa_length"]').formSelect();
+                //$('.tooltipped').tooltip();
+                $('#tblcausasindirectas' + iCodCausaDirecta + ' thead').attr('class', 'table-success');
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+            , language: globals.lenguajeDataTable
+            , ajax: function (data, callback, settings) {
+                let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+                let parametro = {
+                    piPageSize: parseInt(settings._iDisplayLength)
+                    , piCurrentPage: paginaActual
+                    , pvSortColumn: "iCodCausaIndirecta"
+                    , pvSortOrder: "asc"
+                    , iCodIdentificacion: iCodComponente,
+                    iCodCausaDirecta:iCodCausaDirecta
+                };
+                $.ajax({
+                    type: "POST",
+                    url: globals.urlWebApi + "api/Identificacion/ListarCausasIndirectas",
+                    headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                    dataType: 'json',
+                    data: parametro
+                })
+                    .done(function (data) {
+                        callback({
+                            data: data,
+                            recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                            recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                        });
+                    })
+                    .fail(function (error) {
+                        console.log(error);
+                        cuandoAjaxFalla(error.status);
+                    });
+            }
+            , columns: [
+                { data: "iCodCausaIndirecta", title: "iCodCausaIndirecta", visible: false, orderable: false },
+                { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
+                { data: "iCodCausaDirecta", title: "iCodCausaDirecta", visible: false, orderable: false },                
+                { data: "vDescrCausaInDirecta", title: "Descripciòn", visible: true, orderable: false },                
+                {
+                    data: (row) => {
+                        let acciones = `<div class="nav-actions">`;
+                        acciones += `<a href="javascript:void(0);" onclick ="EditarCausaIndirecta(${row.iCodCausaIndirecta},${row.iCodCausaDirecta},${row.iCodIdentificacion},'${row.vDescrCausaInDirecta}');" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                        acciones += `<a href="javascript:void(0);" onclick ="EliminarCausaIndirecta(${row.iCodCausaIndirecta},${row.iCodCausaDirecta});"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
+                        acciones += `</div>`;
+                        return acciones;
+                    }, title: "Acciones", visible: true, orderable: false
+                }
+            ]
+        });
+    } else {
+        general.tblcausasindirectas.draw().clear();
+    }
+}
+
+function CargarActividades(iCodComponente) {    
+    debugger;    
+    if (!$.fn.dataTable.isDataTable('#tblactividades' + iCodComponente)) {        
+        general.tblactividades = $('#tblactividades' + iCodComponente).DataTable({
+            bFilter: false
+            , serverSide: true
+            , searching: false
+            , lengthChange: true
+            , paging: true
+            , autoWidth: false
+            , processing: true
+            //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'    
+            , drawCallback: function () {
+                //$('select[name="tblComunidadOpa_length"]').formSelect();
+                //$('.tooltipped').tooltip();
+                $('#tblactividades' + iCodComponente + ' thead').attr('class', 'table-success');
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+            , language: globals.lenguajeDataTable
+            , ajax: function (data, callback, settings) {
+                let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+                let parametro = {
+                    piPageSize: parseInt(settings._iDisplayLength)
+                    , piCurrentPage: paginaActual
+                    , pvSortColumn: "iCodActividad"
+                    , pvSortOrder: "asc"
+                    , iCodIdentificacion: iCodComponente
+                };
+                $.ajax({
+                    type: "POST",
+                    url: globals.urlWebApi + "api/Identificacion/ListarActividadesPorComponente",
+                    headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                    dataType: 'json',
+                    data: parametro
+                })
+                    .done(function (data) {
+                        callback({
+                            data: data,
+                            recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                            recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                        });                      
+                    })
+                    .fail(function (error) {
+                        console.log(error);
+                        cuandoAjaxFalla(error.status);
+                    });
+            }
+            , columns: [         
+                { data: "iCodActividad", title: "iCodActividad", visible: false, orderable: false },
+                { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
+                { data: "vDescripcion", title: "vDescripcion", visible: false, orderable: false },
+                { data: "vDescripcionCorta", title: "Descripcion", visible: true, orderable: false },
+                { data: "vActividad", title: "Actividad", visible: true, orderable: false },
+                { data: "vUnidadMedida", title: "Unidad Medida", visible: true, orderable: false },
+                { data: "vMeta", title: "Meta", visible: true, orderable: false },
+                { data: "vMedio", title: "Medio", visible: true, orderable: false },
+                {
+                    data: (row) => {
+                        let acciones = `<div class="nav-actions">`;
+                        acciones += `<a href="javascript:void(0);" onclick ="EditarActividad(${row.iCodActividad},${row.iCodIdentificacion},'${row.vDescripcion}','${row.vUnidadMedida}','${row.vMeta}','${row.vMedio}','${row.vActividad}');" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                        acciones += `<a href="javascript:void(0);" onclick ="EliminarActividad(${row.iCodActividad},${row.iCodIdentificacion});"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
+                        acciones += `</div>`;
+                        return acciones;
+                    }, title: "Acciones", visible: true, orderable: false
+                }
+            ]
+        });
+    } else {
+        general.tblactividades.draw().clear();
+    }
+}
 function CargarComponentes() {
     //tblcomponentes
     general.tblcomponentes = $("#tblcomponentes").DataTable({
@@ -77,48 +533,20 @@ function CargarComponentes() {
             },
             { data: "iCodComponente", title: "iCodComponente", visible: false, orderable: false },
             { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
-            { data: "vDescripcion", title: "vDescripcion", visible: true, orderable: false },
-            { data: "vIndicador", title: "vIndicador", visible: true, orderable: false },
-            { data: "vUnidadMedida", title: "vUnidadMedida", visible: true, orderable: false },
-            { data: "vMeta", title: "vMeta", visible: true, orderable: false },
-            { data: "vMedio", title: "vMedio", visible: true, orderable: false },
-            //{
-            //    data: (row) => {
-            //        if (row.iSexo == 1) {
-            //            return "MASCULINO";
-            //        } else {
-            //            return "FEMENINO";
-            //        }
-            //    }, title: "Sexo", visible: true, orderable: false
-            //},
-            //{ data: "iPerteneceOrganizacion", title: "iPerteneceOrganizacion", visible: false, orderable: false },
-            //{
-            //    data: (row) => {
-            //        if (row.iEsRepresentante) {
-            //            return "SI";
-            //        } else {
-            //            return "NO";
-            //        }
-            //    }, title: "Es Representante", visible: true, orderable: false
-            //},
-            //{
-            //    data: (row) => {
-            //        if (row.iRecibioCapacitacion) {
-            //            return "SI";
-            //        } else {
-            //            return "NO";
-            //        }
-            //    }, title: "Recibio Capacitación", visible: true, orderable: false
-            //},
-            //{ data: "vNombreOrganizacion", title: "Nombre Organizacion", visible: true, orderable: false },
+            { data: "vDescripcion", title: "Descripcion", visible: false, orderable: false },
+            { data: "vDescripcionCorta", title: "Descripcion", visible: true, orderable: false },
+            { data: "vIndicador", title: "Indicador", visible: true, orderable: false },
+            { data: "vUnidadMedida", title: "Unidad Medida", visible: true, orderable: false },
+            { data: "vMeta", title: "Meta", visible: true, orderable: false },
+            { data: "vMedio", title: "Medio", visible: true, orderable: false },
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
                     //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
-                    acciones += `<a href="javascript:void(0);" onclick ="EditarProductor(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="EditarComponente(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
-                    acciones += `<a href="javascript:void(0);" onclick ="eliminarProductor(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>&nbsp&nbsp&nbsp`;
-                    acciones += `<a href="javascript:void(0);" onclick ="agregaractividad(this);"  data-toggle="tooltip" title="Agregar Actiividad"><i class="fa fa-plus-circle" aria-hidden="true"></a>`;
+                    acciones += `<a href="javascript:void(0);" onclick ="EliminarComponente(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="agregaractividad(${row.iCodComponente});"  data-toggle="tooltip" title="Agregar Actividad"><i class="fa fa-plus-circle" aria-hidden="true"></a>`;
                     //}
                     acciones += `</div>`;
                     return acciones;
@@ -140,101 +568,119 @@ function CargarComponentes() {
             row.child(format(row.data())).show();
             console.log(row.data());
             tr.addClass('shown');
-            general.tblactividades=$('#tblactividades' + row.data().iCodComponente).DataTable({
-                bFilter: false
-                , serverSide: true
-                , searching: false
-                , lengthChange: true
-                , paging: true
-                , autoWidth: false
-                , processing: true
-                //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
-                , drawCallback: function () {
-                    //$('select[name="tblComunidadOpa_length"]').formSelect();
-                    //$('.tooltipped').tooltip();
-                    $('#tblactividades' + row.data().iCodComponente+' thead').attr('class', 'table-success');
-                    $('[data-toggle="tooltip"]').tooltip();
-                }
-                , language: globals.lenguajeDataTable
-                , ajax: function (data, callback, settings) {
-                    let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
-                    let parametro = {
-                        piPageSize: parseInt(settings._iDisplayLength)
-                        , piCurrentPage: paginaActual
-                        , pvSortColumn: "iCodActividad"
-                        , pvSortOrder: "asc"
-                        , iCodIdentificacion: row.data().iCodComponente
-                    };
-                    $.ajax({
-                        type: "POST",
-                        url: globals.urlWebApi + "api/Identificacion/ListarActividadesPorComponente",
-                        headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
-                        dataType: 'json',
-                        data: parametro
-                    })
-                        .done(function (data) {
-                            callback({
-                                data: data,
-                                recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
-                                recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
-                            });
-                            //if (general.tablaproductores.data().length > 0) {
-                            //    $('#btndescargar').removeAttr('disabled');
-                            //}
-                        })
-                        .fail(function (error) {
-                            console.log(error);
-                            cuandoAjaxFalla(error.status);
-                        });
-                }
-                , columns: [
-                    //{
-                    //    className: 'dt-control',
-                    //    orderable: false,
-                    //    data: null,
-                    //    defaultContent: '',
-                    //},
-                    { data: "iCodActividad", title: "iCodActividad", visible: false, orderable: false },
-                    { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
-                    { data: "vDescripcion", title: "vDescripcion", visible: true, orderable: false },
-                    { data: "vActividad", title: "vActividad", visible: true, orderable: false },
-                    { data: "vUnidadMedida", title: "vUnidadMedida", visible: true, orderable: false },
-                    { data: "vMeta", title: "vMeta", visible: true, orderable: false },
-                    { data: "vMedio", title: "vMedio", visible: true, orderable: false },         
-                    {
-                        data: (row) => {
-                            let acciones = `<div class="nav-actions">`;                            
-                            acciones += `<a href="javascript:void(0);" onclick ="EditarProductor(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;                            
-                            acciones += `<a href="javascript:void(0);" onclick ="eliminaractividad(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;                            
-                            acciones += `</div>`;
-                            return acciones;
-                        }, title: "Acciones", visible: true, orderable: false
-                    }
-                ]
-            });
+            CargarActividades(row.data().iCodComponente);
         }
     });
 }
 /* Formatting function for row details - modify as you need */
 function format(d) {
-    debugger;
+    //debugger;
     // `d` is the original data object for the row
     return (
         '<table id="tblactividades' + d.iCodComponente +'" class="table table-bordered text-nowrap border-bottom dataTable" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '</table>'
     );   
 }
-function eliminaractividad(obj) {
-    general.elementoSeleccionado = general.tblactividades.row($(obj).parents('tr')).data();
-
-    $('#modaleliminaractividad').modal({ backdrop: 'static', keyboard: false });
-    $('#modaleliminaractividad').modal('show');
-    
+function format1(d) {
+    //debugger;
+    // `d` is the original data object for the row
+    return (
+        '<table id="tblcausasindirectas' + d.iCodCausaDirecta + '" class="table table-bordered text-nowrap border-bottom dataTable" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        '</table>'
+    );
 }
-function agregaractividad(obj) {
+function format2(d) {
+    //debugger;
+    // `d` is the original data object for the row
+    return (
+        '<table id="tblcausasefectosindirectas' + d.iCodEfecto + '" class="table table-bordered text-nowrap border-bottom dataTable" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        '</table>'
+    );
+}
+function EliminarComponente(obj) {
+
+    general.elementoSeleccionado = general.tblcomponentes.row($(obj).parents('tr')).data();
+    console.log(general.elementoSeleccionado);
+}
+function EditarComponente(obj) {
 
     general.elementoSeleccionado = general.tblcomponentes.row($(obj).parents('tr')).data();
 
+    general.accion = 2;
+
+    $('#vdescripcioncom').val(general.elementoSeleccionado.vDescripcion);
+    $('#vindicadorcomp1').val(general.elementoSeleccionado.vIndicador);
+    $('#vunidadmedidaindcomp1').val(general.elementoSeleccionado.vUnidadMedida);
+    $('#vmetacomp1').val(general.elementoSeleccionado.vMeta);
+    $('#vmediocomp1').val(general.elementoSeleccionado.vMedio);
+
+    $('#modalcomponente1').modal({ backdrop: 'static', keyboard: false });
+    $('#modalcomponente1').modal('show');
+}
+
+function EditarCausaIndirecta(iCodCausaIndirecta, iCodCausaDirecta, iCodIdentificacion, vDescrCausaInDirecta) {
+    general.iCodCausaIndirecta = iCodCausaIndirecta;
+    general.iCodCausaDirecta = iCodCausaDirecta;
+    general.accion = 2;
+    $('#vcausaindirecta').val(vDescrCausaInDirecta);
+    //    $('#btnguardarcausasindirectas').attr('tabla', $("#" + event.target.id).attr('tabla'));
+    $('#modalcausasindirectas').modal({ backdrop: 'static', keyboard: false });
+    $('#modalcausasindirectas').modal('show');  
+}
+function EditarEfectoIndirecto(iCodEfectoIndirecto, iCodEfectoDirecto ,vDescEfectoIndirecto) {
+    general.iCodEfecto = iCodEfectoDirecto;
+    general.accion = 2;
+    general.iCodEfectoIndirecto = iCodEfectoIndirecto;
+    $('#vefectoindirecto').val(vDescEfectoIndirecto);
+    $('#modalefectosindirectos').modal({ backdrop: 'static', keyboard: false });
+    $('#modalefectosindirectos').modal('show');
+}
+function EliminarCausaIndirecta(iCodCausaIndirecta,iCodCausaDirecta) {
+    general.iCodCausaIndirecta = iCodCausaIndirecta;
+    general.iCodCausaDirecta = iCodCausaDirecta;
+    $('#modaleliminarcausaindirecta').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminarcausaindirecta').modal('show');      
+}
+function EditarCausaDirecta(obj) {
+    general.accion = 2;
+    general.elementoSeleccionadoCausaDirecta = general.tblcausasdirectas.row($(obj).parents('tr')).data();
+    $('#vcausadirecta').val(general.elementoSeleccionadoCausaDirecta.vdescrcausadirecta);
+    $('#modalcausasdirectas').modal({ backdrop: 'static', keyboard: false });
+    $('#modalcausasdirectas').modal('show');
+}
+function EliminarActividad(iCodActividad,iCodComponente) { 
+    general.iCodActividad = iCodActividad;
+    general.iCodComponente = iCodComponente;
+    $('#modaleliminaractividad').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminaractividad').modal('show');    
+}
+
+function EliminarCausaDirecta(obj) {
+    //general.accion = 2;
+    general.elementoSeleccionadoCausaDirecta = general.tblcausasdirectas.row($(obj).parents('tr')).data();
+    //$('#vcausadirecta').val(general.elementoSeleccionadoCausaDirecta.vdescrcausadirecta);
+    $('#modaleliminarcausadirecta').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminarcausadirecta').modal('show');    
+}
+
+function EliminarEfectoDirecto(obj) {
+    general.elementoSeleccinadoEfectoDirecto = general.tblefectosdirectos.row($(obj).parents('tr')).data();
+        
+    $('#modaleliminarefectodirecto').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminarefectodirecto').modal('show');
+}
+
+function agregarCausaIndirecta(iCodCausaDirecta, iCodIdentificacion) {
+    general.iCodCausaDirecta = iCodCausaDirecta;    
+        general.accion = 1;
+            $('#vcausaindirecta').val('');
+    //    $('#btnguardarcausasindirectas').attr('tabla', $("#" + event.target.id).attr('tabla'));
+        $('#modalcausasindirectas').modal({ backdrop: 'static', keyboard: false });
+        $('#modalcausasindirectas').modal('show');   
+}
+function agregaractividad(iCodComponente) {
+    general.iCodComponente = iCodComponente;
+    
     general.accion = 1;
     limpiaractividad();
     var contador = ContarActividades(1);
@@ -242,7 +688,56 @@ function agregaractividad(obj) {
     $('#vactividadact1').val("Actividad 1." + contador);
     $('#modalactividad1').modal({ backdrop: 'static', keyboard: false });
     $('#modalactividad1').modal('show');
+}
 
+function EditarActividad(iCodActividad, iCodIdentificacion, vDescripcion, vUnidadMedida, vMeta, vMedio, vActividad) {
+    general.iCodActividad = iCodActividad;
+    general.iCodComponente = iCodIdentificacion;
+
+    console.log(iCodActividad);
+    console.log(iCodIdentificacion);
+    console.log(vDescripcion);
+    console.log(vUnidadMedida);
+    console.log(vMeta);
+    console.log(vMedio);
+    general.accion = 2;
+    $('#vdescactividadact1').val(vDescripcion);
+    $('#vunidadmedidadact1').val(vUnidadMedida);
+    $('#vmetaact1').val(vMeta);
+    $('#vmedioact1').val(vMedio);
+    $('#vactividadact1').val(vActividad);
+
+    $('#modalactividad1').modal({ backdrop: 'static', keyboard: false });
+    $('#modalactividad1').modal('show');
+}
+
+function EditarTecnologia(obj) {
+    //debugger;
+    general.accion = 2;
+    limpiar();
+    general.elementoSeleccionadoTecnologia = general.tbltecnologias.row($(obj).parents('tr')).data();
+    console.log(general.elementoSeleccionadoTecnologia);
+    $('#vtecnologia1').val(general.elementoSeleccionadoTecnologia.vtecnologia1);
+    $('#vtecnologia2').val(general.elementoSeleccionadoTecnologia.vtecnologia2);
+    $('#vtecnologia3').val(general.elementoSeleccionadoTecnologia.vtecnologia3);    
+
+    $('#modaltecnologia').modal({ backdrop: 'static', keyboard: false });
+    $('#modaltecnologia').modal('show');  
+}
+function EditarEfectoDirecto(obj) {
+    general.elementoSeleccinadoEfectoDirecto = general.tblefectosdirectos.row($(obj).parents('tr')).data();
+
+    console.log(general.elementoSeleccinadoEfectoDirecto);
+    general.accion = 2;
+    $('#vefectodirecto').val(general.elementoSeleccinadoEfectoDirecto.vDescEfecto);
+    $('#modalefectosdirectos').modal({ backdrop: 'static', keyboard: false });
+    $('#modalefectosdirectos').modal('show');
+}
+function EliminarTecnologia(obj) {
+    general.elementoSeleccionadoTecnologia = general.tbltecnologias.row($(obj).parents('tr')).data();
+    $('#modaleliminaratecnologia').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminaratecnologia').modal('show');  
+    
 }
 function EjecutarDetalleInformacionGeneral() {
 
@@ -254,11 +749,82 @@ function EjecutarDetalleInformacionGeneral() {
 
     cargarusuario();
     CargarComponentes();
+    CausasDirectas();
+    EfectosDirectos();
+    Indicadores();
+    general.tbltecnologias = $("#tbltecnologias").DataTable({
+        bFilter: false
+        , serverSide: true
+        , searching: false
+        , lengthChange: true
+        , paging: true
+        , autoWidth: false
+        , processing: true
+        //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
+        , drawCallback: function () {
+            //$('select[name="tblComunidadOpa_length"]').formSelect();
+            //$('.tooltipped').tooltip();
+            $('#tbltecnologias thead').attr('class', 'table-success');
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        , language: globals.lenguajeDataTable
+        , ajax: function (data, callback, settings) {
+            let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+            let parametro = {
+                piPageSize: parseInt(settings._iDisplayLength)
+                , piCurrentPage: paginaActual
+                , pvSortColumn: "iCodTecnologia"
+                , pvSortOrder: "asc"
+                , iCodIdentificacion: general.iCodIdentificacion
+            };
+            $.ajax({
+                type: "POST",
+                url: globals.urlWebApi + "api/Identificacion/ListarTecnologiasPaginado",
+                headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                dataType: 'json',
+                data: parametro
+            })
+                .done(function (data) {
+                    callback({
+                        data: data,
+                        recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                        recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                    });
+                    //if (general.tablaproductores.data().length > 0) {
+                    //    $('#btndescargar').removeAttr('disabled');
+                    //}
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    cuandoAjaxFalla(error.status);
+                });
+        }
+        , columns: [           
+            { data: "iCodTecnologia", title: "iCodTecnologia", visible: false, orderable: false },
+            { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
+            { data: "vtecnologia1", title: "Tecnologia 1", visible: true, orderable: false },
+            { data: "vtecnologia2", title: "Tecnologia 2", visible: true, orderable: false },
+            { data: "vtecnologia3", title: "Tecnologia 3", visible: true, orderable: false },
+            {
+                data: (row) => {
+                    let acciones = `<div class="nav-actions">`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
+                    acciones += `<a href="javascript:void(0);" onclick ="EditarTecnologia(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    //if (row.existe == 0) {
+                    acciones += `<a href="javascript:void(0);" onclick ="EliminarTecnologia(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>&nbsp&nbsp&nbsp`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="agregaractividad(${row.iCodComponente});"  data-toggle="tooltip" title="Agregar Actividad"><i class="fa fa-plus-circle" aria-hidden="true"></a>`;
+                    //}
+                    acciones += `</div>`;
+                    return acciones;
+                }, title: "Acciones", visible: true, orderable: false
+            }
+        ]
+    });
 
     var dato = {};
 
     dato.iCodExtensionista = general.usuario;
-    debugger;
+    //debugger;
     $.post(globals.urlWebApi + "api/Identificacion/ListarIdentificacion", dato)
         .done((respuesta) => {
             console.log("Datos Identificacion");                        
@@ -275,91 +841,133 @@ function EjecutarDetalleInformacionGeneral() {
                 $('#vunidadmedida').val(respuesta[0].vUnidadMedida);
                 $('#vrendimientocadenaproductiva').val(respuesta[0].vRendimientoCadenaProductiva);
                 $('#vgremios').val(respuesta[0].vGremios);
-                $('#vobjetivocentral').val(respuesta[0].vObjetivoCentral);   
-                $('#vdesccomponente1').val(respuesta[0].vDescComponente1);
-                $('#vdesccomponente2').val(respuesta[0].vDescComponente2);
+                $('#vobjetivocentral').val(respuesta[0].vObjetivoCentral);     
+                ActivarBotones(false);
 
                 general.acciongeneral = 2;
                 // *cargar tecnologias* //
                 var datoidentificacion = {};
                 datoidentificacion.iCodIdentificacion = general.iCodIdentificacion;
+                general.tblcomponentes.draw().clear();
+                general.tbltecnologias.draw().clear();
+                general.tblcausasdirectas.draw().clear();
+                general.tblefectosdirectos.draw().clear();
+                general.tblindicadores.draw().clear();
 
-                $.post(globals.urlWebApi + "api/Identificacion/ListarTecnologias", datoidentificacion)
-                    .done((respuesta) => {
-                        //console.log(respuesta);
-                        if (respuesta.length > 0) {
-                            console.table(respuesta);
-                            $.each(respuesta, function (key, value) {
-                                //alert(key + ": " + value);
-                                console.log(key);
-                                console.log(value);
-                                $("#tbltecnologias > tbody").append("<tr><td>" + value.vtecnologia1.toUpperCase() + "</td><td>" + value.vtecnologia2.toUpperCase() + "</td><td>" + value.vtecnologia3.toUpperCase() + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editartecnologia(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminartecnologia(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-                                general.listatecnologias.push({ vtecnologia1: value.vtecnologia1.toUpperCase(), vtecnologia2: value.vtecnologia2.toUpperCase(), vtecnologia3: value.vtecnologia3.toUpperCase() })
-                            });                          
-                        }
-                    });
+                //$.post(globals.urlWebApi + "api/Identificacion/ListarTecnologias", datoidentificacion)
+                //    .done((respuesta) => {
+                //        //console.log(respuesta);
+                //        if (respuesta.length > 0) {
+                //            //console.table(respuesta);
+                //            $.each(respuesta, function (key, value) {
+                //                //alert(key + ": " + value);
+                //                console.log(key);
+                //                console.log(value);
+                //                $("#tbltecnologias > tbody").append("<tr><td>" + value.vtecnologia1.toUpperCase() + "</td><td>" + value.vtecnologia2.toUpperCase() + "</td><td>" + value.vtecnologia3.toUpperCase() + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editartecnologia(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminartecnologia(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+                //                general.listatecnologias.push({ vtecnologia1: value.vtecnologia1.toUpperCase(), vtecnologia2: value.vtecnologia2.toUpperCase(), vtecnologia3: value.vtecnologia3.toUpperCase() })
+                //            });                          
+                //        }
+                //    });
 
-                $.post(globals.urlWebApi + "api/Identificacion/ListarIndicadores", datoidentificacion)
-                    .done((respuesta) => {
-                        console.table(respuesta);
-                        $.each(respuesta, function (key, value) {
-                            $('#tblobjetivo > tbody').append("<tr><td id='" + value.iCodigoIdentificador + "'>" + value.vDescIdentificador + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedioVerificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarindicador(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+                //$.post(globals.urlWebApi + "api/Identificacion/ListarIndicadores", datoidentificacion)
+                //    .done((respuesta) => {
+                //        //console.table(respuesta);
+                //        $.each(respuesta, function (key, value) {
+                //            $('#tblobjetivo > tbody').append("<tr><td id='" + value.iCodigoIdentificador + "'>" + value.vDescIdentificador + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedioVerificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarindicador(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
                             
-                            general.listaindicadores.push({ iCodigoIdentificador: value.iCodigoIdentificador, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedioVerificacion: value.vMedioVerificacion });
-                        });                        
-                    });
+                //            general.listaindicadores.push({ iCodigoIdentificador: value.iCodigoIdentificador, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedioVerificacion: value.vMedioVerificacion });
+                //        });                        
+                //    });
                 // Listar Componentes
                 //CargarComponentes();
-                general.tblcomponentes.draw().clear();
-                $.post(globals.urlWebApi + "api/Identificacion/ListarComponentePorUsuario", datoidentificacion)
-                    .done((respuesta) => {
-                        console.table(respuesta);
-                        $.each(respuesta, function (key, value) {
-                            if (value.nTipoComponente == 1) {
-                                $('#tblcomponente > tbody').append("<tr><td id='" + value.iCodComponente + "'>" + value.vIndicador + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-                            } else {
-                                $("#tblcomponente2 > tbody").append("<tr><td>" + value.vIndicador + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente2(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");            
-                            }                            
-                           // $("#tblcomponente > tbody").append("<tr><td>" + indicador + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medioverificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-                            //general.listaindicadores.push({ iCodigoIdentificador: value.iCodigoIdentificador, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedioVerificacion: value.vMedioVerificacion });
-                        });
-                    });
+               
+
+                //$.post(globals.urlWebApi + "api/Identificacion/ListarComponentePorUsuario", datoidentificacion)
+                //    .done((respuesta) => {
+                //        //console.table(respuesta);
+                //        $.each(respuesta, function (key, value) {
+                //            if (value.nTipoComponente == 1) {
+                //                $('#tblcomponente > tbody').append("<tr><td id='" + value.iCodComponente + "'>" + value.vIndicador + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+                //            } else {
+                //                $("#tblcomponente2 > tbody").append("<tr><td>" + value.vIndicador + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente2(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");            
+                //            }                            
+                //           // $("#tblcomponente > tbody").append("<tr><td>" + indicador + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medioverificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+                //            //general.listaindicadores.push({ iCodigoIdentificador: value.iCodigoIdentificador, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedioVerificacion: value.vMedioVerificacion });
+                //        });
+                //    });
                 
                 //Listar Actividades
-                var cantidad1 = 0;
-                var cantidad2 = 0;
+                //var cantidad1 = 0;
+                //var cantidad2 = 0;
 
-                $.post(globals.urlWebApi + "api/Identificacion/ListarActividades", dato)
-                    .done((respuesta) => {
-                        console.table(respuesta);
-                        $.each(respuesta, function (key, value) {
-                            if (value.nTipoActividad == 1) {
-                                cantidad1++;
-                                //$('#tblcomponente > tbody').append("<tr><td id='" + value.iCodComponente + "'>" + value.vIndicador + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-                                $('#tblActividades1 > tbody').append("<tr id=1" + cantidad1 + "><td>" + value.vActividad + "</td><td>" + value.vDescripcion + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editaractividad(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminaractividad(this,1);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-                                general.listaactividades.push({ id: "1" + cantidad1, vActividad: value.vActividad, vDescripcion: value.vDescripcion, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedio: value.vMedio, nTipoActividad: value.nTipoActividad });    
-                            } else {
-                                cantidad2++
-                                $("#tblActividades2 > tbody").append("<tr id=2" + cantidad2 + "><td>" + value.vActividad + "</td><td>" + value.vDescripcion + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente2(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminaractividad(this,2);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");                                
-                                general.listaactividades.push({ id: "2" +cantidad2, vActividad: value.vActividad, vDescripcion: value.vDescripcion, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedio: value.vMedio, nTipoActividad: value.nTipoActividad });
-                            }                           
-                        });
-                    });
+                //$.post(globals.urlWebApi + "api/Identificacion/ListarActividades", dato)
+                //    .done((respuesta) => {
+                //        //console.table(respuesta);
+                //        $.each(respuesta, function (key, value) {
+                //            if (value.nTipoActividad == 1) {
+                //                cantidad1++;
+                //                //$('#tblcomponente > tbody').append("<tr><td id='" + value.iCodComponente + "'>" + value.vIndicador + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+                //                $('#tblActividades1 > tbody').append("<tr id=1" + cantidad1 + "><td>" + value.vActividad + "</td><td>" + value.vDescripcion + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editaractividad(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminaractividad(this,1);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+                //                general.listaactividades.push({ id: "1" + cantidad1, vActividad: value.vActividad, vDescripcion: value.vDescripcion, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedio: value.vMedio, nTipoActividad: value.nTipoActividad });    
+                //            } else {
+                //                cantidad2++
+                //                $("#tblActividades2 > tbody").append("<tr id=2" + cantidad2 + "><td>" + value.vActividad + "</td><td>" + value.vDescripcion + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente2(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminaractividad(this,2);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");                                
+                //                general.listaactividades.push({ id: "2" +cantidad2, vActividad: value.vActividad, vDescripcion: value.vDescripcion, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedio: value.vMedio, nTipoActividad: value.nTipoActividad });
+                //            }                           
+                //        });
+                //    });
 
             }            
         });
 
-    $('#btneliminaractividad').on('click', function () {
+    $('#btneliminarcausadirecta').on('click', function () {
         //alert('elimino');
-        console.log(general.elementoSeleccionado);
+        console.log(general.elementoSeleccionadoCausaDirecta);
+        $.post(globals.urlWebApi + "api/Identificacion/EliminarCausasDirectas", general.elementoSeleccionadoCausaDirecta)
+            .done((respuesta) => {
+                if (respuesta.iCodCausaDirecta != 0) {
+                    debugger;
+                    general.tblcausasdirectas.draw().clear();
+                    $('#modaleliminarcausadirecta').modal('hide');
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });
+    });
+
+    $('#btneliminarcausaindirecta').on('click', function () {
+        debugger;
+        let datos = {};
+        datos.iCodCausaIndirecta = general.iCodCausaIndirecta;
+        datos.iCodCausaDirecta = general.iCodCausaDirecta;
+
+        $.post(globals.urlWebApi + "api/Identificacion/EliminarCausasIndirectas", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodCausaIndirecta != 0) {
+                    debugger;
+                    $('#tblcausasindirectas' + general.iCodCausaDirecta).DataTable().draw().clear();
+                    $('#modaleliminarcausaindirecta').modal('hide');
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });
+    });
+    $('#btneliminaractividad').on('click', function () {
+        debugger;
+        console.log(general.iCodActividad);
 
         let datos = {};
-        datos.iCodActividad = general.elementoSeleccionado.iCodActividad;
+        datos.iCodActividad = general.iCodActividad;
 
         $.post(globals.urlWebApi + "api/Identificacion/EliminarActividad", datos)
             .done((respuesta) => {
-                if (respuesta.iCodActividad != 0) {
-                    general.tblactividades.draw().clear();
+                if (respuesta.iCodActividad != 0) {                   
+                    debugger;
+                    $('#tblactividades' + general.iCodComponente).DataTable().draw().clear();              
                     $('#modaleliminaractividad').modal('hide');
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
@@ -367,11 +975,26 @@ function EjecutarDetalleInformacionGeneral() {
                     });
                 }
             });
-
+    });
+    $('#btneliminartecnologia').on('click', function () {
+        //general.elementoSeleccionadoTecnologia 
+        $.post(globals.urlWebApi + "api/Identificacion/EliminarTecnologia", general.elementoSeleccionadoTecnologia)
+            .done((respuesta) => {
+                if (respuesta.iCodTecnologia != 0) {
+                    debugger;
+                    general.tbltecnologias.draw().clear();
+                    $('#modaleliminaratecnologia').modal('hide');
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });       
     });
 
     $('#btnagregarcausasdirectas').on('click', function () {
-        $('#vcausadirecta').val('');
+        general.accion = 1;
+        $('#vcausadirecta').val(''); 
         $('#modalcausasdirectas').modal({ backdrop: 'static', keyboard: false });
         $('#modalcausasdirectas').modal('show');   
     });
@@ -387,8 +1010,43 @@ function EjecutarDetalleInformacionGeneral() {
             return;
         }
 
-        AgregarCausadirecta($('#vcausadirecta').val());
-        $('#modalcausasdirectas').modal('hide');   
+        let datos = {};
+
+        datos.iCodIdentificacion = general.iCodIdentificacion;
+        datos.vdescrcausadirecta = $('#vcausadirecta').val();
+
+        if (general.accion == 1) {
+            $.post(globals.urlWebApi + "api/Identificacion/InsertarCausasDirectas", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodCausaDirecta != 0) {
+                        debugger;
+                        general.tblcausasdirectas.draw().clear();
+                        $('#modalcausasdirectas').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+        } else {
+            datos.iCodCausaDirecta = general.elementoSeleccionadoCausaDirecta.iCodCausaDirecta;
+
+            $.post(globals.urlWebApi + "api/Identificacion/EditarCausasDirectas", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodCausaDirecta != 0) {
+                        debugger;
+                        general.tblcausasdirectas.draw().clear();
+                        $('#modalcausasdirectas').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+        }
+
+        //AgregarCausadirecta($('#vcausadirecta').val());
+        //$('#modalcausasdirectas').modal('hide');   
     });
 
     $('#btnguardartecnologia').on('click', function () {
@@ -417,20 +1075,56 @@ function EjecutarDetalleInformacionGeneral() {
             $('#vtecnologia3').focus();
             return;
         }
-        //debugger;        
-            AgregarTecnologia(general.indiceseleccionado, $('#vtecnologia1').val(), $('#vtecnologia2').val(), $('#vtecnologia3').val());
-             
-        limpiar();
-        $('#modaltecnologia').modal('hide');   
+
+        let datos = {};
+
+        datos.vtecnologia1 = $('#vtecnologia1').val();
+        datos.vtecnologia2 = $('#vtecnologia2').val();
+        datos.vtecnologia3 = $('#vtecnologia3').val();
+        datos.iCodIdentificacion = general.iCodIdentificacion;        
+        if (general.accion == 1) {
+            $.post(globals.urlWebApi + "api/Identificacion/InsertarTecnologia", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodTecnologia != 0) {
+                        debugger;
+                        general.tbltecnologias .draw().clear();
+                        $('#modaltecnologia').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+        } else {
+
+            datos.iCodTecnologia = general.elementoSeleccionadoTecnologia.iCodTecnologia;
+
+            $.post(globals.urlWebApi + "api/Identificacion/EditarTecnologia", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodTecnologia != 0) {
+                        debugger;
+                        general.tbltecnologias.draw().clear();
+                        $('#modaltecnologia').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+        }
+        
+
+
+       
     })
     $('#btnagregartecnologia').on('click', function () {
-        general.indiceseleccionado = 0;
+        general.accion = 1;
         limpiar();
         $('#modaltecnologia').modal({ backdrop: 'static', keyboard: false });
         $('#modaltecnologia').modal('show');   
     });
     $('#btnagregarefectosdirectos').on('click', function () {
-
+        general.accion = 1;
         $('#vefectodirecto').val('');
         $('#modalefectosdirectos').modal({ backdrop: 'static', keyboard: false });
         $('#modalefectosdirectos').modal('show');           
@@ -445,11 +1139,43 @@ function EjecutarDetalleInformacionGeneral() {
             $('#vefectodirecto').focus();
             return;
         }
-        AgregarEfectoIndirecto($('#vefectodirecto').val());
-        $('#modalefectosdirectos').modal('hide');  
+
+        let datos = {};
+        datos.iCodIdentificacion = general.iCodIdentificacion;
+        datos.vDescEfecto = $('#vefectodirecto').val();
+
+        if (general.accion == 1) {
+
+            $.post(globals.urlWebApi + "api/Identificacion/InsertarEfectoDirecto", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodEfecto != 0) {
+                        debugger;
+                        general.tblefectosdirectos.draw().clear();
+                        $('#modalefectosdirectos').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });    
+        } else {
+
+            datos.iCodEfecto = general.elementoSeleccinadoEfectoDirecto.iCodEfecto;
+            $.post(globals.urlWebApi + "api/Identificacion/EditarEfectoDirecto", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodEfecto != 0) {
+                        debugger;
+                        general.tblefectosdirectos.draw().clear();
+                        $('#modalefectosdirectos').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });   
+        }
     });
     $('#btnguardar').on('click', function () {       
-        //debugger;
         if ($('#vLimitaciones').val().trim() == '') {
             notif({
                 msg: "<b>Incorrecto:</b> Ingresa Limitacion",
@@ -547,23 +1273,7 @@ function EjecutarDetalleInformacionGeneral() {
             $('#vobjetivocentral').focus();
             return;
         }
-        if ($('#vdesccomponente1').val().trim() == '') {
-            notif({
-                msg: "<b>Incorrecto:</b> Ingresa Componente",
-                type: "error"
-            });
-            $('#vdesccomponente1').focus();
-            return;
-        }
-        if ($('#vdesccomponente2').val().trim() == '') {
-            notif({
-                msg: "<b>Incorrecto:</b> Ingresa Componente",
-                type: "error"
-            });
-            $('#vdesccomponente2').focus();
-            return;
-        }
-
+  
         var datos = {};
         datos.vLimitaciones = $('#vLimitaciones').val();
         datos.vEstadoSituacional = $('#vEstadoSituacional').val();
@@ -577,8 +1287,7 @@ function EjecutarDetalleInformacionGeneral() {
         datos.vRendimientoCadenaProductiva = $('#vrendimientocadenaproductiva').val();
         datos.vGremios = $('#vgremios').val();
         datos.vObjetivoCentral = $('#vobjetivocentral').val();
-        datos.vDescComponente1 = $('#vdesccomponente1').val();
-        datos.vDescComponente2 = $('#vdesccomponente2').val();
+
 
         datos.iCodExtensionista = general.usuario;
         datos.iOpcion = general.acciongeneral;
@@ -628,25 +1337,18 @@ function EjecutarDetalleInformacionGeneral() {
         datos.listacomponente = general.listacomponente;
 
         datos.listaactividad = general.listaactividades;
-
-        console.log(datos);
                 
         $.post(globals.urlWebApi + "api/Identificacion/InsertarIdentificacion", datos)
             .done((respuesta) => {
-                if (respuesta.iCodIdentificacion != 0) {                    
+                if (respuesta.iCodIdentificacion != 0) {   
+                    general.iCodIdentificacion = respuesta.iCodIdentificacion;
+                    ActivarBotones(false);
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                         type: "success"
                     });
                 }
             });
-    });
-
-    $('#tblcausasdirectas').on('click', '.btnaddcausaindirecta', function (event) {
-        $('#vcausaindirecta').val('');
-        $('#btnguardarcausasindirectas').attr('tabla', $("#" + event.target.id).attr('tabla'));
-        $('#modalcausasindirectas').modal({ backdrop: 'static', keyboard: false });
-        $('#modalcausasindirectas').modal('show');   
     });
 
     $('#tblefectosdirectos').on('click', '.btnaddefectoindirecto', function (event) {
@@ -657,6 +1359,7 @@ function EjecutarDetalleInformacionGeneral() {
         $('#modalefectosindirectos').modal({ backdrop: 'static', keyboard: false });
         $('#modalefectosindirectos').modal('show');
     });
+
     $('#btnguardarefectoindirecto').on('click', function () {
         if ($('#vefectoindirecto').val() == '') {
             notif({
@@ -667,12 +1370,44 @@ function EjecutarDetalleInformacionGeneral() {
             return;
         }
 
-        var tabla = $('#' + event.target.id).attr('tabla');
-        var vefectoindirecto = $('#vefectoindirecto').val();
-        AgregarEfectosIndirectosaDirectos(vefectoindirecto);
-        $("#" + tabla + " > tbody").append("<tr><td>" + vefectoindirecto.toUpperCase() + "</td><td><a href='javascript:void(0);' onclick ='eliminarefectoindirecto(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></td></tr>");
-            
-        $('#modalefectosindirectos').modal('hide');
+        let datos = {};
+
+        datos.iCodIdentificacion = general.iCodIdentificacion;
+        datos.vDescEfectoIndirecto = $('#vefectoindirecto').val();
+        datos.iCodEfectoDirecto = general.iCodEfecto;
+
+        if (general.accion == 1) {
+            $.post(globals.urlWebApi + "api/Identificacion/InsertarEfectoIndirecto", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodEfecto != 0) {
+                        debugger;
+                        //general.tblefectosdirectos.draw().clear();
+                        $('#tblcausasefectosindirectas' + general.iCodEfecto).DataTable().draw().clear();
+                        $('#modalefectosindirectos').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                }); 
+        } else {
+            datos.iCodEfectoIndirecto = general.iCodEfectoIndirecto;
+
+            $.post(globals.urlWebApi + "api/Identificacion/EditarEfectoIndirecto", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodEfecto != 0) {
+                        debugger;
+                        //general.tblefectosdirectos.draw().clear();
+                        $('#tblcausasefectosindirectas' + general.iCodEfecto).DataTable().draw().clear();
+                        $('#modalefectosindirectos').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                }); 
+        }        
+        
     });
 
     $('#btnguardarobjetivo').on('click', function () {
@@ -710,24 +1445,44 @@ function EjecutarDetalleInformacionGeneral() {
             return;
         }
 
+ 
+        let datos = {};
+        datos.iCodIdentificacion = general.iCodIdentificacion;
+        datos.iCodigoIdentificador = $('#cboindicador').val();
+        datos.vUnidadMedida = $('#vunidadmedidaind').val();
+        datos.vMeta = $('#vmeta').val();
+        datos.vMedioVerificacion = $('#vmedio').val();
+
         if (general.accion == 1) {
-            general.listaindicadores.push({ iCodigoIdentificador: $('#cboindicador').val(), vUnidadMedida: $("#vunidadmedidaind").val(), vMeta: $("#vmeta").val(), vMedioVerificacion: $("#vmedio").val() });
-            $('#tblobjetivo > tbody').append("<tr><td id=" + $('#cboindicador').val()+">" + $('#cboindicador option:selected').text() + "</td><td>" + $('#vunidadmedidaind').val() + "</td><td>" + $('#vmeta').val() + "</td><td>" + $('#vmedio').val() + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarindicador(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+            $.post(globals.urlWebApi + "api/Identificacion/InsertarIndicador", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodIndicador != 0) {
+                        debugger;
+                        general.tblindicadores.draw().clear();
+                        $('#modalobjetivo').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });  
         } else {
-            general.tractual.cells[0].innerHTML = $('#cboindicador option:selected').text();
-            general.tractual.cells[1].innerHTML = $('#vunidadmedidaind').val();
-            general.tractual.cells[2].innerHTML = $('#vmeta').val();    
-            general.tractual.cells[3].innerHTML = $('#vmedio').val();    
+            datos.iCodIndicador = general.elementoSeleccionadoIndicador.iCodIndicador;
 
+            $.post(globals.urlWebApi + "api/Identificacion/EditarIndicador", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodIndicador != 0) {
+                        debugger;
+                        general.tblindicadores.draw().clear();
+                        $('#modalobjetivo').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });  
 
-            general.listaindicadores[general.indiceseleccionado - 1].iCodigoIdentificador = $('#cboindicador').val();
-            general.listaindicadores[general.indiceseleccionado - 1].vUnidadMedida = $('#vunidadmedidaind').val();
-            general.listaindicadores[general.indiceseleccionado - 1].vMeta = $('#vmeta').val();
-            general.listaindicadores[general.indiceseleccionado - 1].vMedioVerificacion = $('#vmedio').val();
-
-        }        
-        
-        $('#modalobjetivo').modal('hide');
+        }
     });
     
     $('#btnagregarobjetivo').on('click', function () {    
@@ -763,6 +1518,15 @@ function EjecutarDetalleInformacionGeneral() {
     });
 
     $('#btnguardarcomp1').on('click', function () {
+
+        if ($('#vdescripcioncom').val().trim() == '') {
+            notif({
+                msg: "<b>Incorrecto:</b>Ingrese Descripciòn",
+                type: "error"
+            });
+            $('#vdescripcioncom').focus();
+            return;
+        }
 
         if ($('#vindicadorcomp1').val().trim() == '') {
             notif({
@@ -806,17 +1570,8 @@ function EjecutarDetalleInformacionGeneral() {
         var meta = $('#vmetacomp1').val();
         var medioverificacion = $('#vmediocomp1').val();
 
-        //if (general.accion == 1) {
-        //    $("#tblcomponente > tbody").append("<tr><td>" + indicador + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medioverificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-        //    general.listacomponente.push({ vIndicador: indicador, vUnidadMedida: unidadmedida, vMeta: meta, vMedio: medioverificacion, nTipoComponente:1});
-
-
-        //} else {
-        //    general.tractual.cells[0].innerHTML = indicador;
-        //    general.tractual.cells[1].innerHTML = unidadmedida;
-        //    general.tractual.cells[2].innerHTML = meta;
-        //    general.tractual.cells[3].innerHTML = medioverificacion;
-        //}        
+    
+        debugger;
         let datos = {};
         datos.iCodIdentificacion = general.iCodIdentificacion;
         datos.vDescripcion = $('#vdescripcioncom').val();
@@ -827,17 +1582,34 @@ function EjecutarDetalleInformacionGeneral() {
         datos.vMedio = medioverificacion;
         datos.nTipoComponente = 1;
 
-        $.post(globals.urlWebApi + "api/Identificacion/InsertarComponente", datos)
-            .done((respuesta) => {
-                if (respuesta.iCodComponente != 0) {
-                    $('#modalcomponente1').modal('hide');
-                    general.tblcomponentes.draw().clear();
-                    notif({
-                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
-                        type: "success"
-                    });
-                }
-            });
+        if (general.accion == 1) {
+            $.post(globals.urlWebApi + "api/Identificacion/InsertarComponente", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodComponente != 0) {
+                        $('#modalcomponente1').modal('hide');
+                        general.tblcomponentes.draw().clear();
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+        } else {
+            datos.iCodComponente = general.elementoSeleccionado.iCodComponente;
+
+            $.post(globals.urlWebApi + "api/Identificacion/ActualizarComponente", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodComponente != 0) {
+                        $('#modalcomponente1').modal('hide');
+                        general.tblcomponentes.draw().clear();
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+
+        }       
       
     });
 
@@ -952,42 +1724,43 @@ function EjecutarDetalleInformacionGeneral() {
         var meta = $('#vmetaact1').val();
         var medio = $('#vmedioact1').val();
 
-        datos.iCodIdentificacion = general.elementoSeleccionado.iCodComponente;
+        datos.iCodIdentificacion = general.iCodComponente;
         datos.vActividad = actividad;
         datos.vDescripcion = descripcion;
         datos.vUnidadMedida = unidadmedida;
         datos.vMeta = meta;
         datos.vMedio = medio;
         datos.nTipoActividad = 1;
+        if (general.accion == 1) {
+            $.post(globals.urlWebApi + "api/Identificacion/InsertarActividad", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodActividad != 0) {
+                        $('#tblactividades' + general.iCodComponente).DataTable().draw().clear();
+                        $('#modalactividad1').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+        } else {
+            datos.iCodIdentificacion = general.iCodComponente;
+            datos.iCodActividad = general.iCodActividad;
 
-        $.post(globals.urlWebApi + "api/Identificacion/InsertarActividad", datos)
-            .done((respuesta) => {
-                if (respuesta.iCodComponente != 0) {
-                    //$('#modalcomponente1').modal('hide');
-                    general.tblcomponentes.draw().clear();
-                    $('#tblactividades' + datos.iCodComponente).draw().clear();
-                    notif({
-                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
-                        type: "success"
-                    });
-                }
-            });
-
-        //if (general.accion == 1) {
-        //    //debugger;
-        //    var cantidad = general.listaactividades.length == 0 ? 1 : general.listaactividades.length+1;
-
-        //    $('#tblactividades47 > tbody').append("<tr id=1" + cantidad + " ><td>" + descripcion + "</td><td>" + actividad + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editaractividad(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-        //    general.listaactividades.push({ id: "1" + cantidad, vDescripcion: descripcion, vActividad: actividad, vUnidadMedida: unidadmedida, vMeta: meta, vMedio: medio, nTipoActividad:1});
-        //} else {
-        //    general.tractual.cells[0].innerHTML = actividad;
-        //    general.tractual.cells[1].innerHTML = descripcion;
-        //    general.tractual.cells[2].innerHTML = unidadmedida;     
-        //    general.tractual.cells[3].innerHTML = meta;     
-        //    general.tractual.cells[4].innerHTML = medio;     
-        //}
+            $.post(globals.urlWebApi + "api/Identificacion/ActualizarActividad", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodActividad != 0) {
+                        $('#tblactividades' + general.iCodComponente).DataTable().draw().clear();
+                        $('#modalactividad1').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+        }
         
-        $('#modalactividad1').modal('hide');
+        
     });
 
     $('#btnguardaractividad2').on('click', function () {
@@ -1078,19 +1851,111 @@ function EjecutarDetalleInformacionGeneral() {
             });
             return;
         }
-        console.log(event);
-        var tabla = $('#' + event.target.id).attr('tabla');
-        var vcausaindirecta = $('#vcausaindirecta').val();
 
-        AgregarindirectasaDirectas(vcausaindirecta);
+        let datos = {};
 
-        $("#" + tabla + " > tbody").append("<tr><td>" + vcausaindirecta.toUpperCase() + "</td><td><a href='javascript:void(0);' onclick ='eliminarcausaindirecta(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></td></tr>");
-        $('#modalcausasindirectas').modal('hide');   
+        datos.iCodIdentificacion = general.iCodIdentificacion;
+        datos.iCodCausaDirecta = general.iCodCausaDirecta;
+        datos.vDescrCausaInDirecta = $('#vcausaindirecta').val();
+
+        if (general.accion == 1) {
+            $.post(globals.urlWebApi + "api/Identificacion/InsertarCausasIndirectas", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodCausaIndirecta != 0) {
+                        //$('#tblactividades' + general.iCodComponente).DataTable().draw().clear();
+                        $('#tblcausasindirectas' + general.iCodCausaDirecta).DataTable().draw().clear();
+                        $('#modalcausasindirectas').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+        } else {
+            datos.iCodCausaIndirecta = general.iCodCausaIndirecta;
+
+            $.post(globals.urlWebApi + "api/Identificacion/EditarCausasIndirectas", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodCausaIndirecta != 0) {
+                        //$('#tblactividades' + general.iCodComponente).DataTable().draw().clear();
+                        $('#tblcausasindirectas' + general.iCodCausaDirecta).DataTable().draw().clear();
+                        $('#modalcausasindirectas').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                    }
+                });
+
+        }
     });
+
+    $('#btneliminarefectodirecto').on('click', function () {
+        //alert('elimino');
+        //general.
+        let datos = {};
+        datos.iCodEfecto = general.elementoSeleccinadoEfectoDirecto.iCodEfecto;
+
+        $.post(globals.urlWebApi + "api/Identificacion/EliminarEfectoDirecto", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodEfecto != 0) {
+                    debugger;
+                    general.tblefectosdirectos.draw().clear();
+                    $('#modaleliminarefectodirecto').modal('hide');
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });   
+    });
+
+    $('#btneliminarefectoindirecto').on('click', function () {
+        let datos = {};
+        datos.iCodEfectoIndirecto = general.iCodEfectoIndirecto;
+
+        $.post(globals.urlWebApi + "api/Identificacion/EliminarIndirecto", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodEfectoIndirecto != 0) {
+                    debugger;
+                    //general.tblefectosdirectos.draw().clear();
+                    $('#tblcausasefectosindirectas' + general.iCodEfecto).DataTable().draw().clear();
+                    $('#modaleliminarefectoindirecto').modal('hide');
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });  
+    });
+
+    $('#btneliminarindicador').on('click', function () {
+
+        let datos = {};
+        datos.iCodIndicador = general.elementoSeleccionadoIndicador.iCodIndicador;
+
+        $.post(globals.urlWebApi + "api/Identificacion/EliminarIndicador", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodIndicador != 0) {
+                    debugger;
+                    general.tblindicadores.draw().clear();
+                    //$('#tblcausasefectosindirectas' + general.iCodEfecto).DataTable().draw().clear();
+                    $('#modaleliminarindicador').modal('hide');
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });  
+    });
+
     $('#menuformulacion').addClass('is-expanded');
     //$('#submenuacreditacion').addClass('is-expanded');
     $('#subfichatecnica').addClass('is-expanded');
     $('#subitemmenu22').css('color', '#6c5ffc');  
+
+
+
 }
 
 function ContarActividades(tipo) {
@@ -1184,12 +2049,15 @@ function limpiaractividad2() {
     $('#vmetaact2').val('');
     $('#vmedioact2').val('');
 }
+
 function limpiarcomponente1() {
+    $('#vdescripcioncom').val('');
     $('#vindicadorcomp1').val('');
     $('#vunidadmedidaindcomp1').val('');
      $('#vmetacomp1').val('');
      $('#vmediocomp1').val('');
 }
+
 function limpiarcomponente2() {
     $('#vindicadorcomp2').val('');
     $('#vunidadmedidaindcomp2').val('');
@@ -1254,54 +2122,22 @@ function AgregarCausadirecta(causadirecta) {
 
     $("#tblcausasdirectas > tbody").append("<tr id='"+cantidadfilas+"' class='clsfilacausadirecta'><td>" + causadirecta.toUpperCase() + "</td><td><img src='../Content/assets/images/plus.png' alt='Agregar Causa Indirecta' onclick='fila(this)' style='cursor: pointer'/></td></tr>");
 }
-function AgregarEfectoIndirecto(efectodirecto) {
-    var cantidadfilas = 0;
 
-    $("#tblefectosdirectos tr.clsfilaefectodirecto").each(function (index, value) {
-        cantidadfilas = cantidadfilas + 1;
-    });
-
-    $("#tblefectosdirectos > tbody").append("<tr id='" + cantidadfilas +"' class='clsfilaefectodirecto'><td>" + efectodirecto.toUpperCase() + "</td><td><img src='../Content/assets/images/plus.png' alt='Agregar Causa Indirecta' onclick='fila1(this)' style='cursor: pointer'/></td></tr>");    
-    
-    general.listaefectosdirectos.push({ id: cantidadfilas, vdescefectodirecto: efectodirecto, listaefectoindirecto:[]});
+function agregarEfectoIndirecto(iCodEfecto) {
+    console.log(iCodEfecto);
+    general.iCodEfecto = iCodEfecto;
+    general.accion = 1;
+    $('#vefectoindirecto').val('');
+    $('#modalefectosindirectos').modal({ backdrop: 'static', keyboard: false });
+    $('#modalefectosindirectos').modal('show');  
 }
 
-//function eliminaractividad(obj, ind) {
-//    debugger;
-//    general.indiceseleccionado = obj.parentElement.parentElement.parentElement.rowIndex;
-//    var indice = obj.parentElement.parentElement.parentElement.id;
-
-//    console.log(general.indiceseleccionado);
-//    let table;
-//    if (ind == 1) {
-//        table = document.getElementById('tblActividades1');
-//    } else {
-//        table = document.getElementById('tblActividades2');
-//    }
+function EliminarEfectoIndirecto(iCodEfectoIndirecto, iCodEfecto) { 
+    general.iCodEfectoIndirecto = iCodEfectoIndirecto;
+    general.iCodEfecto = iCodEfecto;
+    $('#modaleliminarefectoindirecto').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminarefectoindirecto').modal('show');  
     
-//    table.deleteRow(general.indiceseleccionado);
-
-//      $.each(general.listaactividades, function (key, value) {
-//        if (value.id == indice & value.nTipoActividad==ind) {
-//            //general.indiceseleccionado = key; 
-//            general.listaactividades.splice(key, 1);
-//            return false;
-//        }
-//    });
-
-//}
-
-function eliminarcausaindirecta(obj) {    
-    console.log(obj.parentElement.parentElement.rowIndex);
-    var indicefila = obj.parentElement.parentElement.rowIndex;
-    let table = document.getElementById(obj.parentElement.parentElement.parentElement.parentElement.id);
-    table.deleteRow(indicefila);    
-}
-
-function eliminarefectoindirecto(obj) {
-    var indicefila = obj.parentElement.parentElement.rowIndex;
-    let table = document.getElementById(obj.parentElement.parentElement.parentElement.parentElement.id);
-    table.deleteRow(indicefila);
 }
 
 function editartecnologia(obj) {    
@@ -1313,45 +2149,25 @@ function editartecnologia(obj) {
     $('#vtecnologia1').val(listafila[0].innerText);
     $('#vtecnologia2').val(listafila[1].innerText);
     $('#vtecnologia3').val(listafila[2].innerText);
-    console.table(listafila);
 
     $('#modaltecnologia').modal({ backdrop: 'static', keyboard: false });
     $('#modaltecnologia').modal('show');   
 }
 
-function eliminarindicador(obj) {
-    
-    general.indiceseleccionado = obj.parentElement.parentElement.parentElement.rowIndex;
-    console.log(general.indiceseleccionado);
-        
-    let table = document.getElementById('tblobjetivo');
-    table.deleteRow(general.indiceseleccionado);
-
-
-
-    general.listaindicadores.splice(general.indiceseleccionado - 1, 1);
-
+function EliminarIndicador(obj) {
+    general.elementoSeleccionadoIndicador = general.tblindicadores.row($(obj).parents('tr')).data();
+    console.log(general.elementoSeleccionadoIndicador);
+    $('#modaleliminarindicador').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminarindicador').modal('show');
 }
-function editarindicador(obj) {
-    limpiarindicadores();
-    general.indiceseleccionado = obj.parentElement.parentElement.parentElement.rowIndex;
-    general.tractual = obj.parentElement.parentElement.parentElement;
-    var listafila = new Array();
-    listafila = obj.parentElement.parentElement.parentElement.cells;
-    console.table(listafila);
-    //debugger;
-    general.accion = 2;
-
-    $('#cboindicador').val(listafila[0].id);
-    $('#vunidadmedidaind').val(listafila[1].innerText);
-    $('#vmeta').val(listafila[2].innerText);
-    $('#vmedio').val(listafila[3].innerText);
-
-    general.listaindicadores[general.indiceseleccionado - 1].iCodigoIdentificador = $('#cboindicador').val();
-    general.listaindicadores[general.indiceseleccionado - 1].vUnidadMedida = $('#vunidadmedidaind').val();
-    general.listaindicadores[general.indiceseleccionado - 1].vMeta = $('#vmeta').val();
-    general.listaindicadores[general.indiceseleccionado - 1].vMedioVerificacion = $('#vmedio').val();
-
+function EditarIndicador(obj) {
+    general.elementoSeleccionadoIndicador = general.tblindicadores.row($(obj).parents('tr')).data();
+    general.accion = 2;        
+    $('#cboindicador').val(general.elementoSeleccionadoIndicador.iCodigoIdentificador);
+    $('#vunidadmedidaind').val(general.elementoSeleccionadoIndicador.vUnidadMedida);
+    $('#vmeta').val(general.elementoSeleccionadoIndicador.vMeta);
+    $('#vmedio').val(general.elementoSeleccionadoIndicador.vMedioVerificacion);
+    
     $('#modalobjetivo').modal({ backdrop: 'static', keyboard: false });
     $('#modalobjetivo').modal('show');
 }
@@ -1449,4 +2265,13 @@ function fila1(obj) {
     cell1ci.innerHTML = "DESCRIPCION";
 
     cell1.appendChild(tablecausasindirectas);
+}
+
+function ActivarBotones(sw) {
+    $('#btnagregartecnologia').prop('disabled', sw);
+    $('#btnagregarobjetivo').prop('disabled', sw);
+    $('#btnagregarcomponente1').prop('disabled', sw);    
+    $('#btnagregarcausasdirectas').prop('disabled', sw);  
+    $('#btnagregarefectosdirectos').prop('disabled', sw);  
+    
 }

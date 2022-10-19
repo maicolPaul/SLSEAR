@@ -41,20 +41,9 @@
                 <hr style="border: 1px solid black;height:0px !important" />
                 <h6 style="font-weight:bold">2.1.1 Rango de tecnologias usadas en las unidades productivas</h6>
                 <div class="col-sm-12 col-md-12" style="text-align:right">
-                    <button type="button" class="btn btn-success" id="btnagregartecnologia"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</button>
-                </div>
-                @*<table id="tbltecnologias" class="table table-bordered text-nowrap border-bottom" width="100%"> </table>*@
-                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tbltecnologias">
-                    <thead class="table-success">
-                        <tr>
-                            <th scope="col">Tecnologias/practicas usadas en la situacion actual</th>
-                            <th scope="col">Tecnologias/practicas presentes en el mercado</th>
-                            <th scope="col">Tecnologia idonea para los productores (las que necesita el productor)</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
+                    <button type="button" class="btn btn-success" id="btnagregartecnologia" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</button>
+                </div>           
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tbltecnologias">             
                 </table>
                 <hr style="border: 1px solid black;height:0px !important" />
                 <h5 style="font-weight:bold">2.1.2 Limitaciones</h5>
@@ -79,38 +68,27 @@
                 <div class="row">
                     <div class="col-sm-8 col-md-12">
                         <div class="form-group" style="display: -webkit-box;">
-                            <label class="form-label">Causas Directas<span class="text-red"></span></label>&nbsp;
-                            <img src="~/Content/assets/images/add.png" id="btnagregarcausasdirectas" style="cursor:pointer" />
+                            <label class="form-label">Causas Directas<span class="text-red"></span></label>                   
                         </div>
                     </div>
+                    <div class="col-sm-12 col-md-12" style="text-align:right">
+                        <button type="button" class="btn btn-success" id="btnagregarcausasdirectas" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                    </div>
                 </div>
-                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcausasdirectas">
-                    <thead class="table-success">
-                        <tr>
-                            <th scope="col">Descripcion Causa Directa</th>
-                            <th scope="col">detalle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcausasdirectas">        
                 </table>
                 <div class="row">
                     <div class="col-sm-8 col-md-12">
                         <div class="form-group" style="display: -webkit-box;">
                             <label class="form-label">Efectos Directos<span class="text-red"></span></label>&nbsp;
-                            <img src="~/Content/assets/images/add.png" id="btnagregarefectosdirectos" style="cursor:pointer" />
+                            @*<img src="~/Content/assets/images/add.png" id="btnagregarefectosdirectos" style="cursor:pointer" />*@
                         </div>
                     </div>
+                    <div class="col-sm-12 col-md-12" style="text-align:right">
+                        <button type="button" class="btn btn-success" id="btnagregarefectosdirectos" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                    </div>
                 </div>
-                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblefectosdirectos">
-                    <thead class="table-success">
-                        <tr>
-                            <th scope="col">Descripcion Efecto Directo</th>
-                            <th scope="col">detalle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblefectosdirectos">              
                 </table>
                 <hr style="border: 1px solid black;height:0px !important" />
                 <h5 style="font-weight:bold">2.3 POBLACION OBJETIVO</h5>
@@ -177,10 +155,10 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12" style="text-align:right">
-                    <button type="button" class="btn btn-success" id="btnagregarobjetivo"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                    <button type="button" class="btn btn-success" id="btnagregarobjetivo" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
                 </div>
                 <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblobjetivo">
-                    <thead class="table-success">
+                    @*<thead class="table-success">
                         <tr>
                             <th scope="col">Indicador</th>
                             <th scope="col">Unidad de Medida</th>
@@ -190,91 +168,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                    </tbody>
-                </table>
-                <div class="row">
-                    <div class="col-sm-8 col-md-12">
-                        <div class="form-group">
-                            <label class="form-label">Descripcion del Componente 1<span class="text-red"></span></label>
-                            <input type="text" class="form-control mayuscula" id="vdesccomponente1" placeholder="Descripcion del Componente 1">
-                        </div>
-                    </div>
-                </div>
+                    </tbody>*@
+                </table>              
                 <div class="col-sm-12 col-md-12" style="text-align:right">
-                    <button type="button" class="btn btn-success" id="btnagregarcomponente1"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                    <button type="button" class="btn btn-success" id="btnagregarcomponente1" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
                 </div>
                 <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcomponentes">
-                </table>
-                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcomponente">
-                    <thead class="table-success">
-                        <tr>
-                            <th scope="col">Indicador</th>
-                            <th scope="col">Unidad de Medida</th>
-                            <th scope="col">Meta</th>
-                            <th scope="col">Medio de Verificación</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="col-sm-12 col-md-12" style="text-align:right">
-                    <button type="button" class="btn btn-success" id="btnagregaractividad1"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
-                </div>
-                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblActividades1">
-                    <thead class="table-success">
-                        <tr>
-                            <th scope="col">Actividades</th>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Unidad de Medida</th>
-                            <th scope="col">Meta</th>
-                            <th scope="col">Medio de Verificación</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="row">
-                    <div class="col-sm-8 col-md-12">
-                        <div class="form-group">
-                            <label class="form-label">Descripcion del Componente 2<span class="text-red"></span></label>
-                            <input type="text" class="form-control mayuscula" id="vdesccomponente2" placeholder="Descripcion del Componente 2">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-12" style="text-align:right">
-                    <button type="button" class="btn btn-success" id="btnagregarcomponente2"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
-                </div>
-                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcomponente2">
-                    <thead class="table-success">
-                        <tr>
-                            <th scope="col">Indicador</th>
-                            <th scope="col">Unidad de Medida</th>
-                            <th scope="col">Meta</th>
-                            <th scope="col">Medio de Verificación</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="col-sm-12 col-md-12" style="text-align:right">
-                    <button type="button" class="btn btn-success" id="btnagregaractividad2"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
-                </div>
-                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblActividades2">
-                    <thead class="table-success">
-                        <tr>
-                            <th scope="col">Actividades</th>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Unidad de Medida</th>
-                            <th scope="col">Meta</th>
-                            <th scope="col">Medio de Verificación</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
                 </table>
                 <div style="text-align:right">
                     <button class="btn btn-success bg-primary-gradient mt-4" id="btnguardar">Guardar</button>
@@ -704,6 +603,132 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
                 <button class="btn btn-primary" id="btneliminaractividad" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminaratecnologia" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Tecnologia</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta Seguro de eliminar la Tecnologia ?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminartecnologia" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarcausadirecta" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Causa Directa</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta Seguro de eliminar la Causa Directa ?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarcausadirecta" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarcausaindirecta" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Causa InDirecta</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta Seguro de eliminar la Causa InDirecta ?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarcausaindirecta" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarefectodirecto" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Efecto Directo</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta Seguro de eliminar el Efecto Directo ?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarefectodirecto" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarefectoindirecto" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Efecto InDirecto</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta Seguro de eliminar el Efecto InDirecto ?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarefectoindirecto" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarindicador" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Indicador</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta Seguro de eliminar el Indicador?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarindicador" type="button">Ok</button>
             </div>
         </div>
     </div>
