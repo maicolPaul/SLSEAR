@@ -16,6 +16,24 @@ function EjecutarDetalleInformacionGeneral() {
 
     general.usuario = arreglousuario[0];
 
+    /**************************************************/
+
+    $('#cboComponente').empty();
+    $('#cboComponente').append("<option value=''>Seleccione</option>");
+    debugger;
+    $.when(obtenerComponentes({ iCodExtensionista: general.usuario }))
+        .done((niveles) => {
+            debugger;
+            $.each(niveles, function (key, value) {
+                $('#cboComponente').append("<option value='" + value.iCodComponente + "' data-value='" + JSON.stringify(value.iCodComponente) + "'>" + value.vDescripcion + "</option>");
+            });
+        });
+    /***************************************************/
+
+    $("#cboComponente").on('change', function (e) {
+        general.tblactividad.clear().draw();
+    });
+
     //cargarusuario();
     //cargarcomponente();
     //$("#cboActividad").on('change', function (e) {
@@ -38,12 +56,14 @@ function EjecutarDetalleInformacionGeneral() {
     //        });
     //});
 
-    //$('#btnvistaprevia').on('click', function () {
-    //    var datos = {};
-    //    datos.iCodExtensionista = general.usuario;
+    $('#btnvistaprevia').on('click', function () {
+        var datos = {};
+        datos.iCodExtensionista = general.usuario;
 
-    //    openData('POST', globals.urlWebApi + 'api/costo/ExportarCostos', datos, '_blank');
-    //});
+        openData('POST', globals.urlWebApi + 'api/Costo/ExportarCosto', datos, '_blank');
+    });
+
+    
 
     general.tblactividad = $("#tblactividad").DataTable({
         bFilter: false
@@ -69,6 +89,7 @@ function EjecutarDetalleInformacionGeneral() {
                 , pvSortColumn: "iCodActividad"
                 , pvSortOrder: "asc"
                 , iCodExtensionista: general.usuario
+                , iCodIdentificacion: $("#cboComponente").val()
             };
             debugger;
             $.ajax({
@@ -373,10 +394,31 @@ function EjecutarDetalleInformacionGeneral() {
             });        
     });
 
+    
+
     //$('#menuformulacion').addClass('is-expanded');
     ////$('#submenuacreditacion').addClass('is-expanded');
     //$('#subfichatecnica').addClass('is-expanded');
     //$('#subitemmenu23').css('color', '#6c5ffc');  
+}
+
+
+function openData(verb, url, data, target) {
+    var form = document.createElement("form");
+    form.action = url;
+    form.method = verb;
+    form.target = target || "_self";
+    if (data) {
+        for (var key in data) {
+            var input = document.createElement("textarea");
+            input.name = key;
+            input.value = typeof data[key] === "object" ? JSON.stringify(data[key]) : data[key];
+            form.appendChild(input);
+        }
+    }
+    form.style.display = 'none';
+    document.body.appendChild(form);
+    form.submit();
 }
 
 function VerCostos(obj) {
@@ -385,6 +427,17 @@ function VerCostos(obj) {
     general.tblcosto.clear().draw();
 //    let table = document.getElementById('tblobjetivo');
 //    table.deleteRow(indicefila);
+}
+
+function obtenerComponentes(data) {
+    
+    return $.ajax({
+        type: "POST",
+        url: globals.urlWebApi + "api/PlanCapacitacion/ComponentesPorExtensionista",
+        headers: { Accept: "application/json"/*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+        dataType: 'json',
+        data: data
+    });
 }
 
 function limpiar() {

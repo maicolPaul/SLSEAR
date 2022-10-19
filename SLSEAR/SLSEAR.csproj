@@ -137,6 +137,7 @@
     <Compile Include="Controllers\InfoGeneralController.cs" />
     <Compile Include="Controllers\InformacionGeneralController.cs" />
     <Compile Include="Controllers\ListaChequeoController.cs" />
+    <Compile Include="Controllers\PlanAtencionTecController.cs" />
     <Compile Include="Controllers\PlanCapaController.cs" />
     <Compile Include="Controllers\RegistroProveedorController.cs" />
     <Compile Include="Controllers\RegistroRucController.cs" />
@@ -1483,6 +1484,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\ListaChequeo\Index.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\PlanAsistenciaTec\Index.js" />
     <Content Include="Scripts\PlanCapa\Index.js" />
     <Content Include="Scripts\RegistroProveedor\Index.js" />
     <Content Include="Scripts\RegistroRuc\Index.js" />
@@ -1520,6 +1522,7 @@
     <Content Include="Views\Cronograma\Index.cshtml" />
     <Content Include="Views\Costos\Index.cshtml" />
     <Content Include="Views\PlanCapa\Index.cshtml" />
+    <Content Include="Views\PlanAtencionTec\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
