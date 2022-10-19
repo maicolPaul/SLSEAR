@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-header cardheadertitle">
                 <h4 class="card-title">
-                    Registro de Plan Capacitación
+                    Registro de Plan Atencion Técnica
                 </h4>
             </div>
             <div class="card-body">
@@ -81,36 +81,38 @@
                     </div>
                     <div class="col-sm-6 col-md-6">
                         <label class="form-group">
-                            <label class="form-label">Modulo<span class="text-red">*</span></label>
-                            <input type="text" class="form-control mayuscula" placeholder="Ingrese modulo" id="vModuloTema">
-                        </label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6 col-md-6">
-                        <label class="form-group">
                             <label class="form-label">Objetivo<span class="text-red">*</span></label>
                             <input type="text" class="form-control mayuscula" placeholder="Ingrese objetivo" id="vObjetivo">
                         </label>
                     </div>
+                </div>
+                <div class="row">
+
                     <div class="col-sm-6 col-md-6">
                         <label class="form-group">
                             <label class="form-label">Meta<span class="text-red">*</span></label>
                             <input type="number" class="form-control mayuscula" placeholder="Ingrese meta" id="iMeta">
                         </label>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-6 col-md-6">
                         <label class="form-group">
                             <label class="form-label">Cant. Beneficiados<span class="text-red">*</span></label>
                             <input type="number" class="form-control mayuscula" placeholder="Ingrese Cantidad Beneficiados" id="iBeneficiario">
                         </label>
                     </div>
+                </div>
+                <div class="row">
+
                     <div class="col-sm-6 col-md-6">
                         <div class="form-group">
-                            <label class="form-label">Dia<span class="text-red">*</span></label>
+                            <label class="form-label">Fecha Inicio<span class="text-red">*</span></label>
                             <input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="vdia">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Fecha Fin<span class="text-red">*</span></label>
+                            <input class="form-control fc-datepicker hasDatepicker" placeholder="MM/DD/YYYY" type="date" id="vdia2">
                         </div>
                     </div>
                 </div>
@@ -140,14 +142,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Anular Costo</h5>
+                <h5 class="modal-title">Anular Asistencia Tecnica</h5>
                 <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <span>Esta seguro de eliminar el plan de capacitación seleccionado ?</span>
+                    <span>Esta seguro de eliminar el plan de Asistencia Tecnica seleccionada ?</span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -181,24 +183,25 @@
                     <div class="col-sm-8 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Duracion</label>
-                            <input type="text" class="form-control mayuscula" placeholder="Ingrese Duracion" id="iDuracion">
+                            <input type="number" class="form-control mayuscula" placeholder="Ingrese Duracion" id="iDuracion">
                         </div>
                     </div>
-                    <div class="col-sm-6 col-md-6">
+                    @*<div class="col-sm-6 col-md-6">
                         <label class="form-group">
                             <label class="form-label">Temática<span class="text-red">*</span></label>
                             <input type="text" class="form-control mayuscula" placeholder="Ingrese Temática" id="vTematica">
                         </label>
-                    </div>
-                </div>
-                <div class="row">
+                    </div>*@
                     <div class="col-sm-6 col-md-6">
                         <label class="form-group">
                             <label class="form-label">Metodología<span class="text-red">*</span></label>
                             <input type="text" class="form-control mayuscula" placeholder="Ingrese Metodología" id="vDescripMetodologia">
                         </label>
                     </div>
-                    <div class="col-sm-6 col-md-6">
+                </div>
+                <div class="row">
+                   
+                    <div class="col-sm-12 col-md-12">
                         <label class="form-group">
                             <label class="form-label">Materiales<span class="text-red">*</span></label>
                             <input type="text" class="form-control mayuscula" placeholder="Ingrese Materiales" id="vMateriales">
@@ -214,18 +217,19 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="modaleliminarPlanCapa1" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Anular Costo</h5>
+                <h5 class="modal-title">Anular Detalle de Asistencia Tecnica</h5>
                 <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <span>Esta seguro de eliminar el plan de capacitación seleccionado ?</span>
+                    <span>Esta seguro de eliminar el Detalle de Asistencia Tecnica seleccionada?</span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -235,5 +239,6 @@
         </div>
     </div>
 </div>
+
 @*<script type="text/javascript" src="~/Scripts/CurriculumVitae/Index.js?noCache=@Guid.NewGuid().ToString()"></script>*@
-<script type="text/javascript" src="~/Scripts/PlanCapa/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
+<script type="text/javascript" src="~/Scripts/PlanAsistenciaTec/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
