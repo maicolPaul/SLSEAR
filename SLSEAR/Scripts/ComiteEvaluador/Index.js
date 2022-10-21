@@ -223,7 +223,7 @@ function EjecutarDetalleInformacionGeneral() {
         datos.iCodArchivos = 0;
         datos.iopcion = general.accion;
 
-        if (general.accion == 1) {
+        if (general.accion == 2) {
                 
             datos.iCodComiteEvaluador = general.elementoSeleccionado.iCodComiteEvaluador;
         }   
