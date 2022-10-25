@@ -124,6 +124,7 @@
     <Compile Include="Controllers\AcreditacionExtensionistaController.cs" />
     <Compile Include="Controllers\ActaAlianzaEstrategicaController.cs" />
     <Compile Include="Controllers\ActaCompromisoAsociacionController.cs" />
+    <Compile Include="Controllers\AsignacionEvaluadorController.cs" />
     <Compile Include="Controllers\CargaArchivoController.cs" />
     <Compile Include="Controllers\CiudadanoController.cs" />
     <Compile Include="Controllers\ComiteEvaluadorController.cs" />
@@ -1217,6 +1218,7 @@
     <Content Include="Scripts\Acreditacion\Index.js" />
     <Content Include="Scripts\ActaAlianzaEstrategica\Index.js" />
     <Content Include="Scripts\ActaCompromisoAsociacion\Index.js" />
+    <Content Include="Scripts\AsignacionEvaluador\Index.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\assets\colors\color1.css.map" />
@@ -1529,6 +1531,7 @@
     <Content Include="Views\PlanAtencionTec\Index.cshtml" />
     <Content Include="Views\FichaEvaluacion\Index.cshtml" />
     <Content Include="Views\ComiteEvaluador\Index.cshtml" />
+    <Content Include="Views\AsignacionEvaluador\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
