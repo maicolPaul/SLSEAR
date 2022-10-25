@@ -8189,7 +8189,7 @@ ul.dropdown-menu li.dropdown ul.dropdown-menu .dropdown-plus-title {
     color: #4d5875;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #e9edf4;
+   /* border: 1px solid #e9edf4;*/
     border-radius: 7px;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -45875,7 +45875,7 @@ html.fullscreenie {
         height: 40px;
         border-radius: 7px;
         background: #ffffff;
-        border: 1px solid #e9edf4;
+       /* border: 1px solid #e9edf4;*/
     }
 }
 
@@ -79564,4 +79564,7 @@ textarea.form-control {
     text-align: center;
     background-color: #538234;
     color: white
+}
+.form-control {
+    border-color: gray !important;
 }

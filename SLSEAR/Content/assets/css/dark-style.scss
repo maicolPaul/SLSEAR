@@ -693,7 +693,7 @@ body.dark-mode *:hover::-webkit-scrollbar-thumb {
     .form-control {
         color: $text-color;
         background-color: #282848;
-        border-color: $border-dark !important;
+    /*    border-color: $border-dark !important;*/
         transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         &::-ms-expand {
             background-color: transparent;
