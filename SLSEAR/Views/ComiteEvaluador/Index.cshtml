@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">Lista de Comite de Evaluadores</h4>
+            </div>
+            <div class="card-body">
+                <div class="col-sm-12 col-md-12" style="text-align:right">
+                    <button type="button" class="btn btn-success" id="btnagregarcomite"><i class="fa fa-plus-circle" aria-hidden="true"></i>Agregar</button>
+                </div>
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcomiteevaluador">
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade bd-example-modal-lg" id="modalcomiteevaluador" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registro Comite Evaluador</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Tipo de Documento<span class="text-red">*</span></label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cbotipodocumento">
+                                <option value="" label="Seleccione">Seleccione</option>
+                                <option value="1" label="DNI">DNI</option>
+                                <option value="2" label="RUC">RUC</option>
+                                <option value="3" label="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Dni<span class="text-red">*</span></label>
+                            <input type="text" class="form-control solonumeros" placeholder="Dni" id="txtdni" maxlength="8">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">                   
+                    <div class="col-sm-12 col-md-12">
+                        <label class="form-group">
+                            <label class="form-label">Nombres<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" id="txtnombres" placeholder="Nombres">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Apellidos Materno<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" id="txtapemat" placeholder="Apellidos Materno">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Apellido Paterno<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" id="txtapepat" placeholder="Apellido Paterno">
+                        </label>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Departamento<span class="text-red">*</span></label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cbodepartamento">
+                                <option value="" label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Provincia<span class="text-red">*</span></label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboprovincia">
+                                <option value="" label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>                   
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Distrito<span class="text-red">*</span></label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cbodistrito">
+                                <option value="" label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Cargo<span class="text-red">*</span></label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cbocargo">
+                                <option value="" label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Celular<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" id="txtcelular" placeholder="Celular">
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Correo<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" id="txtcorreo" placeholder="Correo">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">CV<span class="text-red">*</span></label>
+                            <input type="file" class="form-control" name="file" id="file" value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btngrabarcomite" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarcomite" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Comite Evaluador</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta Seguro de eliminar el Comite Evaluador?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarcomite" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script type="text/javascript" src="~/Scripts/Identificacion/Index.js?noCache=@Guid.NewGuid().ToString()"></script>*@
+
+<script type="text/javascript" src="~/Scripts/ComiteEvaluador/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
