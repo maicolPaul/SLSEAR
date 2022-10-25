@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">
+                    Ficha de Evaluacion
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-9">
+                        <h4>Lista de SEAR - Evaluadores</h4>
+                    </div>
+                    @*<div class="col-3">
+                        <div class="form-group">
+                            <label class="form-label">Componentes Por Usuario</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboComponente">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>*@
+
+                </div>
+                
+
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblSearEvaluador">
+                </table>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <h4>Lista de Costos Por Actividad</h4>
+                </div>
+
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblFichaEvaluacion">
+                </table>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12" style="text-align:right">
+                        <button type="button" class="btn btn-success" id="btnvistaprevia"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i> Vista Previa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<div class="modal fade" id="modalFichaEva" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header cardheadertitle">
+                <h5 class="modal-title">Generar Evaluacion</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Categoria</label>
+                            <input type="text" class="form-control mayuscula" placeholder="Categoria" id="vCategoria" disabled>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <label class="form-label">Criterio</label>
+                        <textarea class="form-control" aria-label="Criterio" placeholder="Categoria" id="vCriterio" disabled></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Puntaje Maximo<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Puntaje Maximo" id="PuntajeMaximo" disabled>
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Puntaje Evaluacion<span class="text-red">*</span></label>
+                            <input type="text" class="form-control mayuscula" placeholder="Puntaje Evaluacion" id="dPuntajeEvaluacion">
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <label class="form-label">Justificación</label>
+                        <textarea class="form-control" aria-label="Justificación" placeholder="Justificación" id="vJustificacion" ></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnguardar" type="submit">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modaleliminarcostos" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Anular Costo</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <span>Esta Seguro de eliminar el costo seleccionado ?</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btneliminarcosto" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+                @*<script type="text/javascript" src="~/Scripts/CurriculumVitae/Index.js?noCache=@Guid.NewGuid().ToString()"></script>*@
+                <script type="text/javascript" src="~/Scripts/FichaEvaluacion/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
