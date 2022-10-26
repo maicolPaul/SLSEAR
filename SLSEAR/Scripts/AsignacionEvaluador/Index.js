@@ -1,5 +1,6 @@
 ﻿let general = {
-    tblsears:null
+    tblsears: null,
+    elementoseleccionado:null
 }
 
 function EjecutarDetalleInformacionGeneral() {
@@ -10,6 +11,7 @@ function EjecutarDetalleInformacionGeneral() {
             //debugger;
             $.each(respuesta, function (key, value) {
                 $('#cbodepartamento').append("<option value='" + value.vCodDepartamento + "' data-value='" + JSON.stringify(value.vCodDepartamento) + "'>" + value.vNomDepartamento + "</option>");
+                $('#cbodepartamentoeval').append("<option value='" + value.vCodDepartamento + "' data-value='" + JSON.stringify(value.vCodDepartamento) + "'>" + value.vNomDepartamento + "</option>");                
             });
         });
 
@@ -62,15 +64,14 @@ function EjecutarDetalleInformacionGeneral() {
                 data: null,
                 defaultContent: '',
             },
-            { data: "iCodIdentificacion", title: "iCodCausaDirecta", visible: false, orderable: false },
+            { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
             { data: "vNombreSearT1", title: "iCodIdentificacion", visible: true, orderable: false },
             { data: "vEstado", title: "Estado", visible: true, orderable: false },
             {
                 data: (row) => {
-                    let acciones = `<div class="nav-actions">`;
-                    /*acciones += `<a href="javascript:void(0);" onclick ="EditarCausaDirecta(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>`;*/
-                    //acciones += `<a href="javascript:void(0);" onclick ="EliminarCausaDirecta(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>&nbsp&nbsp&nbsp`;
-                    acciones += `<a href="javascript:void(0);" onclick ="AsignarEvaluadores(${row.iCodIdentificacion});"  data-toggle="tooltip" title="Asignar Evaluadores"><i class="fa fa-plus-circle" aria-hidden="true"></a>`;
+                    let acciones = `<div class="nav-actions">`;                    
+                    acciones += `<a href="javascript:void(0);" onclick ="AsignarEvaluadores(this);"  data-toggle="tooltip" title="Asignar Evaluadores"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>&nbsp;&nbsp;`;
+                    acciones += `<a href="javascript:void(0);" onclick ="EliminarEvaluadores(this);"  data-toggle="tooltip" title="Eliminar Evaluadores"><i class="fa fa-trash" aria-hidden="true"></i></a>`;
                     acciones += `</div>`;
                     return acciones;
                 }, title: "Acciones", visible: true, orderable: false
@@ -78,13 +79,109 @@ function EjecutarDetalleInformacionGeneral() {
         ]
     });
 
+
+    $('#tblsears tbody').on('click', 'td.dt-control', function () {
+        var tr = $(this).closest('tr');
+        var row = general.tblsears.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            row.child(format(row.data())).show();
+            console.log(row.data());
+            tr.addClass('shown');
+            cargarDetalle(row.data().iCodIdentificacion);            
+        }
+    });
+
+    $('#btneliminar').on('click', function () {
+        let datos = {};
+        //datos.iCodUbigeoT1 = $('#cbodepartamentoeval').val();
+        datos.iCodIdentificacion = general.elementoSeleccionado.iCodIdentificacion;
+
+        $.post(globals.urlWebApi + "api/AsignacionEvaluador/EliminarComiteEvaluadorPorIdentificacion", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodComiteIdentificacion != 0) {
+                    debugger;
+                    general.tblsears.draw().clear();
+                    $('#modaleliminar').modal('hide');
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });   
+    });
+
+    $('#btnasignar').on('click', function () {
+        if ($('#cbodepartamentoeval').val() == '') {
+            notif({
+                msg: "<b>Incortecto:</b> Debe seleccionar Departamento",
+                type: "error"
+            });
+            return;
+        }
+
+        let datos = {};
+
+        datos.iCodUbigeoT1 = $('#cbodepartamentoeval').val();
+        datos.iCodIdentificacion = general.elementoSeleccionado.iCodIdentificacion;
+
+        $.post(globals.urlWebApi + "api/AsignacionEvaluador/AsignacionEvaluador", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodComiteIdentificacion != 0) {
+                    debugger;
+                    general.tblsears.draw().clear();                    
+                    $('#modalasignar').modal('hide');
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });        
+    });
 }
 
-function AsignarEvaluadores(iCodIdentificacion) {
+function format(d) {   
+        let tabla = '<table id="tblevaluadores' + d.iCodIdentificacion + '" class="table table-bordered text-nowrap border-bottom dataTable" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        '<tr class="table-success"><th>Apellidos y Nombres</th></tr>';            
+        tabla = tabla + '</table>';                
+           return (
+                  tabla
+            );
+}
+function cargarDetalle(iCodIdentifacion) {
+    let datos = {};
+
+    datos.iCodIdentificacion = iCodIdentifacion;
+
+    $.post(globals.urlWebApi + "api/AsignacionEvaluador/ListarComiteEvaluadorPorIdentificacion", datos)
+        .done((respuesta) => {
+            if (respuesta.length > 0) {
+                             
+                $.each(respuesta, function (i, dato) {
+                    //$("#" + i).append(document.createTextNode(" - " + val));
+                    $('#tblevaluadores' + iCodIdentifacion).append('<tr><td>' + dato.vApellidoMat + ' ' + dato.vApellidoPat + ' ' + dato.vNombres + '</td></tr>');
+                });
+            }
+        });
+}
+
+function AsignarEvaluadores(obj) {
+    general.elementoSeleccionado = general.tblsears.row($(obj).parents('tr')).data();
     $('#modalasignar').modal({ backdrop: 'static', keyboard: false });
-    $('#modalasignar').modal('show');  
-    
-
+    $('#modalasignar').modal('show');     
 }
+
+function EliminarEvaluadores(obj) {
+    general.elementoSeleccionado = general.tblsears.row($(obj).parents('tr')).data();
+    $('#modaleliminar').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminar').modal('show');
+}
+
+    
 
     
