@@ -82,10 +82,10 @@ function Indicadores() {
         , columns: [          
             { data: "iCodIndicador", title: "iCodIndicador", visible: false, orderable: false },
             { data: "iCodigoIdentificador", title: "iCodigoIdentificador", visible: false, orderable: false },
-            { data: "vDescIdentificador", title: "vDescIdentificador", visible: true, orderable: false },
-            { data: "vUnidadMedida", title: "vUnidadMedida", visible: true, orderable: false },
-            { data: "vMeta", title: "vMeta", visible: true, orderable: false },
-            { data: "vMedioVerificacion", title: "vMedioVerificacion", visible: true, orderable: false },
+            { data: "vDescIdentificador", title: "Descripcion", visible: true, orderable: false },
+            { data: "vUnidadMedida", title: "Unidad Medida", visible: true, orderable: false },
+            { data: "vMeta", title: "Meta", visible: true, orderable: false },
+            { data: "vMedioVerificacion", title: "Medio Verificacion", visible: true, orderable: false },
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
@@ -601,6 +601,10 @@ function EliminarComponente(obj) {
 
     general.elementoSeleccionado = general.tblcomponentes.row($(obj).parents('tr')).data();
     console.log(general.elementoSeleccionado);
+       
+    $('#modaleliminarcomponente').modal({ backdrop: 'static', keyboard: false });
+    $('#modaleliminarcomponente').modal('show');
+
 }
 function EditarComponente(obj) {
 
@@ -1043,10 +1047,7 @@ function EjecutarDetalleInformacionGeneral() {
                         });
                     }
                 });
-        }
-
-        //AgregarCausadirecta($('#vcausadirecta').val());
-        //$('#modalcausasdirectas').modal('hide');   
+        } 
     });
 
     $('#btnguardartecnologia').on('click', function () {
@@ -1947,6 +1948,24 @@ function EjecutarDetalleInformacionGeneral() {
                     });
                 }
             });  
+    });
+
+    $('#btneliminarcomponente').on('click', function () {
+
+        let datos = {};
+        datos.iCodComponente = general.elementoSeleccionado.iCodComponente;
+
+        $.post(globals.urlWebApi + "api/Identificacion/EliminarComponente", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodComponente != 0) {
+                    $('#modaleliminarcomponente').modal('hide');
+                    general.tblcomponentes.draw().clear();
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });
     });
 
     $('#menuformulacion').addClass('is-expanded');

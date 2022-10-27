@@ -310,6 +310,10 @@ function EjecutarDetalleInformacionGeneral() {
     ////$('#submenuacreditacion').addClass('is-expanded');
     //$('#subfichatecnica').addClass('is-expanded');
     //$('#subitemmenu23').css('color', '#6c5ffc');  
+    $('#menuformulacion').addClass('is-expanded');
+    //$('#submenuacreditacion').addClass('is-expanded');
+    $('#subfichatecnica').addClass('is-expanded');
+    $('#subitemmenu27').css('color', '#6c5ffc');
 }
 
 

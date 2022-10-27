@@ -565,10 +565,10 @@ function EjecutarDetalleInformacionGeneral() {
     });
 
 
-    //$('#menuformulacion').addClass('is-expanded');
-    ////$('#submenuacreditacion').addClass('is-expanded');
-    //$('#subfichatecnica').addClass('is-expanded');
-    //$('#subitemmenu23').css('color', '#6c5ffc');  
+    $('#menuformulacion').addClass('is-expanded');
+    //$('#submenuacreditacion').addClass('is-expanded');
+    $('#subfichatecnica').addClass('is-expanded');
+    $('#subitemmenu26').css('color', '#6c5ffc');  
 }
 
 function openData(verb, url, data, target) {

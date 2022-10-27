@@ -343,6 +343,11 @@ function EjecutarDetalleInformacionGeneral() {
                 $('#cbocargo').append("<option value='" + value.iCodCargo + "' data-value='" + JSON.stringify(value.iCodCargo) + "'>" + value.vDescripcion + "</option>");
             });
         });
+
+    $('#menuformulacion').addClass('is-expanded');
+    //$('#submenuacreditacion').addClass('is-expanded');
+    $('#subfichatecnica').addClass('is-expanded');
+    $('#subitemmenu28').css('color', '#6c5ffc');
 }
 function CargarUbigeo(vCodDepartamento, vCodProvincia, vCodDistrito) {
     $.post(globals.urlUbigeoProvincia, { vCodDepartamento: vCodDepartamento })
