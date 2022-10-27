@@ -143,6 +143,11 @@ function EjecutarDetalleInformacionGeneral() {
                 }
             });        
     });
+
+    $('#menuformulacion').addClass('is-expanded');
+    //$('#submenuacreditacion').addClass('is-expanded');
+    $('#subfichatecnica').addClass('is-expanded');
+    $('#subitemmenu22').css('color', '#6c5ffc');
 }
 
 function format(d) {   
