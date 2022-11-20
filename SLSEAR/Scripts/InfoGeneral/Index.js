@@ -11,7 +11,19 @@
     vProcesoProductivaT1: '',
     vLineaPrioritariaT1:''
 };
+function daysdifference(firstDate, secondDate) {
+    var startDay = new Date(firstDate);
+    var endDay = new Date(secondDate);
 
+    // Determine the time difference between two dates     
+    var millisBetween = startDay.getTime() - endDay.getTime();
+
+    // Determine the number of days between two dates  
+    var days = millisBetween / (1000 * 3600 * 24);
+
+    // Show the final number of days between dates     
+    return Math.round(Math.abs(days));
+}
 function EjecutarDetalleInformacionGeneral() {
 
     var arreglousuario = new Array();
@@ -64,6 +76,7 @@ function EjecutarDetalleInformacionGeneral() {
                 $('#vDireccionT2').val(respuesta[0].vDireccionT2);
                 $('#vDireccionZonaAgroruralT2').val(respuesta[0].vDireccionZonaAgroruralT2);
                 $('#vTelefonoT2').val(respuesta[0].vTelefonoT2);
+                retornarcalculomeses();
             } 
             // Cargar Regiones ///
             $('#cboregion').empty();
@@ -247,12 +260,17 @@ function EjecutarDetalleInformacionGeneral() {
             $('#vDniT3').val(respuesta.vDni);
             $('#vRucT3').val(respuesta.vRuc);
             $('#vDireccionT3').val(respuesta.vDomicilio);        
-            $('#vNombreSearT1').val(respuesta.vNombrePropuesta);
+            //$('#vNombreSearT1').val(respuesta.vNombrePropuesta);
             //$.each(respuesta, function (key, value) {
             //    $('#cbolineaprioritaria').append("<option value='" + value.iCodLineaPriori + "' data-value='" + JSON.stringify(value.iCodLineaPriori) + "'>" + value.vDescLineaPriori + "</option>");
             //});
         });
-
+    $('#dFechaInicioServicioT1').on('change', function (e) {        
+        retornarcalculomeses();
+    });
+    $('#dFechaFinServicioT1').on('change', function (e) {
+        retornarcalculomeses();
+    });
 
     $('#cbosector').on('change', function () {
         obtenerlineaprioritaria();
@@ -262,23 +280,23 @@ function EjecutarDetalleInformacionGeneral() {
     });
 
     $('#vNaturalezaIntervencionT1').on('blur', function (e) {
-        //GenerarNombre();
+        GenerarNombre();
     });
 
     $('#vLineaPrioritariaT1').on('blur', function (e) {
-        //GenerarNombre();
+        GenerarNombre();
     });
 
     $('#cboregion').on('change', function (e) {
-        //GenerarNombre();
+        GenerarNombre();
     });
 
     $('#cboprovincia').on('change', function (e) {
-        //GenerarNombre();
+        GenerarNombre();
     });
 
     $('#iCodUbigeoT1').on('change', function (e) {
-        //GenerarNombre();
+        GenerarNombre();
     });
 
     general.tablaproductores = $("#tblproductores").DataTable({
@@ -323,6 +341,15 @@ function EjecutarDetalleInformacionGeneral() {
                     if (general.tablaproductores.data().length > 0) {
                         $('#btndescargar').removeAttr('disabled');
                         $('#total').val(general.tablaproductores.data()[0].totalRegistros);
+                        $('#masculino').val(general.tablaproductores.data()[0].cantidadmasculino);        
+                        $('#femenino').val(general.tablaproductores.data()[0].cantidadfemenino);   
+                        $('#promedio').val(general.tablaproductores.data()[0].promedio);   
+                        $('#jovenes').val(general.tablaproductores.data()[0].jovenes);   
+                        $('#porjovenes').val(general.tablaproductores.data()[0].porjovenes);   
+                        $('#porfemenino').val(general.tablaproductores.data()[0].porfemenino);   
+                        $('#recibiocapa').val(general.tablaproductores.data()[0].recibiocapacitacion);   
+                        $('#porrecibiocapa').val(general.tablaproductores.data()[0].porrecibiocapacitacion);   
+                        
                     }
                 })
                 .fail(function (error) {
@@ -694,12 +721,22 @@ function EjecutarDetalleInformacionGeneral() {
         parametros.vCoordenadasUTMNorteT1 = $('#vCoordenadasUTMNorteT1').val(); // 11
 
         parametros.vCoordenadasUTMEsteT1 = $('#vCoordenadasUTMEsteT1').val(); // 12
+        debugger;
 
         parametros.dFechaInicioServicioT1 = $("#dFechaInicioServicioT1").val(); // 13
 
+        parametros.dFechaInicioServicioT1 = parametros.dFechaInicioServicioT1.split("-")[2] + "-" + parametros.dFechaInicioServicioT1.split("-")[1] + "-" + parametros.dFechaInicioServicioT1.split("-")[0];
+
         parametros.dFechaFinServicioT1 = $('#dFechaFinServicioT1').val(); //14
 
+        parametros.dFechaFinServicioT1 = parametros.dFechaFinServicioT1.split("-")[2] + "-" + parametros.dFechaFinServicioT1.split("-")[1] + "-" + parametros.dFechaFinServicioT1.split("-")[0];
+
         parametros.iDuracionT1 = $('#iDuracionT1').val(); // 15
+
+        console.log('dias diferencia');
+
+        //console.log(daysdifference(parametros.dFechaInicioServicioT1, parametros.dFechaFinServicioT1));
+        console.log(monthDiff(new Date(parametros.dFechaInicioServicioT1),new Date(parametros.dFechaFinServicioT1)));
 
         /// 1.2
 
@@ -773,6 +810,31 @@ function EjecutarDetalleInformacionGeneral() {
     $('#subitemmenu21').css('color', '#6c5ffc');    
 }
 
+function monthDiff(d1, d2) {
+    var months; months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
+}
+
+
+function formatfecha(dateObject) {
+    debugger;
+    var d = new Date(dateObject);
+    var day = d.getDate();
+    var month = d.getMonth() + 1;
+    var year = d.getFullYear();
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+    var date = day + "-" + month + "-" + year;
+
+    return date;
+};
+
 function limpiar() {
     $('#vRucOrg').val('');
     $('#vNombreRepreseanteOrg').val('');
@@ -838,7 +900,19 @@ function EditarProductor(obj) {
     $('#modalorganizacion').modal({ backdrop: 'static', keyboard: false });
     $('#modalorganizacion').modal('show');   
 }
+function retornarcalculomeses() {
+    let entidad = {};
+    entidad.dFechaInicioServicioT1 = $('#dFechaInicioServicioT1').val();
+    entidad.dFechaInicioServicioT1 = entidad.dFechaInicioServicioT1.split("-")[2] + "-" + entidad.dFechaInicioServicioT1.split("-")[1] + "-" + entidad.dFechaInicioServicioT1.split("-")[0];
+    entidad.dFechaFinServicioT1 = $('#dFechaFinServicioT1').val();
+    entidad.dFechaFinServicioT1 = entidad.dFechaFinServicioT1.split("-")[2] + "-" + entidad.dFechaFinServicioT1.split("-")[1] + "-" + entidad.dFechaFinServicioT1.split("-")[0];;
 
+    $.post(globals.urlWebApi + "api/FichaTecnica/RetornarDiferenciaMeses", entidad)
+        .done((respuesta) => {            
+            console.log(respuesta);
+            $('#iDuracionT1').val(respuesta);;
+        });
+}
 function obtenersector() {
     return $.ajax({ type: "POST", url: globals.urlWebApi +"api/FichaTecnica/ListarSector", headers: { Accept: "application/json" }, dataType: 'json' });
 }

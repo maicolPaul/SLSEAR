@@ -42,6 +42,20 @@ function EjecutarDetalleInformacionGeneral() {
 
         openData('POST', globals.urlWebApi + 'api/Cronograma/ExportarCronograma', datos, '_blank');
     });
+    $('#cboComponentefiltro').on('change', function () {
+        general.tblcronograma.clear().draw();
+    });
+
+    $('#cboComponentefiltro').empty();
+    $('#cboComponentefiltro').append("<option value='0'>Seleccione</option>");
+    debugger;
+    $.when(obtenerComponentes({ iCodExtensionista: general.usuario }))
+        .done((niveles) => {
+            debugger;
+            $.each(niveles, function (key, value) {
+                $('#cboComponentefiltro').append("<option value='" + value.iCodComponente + "' data-value='" + JSON.stringify(value.iCodComponente) + "'>" + value.vDescripcion + "</option>");
+            });
+        });
 
     general.tblcronograma = $("#tblcronograma").DataTable({
         bFilter: false
@@ -66,7 +80,8 @@ function EjecutarDetalleInformacionGeneral() {
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodCronograma"
                 , pvSortOrder: "asc"
-                , iCodExtensionista: general.usuario                
+                , iCodExtensionista: general.usuario,
+                iCodComponente: $('#cboComponentefiltro').val()
             };
             $.ajax({
                 type: "POST",
@@ -372,4 +387,15 @@ function openData(verb, url, data, target) {
     form.style.display = 'none';
     document.body.appendChild(form);
     form.submit();
+}
+
+function obtenerComponentes(data) {
+
+    return $.ajax({
+        type: "POST",
+        url: globals.urlWebApi + "api/PlanCapacitacion/ComponentesPorExtensionista",
+        headers: { Accept: "application/json"/*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+        dataType: 'json',
+        data: data
+    });
 }

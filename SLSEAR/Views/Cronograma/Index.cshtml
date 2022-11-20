@@ -11,15 +11,28 @@
             <div class="card-header cardheadertitle">
                 <h4 class="card-title">
                     Cronograma Detallado
-                </h4>
+                </h4>              
             </div>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-9">
+                        <h4>Lista de Cronograma</h4>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-label">Componentes Por Usuario</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboComponentefiltro">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>                
                 <div class="row">
                     <div class="col-sm-12 col-md-12" style="text-align:right">
                         <button type="button" class="btn btn-success" id="btnagregar"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i> Agregar</button>
                     </div>
                 </div>
-                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcronograma">                 
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcronograma">
                 </table>
                 <div class="row">
                     <div class="col-sm-12 col-md-12" style="text-align:right">
