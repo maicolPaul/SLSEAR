@@ -406,8 +406,8 @@ function CargarCausasIndirectas(iCodCausaDirecta, iCodComponente) {
 
 function CargarActividades(iCodComponente) {    
     debugger;    
-    if (!$.fn.dataTable.isDataTable('#tblactividades' + iCodComponente)) {        
-        general.tblactividades = $('#tblactividades' + iCodComponente).DataTable({
+    //if (!$.fn.dataTable.isDataTable('#tblactividades' + iCodComponente)) {        
+        general.tblactividades = $('#tblactividades').DataTable({
             bFilter: false
             , serverSide: true
             , searching: false
@@ -419,7 +419,7 @@ function CargarActividades(iCodComponente) {
             , drawCallback: function () {
                 //$('select[name="tblComunidadOpa_length"]').formSelect();
                 //$('.tooltipped').tooltip();
-                $('#tblactividades' + iCodComponente + ' thead').attr('class', 'table-success');
+                $('#tblactividades thead').attr('class', 'table-success');
                 $('[data-toggle="tooltip"]').tooltip();
             }
             , language: globals.lenguajeDataTable
@@ -430,8 +430,9 @@ function CargarActividades(iCodComponente) {
                     , piCurrentPage: paginaActual
                     , pvSortColumn: "iCodActividad"
                     , pvSortOrder: "asc"
-                    , iCodIdentificacion: iCodComponente
+                    , iCodIdentificacion: $("#cboComponenteSelectAct").val()
                 };
+                debugger;
                 $.ajax({
                     type: "POST",
                     url: globals.urlWebApi + "api/Identificacion/ListarActividadesPorComponente",
@@ -471,10 +472,11 @@ function CargarActividades(iCodComponente) {
                 }
             ]
         });
-    } else {
-        general.tblactividades.draw().clear();
-    }
+    //} else {
+    //    general.tblactividades.draw().clear();
+    //}
 }
+
 function CargarComponentes() {
     //tblcomponentes
     general.tblcomponentes = $("#tblcomponentes").DataTable({
@@ -500,7 +502,7 @@ function CargarComponentes() {
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodComponente"
                 , pvSortOrder: "asc"
-                , iCodIdentificacion: general.iCodIdentificacion                
+                , iCodIdentificacion: general.iCodIdentificacion 
             };
             $.ajax({
                 type: "POST",
@@ -525,12 +527,12 @@ function CargarComponentes() {
                 });
         }
         , columns: [
-            {
-                className: 'dt-control',
-                orderable: false,
-                data: null,
-                defaultContent: '',
-            },
+            //{
+            //    className: 'dt-control',
+            //    orderable: false,
+            //    data: null,
+            //    defaultContent: '',
+            //},
             { data: "iCodComponente", title: "iCodComponente", visible: false, orderable: false },
             { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
             { data: "vDescripcion", title: "Descripcion", visible: false, orderable: false },
@@ -538,7 +540,9 @@ function CargarComponentes() {
             { data: "vIndicador", title: "Indicador", visible: true, orderable: false },
             { data: "vUnidadMedida", title: "Unidad Medida", visible: true, orderable: false },
             { data: "vMeta", title: "Meta", visible: true, orderable: false },
-            { data: "vMedio", title: "Medio", visible: true, orderable: false },
+            { data: "vMedio", title: "Medio", visible: false, orderable: false },
+            { data: "vMedio_", title: "Medio", visible: true, orderable: false },
+            { data: "nTipoComponente", title: "nTipoComponente", visible: false, orderable: false },
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
@@ -546,7 +550,7 @@ function CargarComponentes() {
                     acciones += `<a href="javascript:void(0);" onclick ="EditarComponente(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
                     acciones += `<a href="javascript:void(0);" onclick ="EliminarComponente(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>&nbsp&nbsp&nbsp`;
-                    acciones += `<a href="javascript:void(0);" onclick ="agregaractividad(${row.iCodComponente});"  data-toggle="tooltip" title="Agregar Actividad"><i class="fa fa-plus-circle" aria-hidden="true"></a>`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="agregaractividad(${row.iCodComponente});"  data-toggle="tooltip" title="Agregar Actividad"><i class="fa fa-plus-circle" aria-hidden="true"></a>`;
                     //}
                     acciones += `</div>`;
                     return acciones;
@@ -555,29 +559,29 @@ function CargarComponentes() {
         ]
     });
 
-    $('#tblcomponentes tbody').on('click', 'td.dt-control', function () {
-        var tr = $(this).closest('tr');
-        var row = general.tblcomponentes.row(tr);
+    //$('#tblcomponentes tbody').on('click', 'td.dt-control', function () {
+    //    var tr = $(this).closest('tr');
+    //    var row = general.tblcomponentes.row(tr);
 
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        } else {
-            // Open this row
-            row.child(format(row.data())).show();
-            console.log(row.data());
-            tr.addClass('shown');
-            CargarActividades(row.data().iCodComponente);
-        }
-    });
+    //    if (row.child.isShown()) {
+    //        // This row is already open - close it
+    //        row.child.hide();
+    //        tr.removeClass('shown');
+    //    } else {
+    //        // Open this row
+    //        row.child(format(row.data())).show();
+    //        console.log(row.data());
+    //        tr.addClass('shown');
+    //        CargarActividades(row.data().iCodComponente);
+    //    }
+    //});
 }
 /* Formatting function for row details - modify as you need */
 function format(d) {
     //debugger;
     // `d` is the original data object for the row
     return (
-        '<table id="tblactividades' + d.iCodComponente +'" class="table table-bordered text-nowrap border-bottom dataTable" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+        '<table id="tblactividades class="table table-bordered text-nowrap border-bottom dataTable" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
         '</table>'
     );   
 }
@@ -612,6 +616,27 @@ function EditarComponente(obj) {
 
     general.accion = 2;
 
+    $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+        .done((Componentes) => {
+            $('#cboComponenteSelect').empty();
+            $('#cboComponenteSelect').append("<option value='0'>Seleccione</option>");
+            $.each(Componentes, function (key, value) {
+                $('#cboComponenteSelect').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+            });
+            $('#vdescripcioncom').val('');
+
+            $('#cboComponenteSelectAct').empty();
+            $('#cboComponenteSelectAct').append("<option value='0'>Seleccione</option>");
+            $.each(Componentes, function (key, value) {
+                $('#cboComponenteSelectAct').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+            });
+            $('#vdescripcioncom').val('');
+            $("#cboComponenteSelect").val(general.elementoSeleccionado.nTipoComponente);
+        }).fail((error) => {
+        });
+    debugger;
+
+    
     $('#vdescripcioncom').val(general.elementoSeleccionado.vDescripcion);
     $('#vindicadorcomp1').val(general.elementoSeleccionado.vIndicador);
     $('#vunidadmedidaindcomp1').val(general.elementoSeleccionado.vUnidadMedida);
@@ -803,12 +828,15 @@ function EjecutarDetalleInformacionGeneral() {
                     cuandoAjaxFalla(error.status);
                 });
         }
-        , columns: [           
+        , columns: [
             { data: "iCodTecnologia", title: "iCodTecnologia", visible: false, orderable: false },
             { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
-            { data: "vtecnologia1", title: "Tecnologia 1", visible: true, orderable: false },
-            { data: "vtecnologia2", title: "Tecnologia 2", visible: true, orderable: false },
-            { data: "vtecnologia3", title: "Tecnologia 3", visible: true, orderable: false },
+            { data: "vtecnologia1", title: "Tecnologia 1", visible: false, orderable: false },
+            { data: "vtecnologia2", title: "Tecnologia 2", visible: false, orderable: false },
+            { data: "vtecnologia3", title: "Tecnologia 3", visible: false, orderable: false },
+            { data: "vtecnologia1Corta", title: "Tecnologia 1", visible: true, orderable: false },
+            { data: "vtecnologia2Corta", title: "Tecnologia 2", visible: true, orderable: false },
+            { data: "vtecnologia3Corta", title: "Tecnologia 3", visible: true, orderable: false },
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
@@ -831,10 +859,32 @@ function EjecutarDetalleInformacionGeneral() {
     //debugger;
     $.post(globals.urlWebApi + "api/Identificacion/ListarIdentificacion", dato)
         .done((respuesta) => {
-            console.log("Datos Identificacion");                        
-            console.log(respuesta);                        
+            console.log("Datos Identificacion");
+            console.log(respuesta);
             if (respuesta.length > 0) {
                 general.iCodIdentificacion = respuesta[0].iCodIdentificacion;
+
+                /**************************************************/
+
+
+                $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+                    .done((Componentes) => {
+                        $('#cboComponenteSelect').empty();
+                        $('#cboComponenteSelect').append("<option value='0'>Seleccione</option>");
+                        $.each(Componentes, function (key, value) {
+                            $('#cboComponenteSelect').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                        });
+                        $('#vdescripcioncom').val('');
+
+                        $('#cboComponenteSelectAct').empty();
+                        $('#cboComponenteSelectAct').append("<option value='0'>Seleccione</option>");
+                        $.each(Componentes, function (key, value) {
+                            $('#cboComponenteSelectAct').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                        });
+                        $('#vdescripcioncom').val('');
+                    }).fail((error) => {
+                    });
+                /***************************************************/
                 $('#vLimitaciones').val(respuesta[0].vLimitaciones);
                 $('#vEstadoSituacional').val(respuesta[0].vEstadoSituacional);
                 $('#vproblemacentral').val(respuesta[0].vProblemacentral);
@@ -845,7 +895,7 @@ function EjecutarDetalleInformacionGeneral() {
                 $('#vunidadmedida').val(respuesta[0].vUnidadMedida);
                 $('#vrendimientocadenaproductiva').val(respuesta[0].vRendimientoCadenaProductiva);
                 $('#vgremios').val(respuesta[0].vGremios);
-                $('#vobjetivocentral').val(respuesta[0].vObjetivoCentral);     
+                $('#vobjetivocentral').val(respuesta[0].vObjetivoCentral);
                 ActivarBotones(false);
 
                 general.acciongeneral = 2;
@@ -878,13 +928,13 @@ function EjecutarDetalleInformacionGeneral() {
                 //        //console.table(respuesta);
                 //        $.each(respuesta, function (key, value) {
                 //            $('#tblobjetivo > tbody').append("<tr><td id='" + value.iCodigoIdentificador + "'>" + value.vDescIdentificador + "</td><td>" + value.vUnidadMedida + "</td><td>" + value.vMeta + "</td><td>" + value.vMedioVerificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarindicador(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-                            
+
                 //            general.listaindicadores.push({ iCodigoIdentificador: value.iCodigoIdentificador, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedioVerificacion: value.vMedioVerificacion });
                 //        });                        
                 //    });
                 // Listar Componentes
                 //CargarComponentes();
-               
+
 
                 //$.post(globals.urlWebApi + "api/Identificacion/ListarComponentePorUsuario", datoidentificacion)
                 //    .done((respuesta) => {
@@ -899,7 +949,7 @@ function EjecutarDetalleInformacionGeneral() {
                 //            //general.listaindicadores.push({ iCodigoIdentificador: value.iCodigoIdentificador, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedioVerificacion: value.vMedioVerificacion });
                 //        });
                 //    });
-                
+
                 //Listar Actividades
                 //var cantidad1 = 0;
                 //var cantidad2 = 0;
@@ -921,7 +971,7 @@ function EjecutarDetalleInformacionGeneral() {
                 //        });
                 //    });
 
-            }            
+            }
         });
 
     $('#btneliminarcausadirecta').on('click', function () {
@@ -960,6 +1010,7 @@ function EjecutarDetalleInformacionGeneral() {
                 }
             });
     });
+
     $('#btneliminaractividad').on('click', function () {
         debugger;
         console.log(general.iCodActividad);
@@ -969,9 +1020,9 @@ function EjecutarDetalleInformacionGeneral() {
 
         $.post(globals.urlWebApi + "api/Identificacion/EliminarActividad", datos)
             .done((respuesta) => {
-                if (respuesta.iCodActividad != 0) {                   
+                if (respuesta.iCodActividad != 0) {
                     debugger;
-                    $('#tblactividades' + general.iCodComponente).DataTable().draw().clear();              
+                    $('#tblactividades' + general.iCodComponente).DataTable().draw().clear();
                     $('#modaleliminaractividad').modal('hide');
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
@@ -980,6 +1031,7 @@ function EjecutarDetalleInformacionGeneral() {
                 }
             });
     });
+
     $('#btneliminartecnologia').on('click', function () {
         //general.elementoSeleccionadoTecnologia 
         $.post(globals.urlWebApi + "api/Identificacion/EliminarTecnologia", general.elementoSeleccionadoTecnologia)
@@ -993,14 +1045,14 @@ function EjecutarDetalleInformacionGeneral() {
                         type: "success"
                     });
                 }
-            });       
+            });
     });
 
     $('#btnagregarcausasdirectas').on('click', function () {
         general.accion = 1;
-        $('#vcausadirecta').val(''); 
+        $('#vcausadirecta').val('');
         $('#modalcausasdirectas').modal({ backdrop: 'static', keyboard: false });
-        $('#modalcausasdirectas').modal('show');   
+        $('#modalcausasdirectas').modal('show');
     });
 
     $('#btnguardarcausasdirectas').on('click', function () {
@@ -1047,11 +1099,11 @@ function EjecutarDetalleInformacionGeneral() {
                         });
                     }
                 });
-        } 
+        }
     });
 
     $('#btnguardartecnologia').on('click', function () {
-   
+
         if ($('#vtecnologia1').val().trim() == '') {
             notif({
                 msg: "<b>Incorrecto:</b> Ingresa Tecnologias/practicas usadas en la situacion actual",
@@ -1082,13 +1134,13 @@ function EjecutarDetalleInformacionGeneral() {
         datos.vtecnologia1 = $('#vtecnologia1').val();
         datos.vtecnologia2 = $('#vtecnologia2').val();
         datos.vtecnologia3 = $('#vtecnologia3').val();
-        datos.iCodIdentificacion = general.iCodIdentificacion;        
+        datos.iCodIdentificacion = general.iCodIdentificacion;
         if (general.accion == 1) {
             $.post(globals.urlWebApi + "api/Identificacion/InsertarTecnologia", datos)
                 .done((respuesta) => {
                     if (respuesta.iCodTecnologia != 0) {
                         debugger;
-                        general.tbltecnologias .draw().clear();
+                        general.tbltecnologias.draw().clear();
                         $('#modaltecnologia').modal('hide');
                         notif({
                             msg: "<b>Correcto:</b>" + respuesta.vMensaje,
@@ -1113,24 +1165,27 @@ function EjecutarDetalleInformacionGeneral() {
                     }
                 });
         }
-        
 
 
-       
+
+
     })
+
     $('#btnagregartecnologia').on('click', function () {
         general.accion = 1;
         limpiar();
         $('#modaltecnologia').modal({ backdrop: 'static', keyboard: false });
-        $('#modaltecnologia').modal('show');   
+        $('#modaltecnologia').modal('show');
     });
+
     $('#btnagregarefectosdirectos').on('click', function () {
         general.accion = 1;
         $('#vefectodirecto').val('');
         $('#modalefectosdirectos').modal({ backdrop: 'static', keyboard: false });
-        $('#modalefectosdirectos').modal('show');           
+        $('#modalefectosdirectos').modal('show');
 
     });
+
     $('#btnguardarefectodirecto').on('click', function () {
         if ($('#vefectodirecto').val().trim() == '') {
             notif({
@@ -1158,7 +1213,7 @@ function EjecutarDetalleInformacionGeneral() {
                             type: "success"
                         });
                     }
-                });    
+                });
         } else {
 
             datos.iCodEfecto = general.elementoSeleccinadoEfectoDirecto.iCodEfecto;
@@ -1173,10 +1228,11 @@ function EjecutarDetalleInformacionGeneral() {
                             type: "success"
                         });
                     }
-                });   
+                });
         }
     });
-    $('#btnguardar').on('click', function () {       
+
+    $('#btnguardar').on('click', function () {
         if ($('#vLimitaciones').val().trim() == '') {
             notif({
                 msg: "<b>Incorrecto:</b> Ingresa Limitacion",
@@ -1192,7 +1248,7 @@ function EjecutarDetalleInformacionGeneral() {
             });
             $('#vEstadoSituacional').focus();
             return;
-        }        
+        }
 
         if ($('#vproblemacentral').val().trim() == '') {
             notif({
@@ -1201,7 +1257,7 @@ function EjecutarDetalleInformacionGeneral() {
             });
             $('#vproblemacentral').focus();
             return;
-        }   
+        }
 
         if ($('#vnumerounidadesproductivas').val().trim() == '') {
             notif({
@@ -1210,7 +1266,7 @@ function EjecutarDetalleInformacionGeneral() {
             });
             $('#vnumerounidadesproductivas').focus();
             return;
-        }  
+        }
 
         if ($('#vunidadmedidaproductivas').val().trim() == '') {
             notif({
@@ -1274,12 +1330,12 @@ function EjecutarDetalleInformacionGeneral() {
             $('#vobjetivocentral').focus();
             return;
         }
-  
+
         var datos = {};
         datos.vLimitaciones = $('#vLimitaciones').val();
         datos.vEstadoSituacional = $('#vEstadoSituacional').val();
         datos.vProblemacentral = $('#vproblemacentral').val();
-        
+
         datos.vNumeroUnidadesProductivas = $('#vnumerounidadesproductivas').val();
         datos.vUnidadMedidaProductivas = $('#vunidadmedidaproductivas').val();
         datos.vNumerosFamiliares = $('#vnumerosfamiliares').val();
@@ -1296,16 +1352,16 @@ function EjecutarDetalleInformacionGeneral() {
             datos.iCodIdentificacion = general.iCodIdentificacion;
         }
         var tecnologias = new Array();
-        
+
         $.each(general.listatecnologias, function (key, value) {
             tecnologias.push({ vtecnologia1: value.vtecnologia1, vtecnologia2: value.vtecnologia2, vtecnologia3: value.vtecnologia3 });
         });
-                
-        datos.listatecnologias = tecnologias;        
+
+        datos.listatecnologias = tecnologias;
         var indicadores = new Array();
 
-        $.each(general.listaindicadores, function (key, value)  {
-            indicadores.push({ iCodigoIdentificador: value.iCodigoIdentificador, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedioVerificacion: value.vMedioVerificacion});
+        $.each(general.listaindicadores, function (key, value) {
+            indicadores.push({ iCodigoIdentificador: value.iCodigoIdentificador, vUnidadMedida: value.vUnidadMedida, vMeta: value.vMeta, vMedioVerificacion: value.vMedioVerificacion });
         });
 
         datos.listaindicadores = indicadores;
@@ -1317,12 +1373,12 @@ function EjecutarDetalleInformacionGeneral() {
         $.each(general.listacausasdirectas, function (key, value) {
             var id = value.id;
             $.each(value.listacaudasindirecta, function (key1, value1) {
-                causasindirectas.push({ iCodCausaDirecta: id, vDescrCausaInDirecta:value1.vdescrcausadirecta });
-            });      
-        });                
+                causasindirectas.push({ iCodCausaDirecta: id, vDescrCausaInDirecta: value1.vdescrcausadirecta });
+            });
+        });
 
         datos.listacausasindirectas = causasindirectas;
-                
+
         datos.listaefectosdirectos = general.listaefectosdirectos;
 
         var efectosindirectos = new Array();
@@ -1332,16 +1388,16 @@ function EjecutarDetalleInformacionGeneral() {
             $.each(value.listaefectoindirecto, function (key1, value1) {
                 efectosindirectos.push({ iCodEfectoDirecto: id, vdescrefectoindirecto: value1.vdescrefectoindirecto });
             });
-        });  
+        });
         datos.listaefectoindirectos = efectosindirectos;
 
         datos.listacomponente = general.listacomponente;
 
         datos.listaactividad = general.listaactividades;
-                
+
         $.post(globals.urlWebApi + "api/Identificacion/InsertarIdentificacion", datos)
             .done((respuesta) => {
-                if (respuesta.iCodIdentificacion != 0) {   
+                if (respuesta.iCodIdentificacion != 0) {
                     general.iCodIdentificacion = respuesta.iCodIdentificacion;
                     ActivarBotones(false);
                     notif({
@@ -1353,8 +1409,8 @@ function EjecutarDetalleInformacionGeneral() {
     });
 
     $('#tblefectosdirectos').on('click', '.btnaddefectoindirecto', function (event) {
-        
-        console.log(event.target.id);                
+
+        console.log(event.target.id);
         $('#vefectoindirecto').val('');
         $('#btnguardarefectoindirecto').attr('tabla', $("#" + event.target.id).attr('tabla'));
         $('#modalefectosindirectos').modal({ backdrop: 'static', keyboard: false });
@@ -1390,7 +1446,7 @@ function EjecutarDetalleInformacionGeneral() {
                             type: "success"
                         });
                     }
-                }); 
+                });
         } else {
             datos.iCodEfectoIndirecto = general.iCodEfectoIndirecto;
 
@@ -1406,9 +1462,9 @@ function EjecutarDetalleInformacionGeneral() {
                             type: "success"
                         });
                     }
-                }); 
-        }        
-        
+                });
+        }
+
     });
 
     $('#btnguardarobjetivo').on('click', function () {
@@ -1446,7 +1502,7 @@ function EjecutarDetalleInformacionGeneral() {
             return;
         }
 
- 
+
         let datos = {};
         datos.iCodIdentificacion = general.iCodIdentificacion;
         datos.iCodigoIdentificador = $('#cboindicador').val();
@@ -1466,7 +1522,7 @@ function EjecutarDetalleInformacionGeneral() {
                             type: "success"
                         });
                     }
-                });  
+                });
         } else {
             datos.iCodIndicador = general.elementoSeleccionadoIndicador.iCodIndicador;
 
@@ -1481,12 +1537,12 @@ function EjecutarDetalleInformacionGeneral() {
                             type: "success"
                         });
                     }
-                });  
+                });
 
         }
     });
-    
-    $('#btnagregarobjetivo').on('click', function () {    
+
+    $('#btnagregarobjetivo').on('click', function () {
         limpiarindicadores();
         general.accion = 1;
         $('#modalobjetivo').modal({ backdrop: 'static', keyboard: false });
@@ -1496,6 +1552,23 @@ function EjecutarDetalleInformacionGeneral() {
     $('#btnagregarcomponente1').on('click', function () {
         limpiarcomponente1();
         general.accion = 1;
+        $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+            .done((Componentes) => {
+                $('#cboComponenteSelect').empty();
+                $('#cboComponenteSelect').append("<option value='0'>Seleccione</option>");
+                $.each(Componentes, function (key, value) {
+                    $('#cboComponenteSelect').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                });
+                $('#vdescripcioncom').val('');
+
+                $('#cboComponenteSelectAct').empty();
+                $('#cboComponenteSelectAct').append("<option value='0'>Seleccione</option>");
+                $.each(Componentes, function (key, value) {
+                    $('#cboComponenteSelectAct').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                });
+                $('#vdescripcioncom').val('');
+            }).fail((error) => {
+        });
         $('#modalcomponente1').modal({ backdrop: 'static', keyboard: false });
         $('#modalcomponente1').modal('show');
     });
@@ -1506,7 +1579,7 @@ function EjecutarDetalleInformacionGeneral() {
         $('#modalcomponente2').modal({ backdrop: 'static', keyboard: false });
         $('#modalcomponente2').modal('show');
     });
-    
+
 
     $('#btnagregaractividad1').on('click', function () {
         general.accion = 1;
@@ -1520,12 +1593,12 @@ function EjecutarDetalleInformacionGeneral() {
 
     $('#btnguardarcomp1').on('click', function () {
 
-        if ($('#vdescripcioncom').val().trim() == '') {
+        if ($('#cboComponenteSelect').val() == 0) {
             notif({
-                msg: "<b>Incorrecto:</b>Ingrese Descripciòn",
+                msg: "<b>Incorrecto:</b>Seleccionar Componente",
                 type: "error"
             });
-            $('#vdescripcioncom').focus();
+            $('#cboComponenteSelect').focus();
             return;
         }
 
@@ -1571,17 +1644,17 @@ function EjecutarDetalleInformacionGeneral() {
         var meta = $('#vmetacomp1').val();
         var medioverificacion = $('#vmediocomp1').val();
 
-    
-        debugger;
+
+        
         let datos = {};
         datos.iCodIdentificacion = general.iCodIdentificacion;
-        datos.vDescripcion = $('#vdescripcioncom').val();
+        datos.vDescripcion =  $("#cboComponenteSelect option:selected").text();
         datos.vIndicador = indicador;
         datos.vUnidadMedida = unidadmedida;
         datos.vMeta = meta;
 
         datos.vMedio = medioverificacion;
-        datos.nTipoComponente = 1;
+        datos.nTipoComponente = $("#cboComponenteSelect").val();
 
         if (general.accion == 1) {
             $.post(globals.urlWebApi + "api/Identificacion/InsertarComponente", datos)
@@ -1610,8 +1683,8 @@ function EjecutarDetalleInformacionGeneral() {
                     }
                 });
 
-        }       
-      
+        }
+
     });
 
     $('#btnguardarcomp2').on('click', function () {
@@ -1658,14 +1731,14 @@ function EjecutarDetalleInformacionGeneral() {
         var medioverificacion = $('#vmediocomp2').val();
 
         if (general.accion == 1) {
-            $("#tblcomponente2 > tbody").append("<tr><td>" + indicador + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medioverificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente2(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");            
+            $("#tblcomponente2 > tbody").append("<tr><td>" + indicador + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medioverificacion + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editarcomponente2(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
             general.listacomponente.push({ vIndicador: indicador, vUnidadMedida: unidadmedida, vMeta: meta, vMedio: medioverificacion, nTipoComponente: 2 });
         } else {
             general.tractual.cells[0].innerHTML = indicador;
-            general.tractual.cells[1].innerHTML = unidadmedida;            
+            general.tractual.cells[1].innerHTML = unidadmedida;
             general.tractual.cells[2].innerHTML = meta;
-            general.tractual.cells[3].innerHTML = medioverificacion;   
-        }        
+            general.tractual.cells[3].innerHTML = medioverificacion;
+        }
         $('#modalcomponente2').modal('hide');
     });
 
@@ -1725,7 +1798,7 @@ function EjecutarDetalleInformacionGeneral() {
         var meta = $('#vmetaact1').val();
         var medio = $('#vmedioact1').val();
 
-        datos.iCodIdentificacion = general.iCodComponente;
+        datos.iCodIdentificacion = $("#cboComponenteSelectAct").val(); // general.iCodComponente;
         datos.vActividad = actividad;
         datos.vDescripcion = descripcion;
         datos.vUnidadMedida = unidadmedida;
@@ -1736,7 +1809,7 @@ function EjecutarDetalleInformacionGeneral() {
             $.post(globals.urlWebApi + "api/Identificacion/InsertarActividad", datos)
                 .done((respuesta) => {
                     if (respuesta.iCodActividad != 0) {
-                        $('#tblactividades' + general.iCodComponente).DataTable().draw().clear();
+                        $('#tblactividades').DataTable().draw().clear();
                         $('#modalactividad1').modal('hide');
                         notif({
                             msg: "<b>Correcto:</b>" + respuesta.vMensaje,
@@ -1751,7 +1824,7 @@ function EjecutarDetalleInformacionGeneral() {
             $.post(globals.urlWebApi + "api/Identificacion/ActualizarActividad", datos)
                 .done((respuesta) => {
                     if (respuesta.iCodActividad != 0) {
-                        $('#tblactividades' + general.iCodComponente).DataTable().draw().clear();
+                        $('#tblactividades').DataTable().draw().clear();
                         $('#modalactividad1').modal('hide');
                         notif({
                             msg: "<b>Correcto:</b>" + respuesta.vMensaje,
@@ -1760,8 +1833,8 @@ function EjecutarDetalleInformacionGeneral() {
                     }
                 });
         }
-        
-        
+
+
     });
 
     $('#btnguardaractividad2').on('click', function () {
@@ -1819,22 +1892,22 @@ function EjecutarDetalleInformacionGeneral() {
         var medio = $('#vmedioact2').val();
 
         if (general.accion == 1) {
-            var contador = ContarActividades(2);            
-            console.log("actividad 2 - " +contador);
-            $('#tblActividades2 > tbody').append("<tr id=2"+contador+"><td>" + actividad + "</td><td>" + descripcion + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editaractividad2(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
-            general.listaactividades.push({ id: "2" + contador,vActividad: actividad, vDescripcion: descripcion, vUnidadMedida: unidadmedida, vMeta: meta, vMedio: medio, nTipoActividad: 2 });
+            var contador = ContarActividades(2);
+            console.log("actividad 2 - " + contador);
+            $('#tblActividades2 > tbody').append("<tr id=2" + contador + "><td>" + actividad + "</td><td>" + descripcion + "</td><td>" + unidadmedida + "</td><td>" + meta + "</td><td>" + medio + "</td><td><div class='nav-actions'><a href='javascript:void(0);' onclick ='editaractividad2(this);' data-toggle='tooltip' title='Editar'><i class='bi bi-pencil'></i></a><a href='javascript:void(0);' onclick ='eliminarindicador(this);' data-toggle='tooltip' title='Eliminar'><i class='bi bi-trash-fill'></i></a></div></td></tr>");
+            general.listaactividades.push({ id: "2" + contador, vActividad: actividad, vDescripcion: descripcion, vUnidadMedida: unidadmedida, vMeta: meta, vMedio: medio, nTipoActividad: 2 });
         } else {
             general.tractual.cells[0].innerHTML = actividad;
             general.tractual.cells[1].innerHTML = descripcion;
-            general.tractual.cells[2].innerHTML = unidadmedida;   
-            general.tractual.cells[3].innerHTML = meta;   
-            general.tractual.cells[4].innerHTML = medio;   
-        }        
+            general.tractual.cells[2].innerHTML = unidadmedida;
+            general.tractual.cells[3].innerHTML = meta;
+            general.tractual.cells[4].innerHTML = medio;
+        }
 
         $('#modalactividad2').modal('hide');
     });
 
-    $('#btnagregaractividad2').on('click', function () {        
+    $('#btnagregaractividad2').on('click', function () {
         general.accion = 1;
         limpiaractividad2();
         var contador = ContarActividades(2);
@@ -1908,7 +1981,7 @@ function EjecutarDetalleInformacionGeneral() {
                         type: "success"
                     });
                 }
-            });   
+            });
     });
 
     $('#btneliminarefectoindirecto').on('click', function () {
@@ -1927,7 +2000,7 @@ function EjecutarDetalleInformacionGeneral() {
                         type: "success"
                     });
                 }
-            });  
+            });
     });
 
     $('#btneliminarindicador').on('click', function () {
@@ -1947,7 +2020,7 @@ function EjecutarDetalleInformacionGeneral() {
                         type: "success"
                     });
                 }
-            });  
+            });
     });
 
     $('#btneliminarcomponente').on('click', function () {
@@ -1971,10 +2044,177 @@ function EjecutarDetalleInformacionGeneral() {
     $('#menuformulacion').addClass('is-expanded');
     //$('#submenuacreditacion').addClass('is-expanded');
     $('#subfichatecnica').addClass('is-expanded');
-    $('#subitemmenu22').css('color', '#6c5ffc');  
+    $('#subitemmenu22').css('color', '#6c5ffc');
+
+    $('#btnagregarDescripComp').on('click', function (event) {
+        if ($('#vdescripcioncom').val() == '') {
+            notif({
+                msg: "<b>Incorrecto:</b>Ingresar Descripcion de Componente",
+                type: "error"
+            });
+            return;
+        }
+
+        let datos = {};
+
+        datos.iCodIdentificacion = general.iCodIdentificacion;
+        datos.vDescripcion = $('#vdescripcioncom').val();
+        datos.accion = 1;
+        datos.iOpcion = 1;
+
+        if (general.accion == 1) {
+            $.post(globals.urlWebApi + "api/Identificacion/InsertarCompDescrip", datos)
+                .done((respuesta) => {
+                    if (respuesta.iCodComponenteDesc != 0) {
+                        //$('#modalcomponente1').modal('hide');
+                        notif({
+                            msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                            type: "success"
+                        });
+                        debugger;
+                        // Listar Select Nuevamente
+                        $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+                            .done((Componentes) => {
+                                $('#cboComponenteSelect').empty();
+                                $('#cboComponenteSelect').append("<option value='0'>Seleccione</option>");
+                                $.each(Componentes, function (key, value) {
+                                    $('#cboComponenteSelect').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                                });
+                                $('#vdescripcioncom').val('');
+                            }).fail((error) => {
+                        });
+                    }
+                });
+        }
+    });
+
+    CargarActividades(0);
+
+   
+
+    $("#cboComponenteSelectAct").on('change', function (e) {
+        $("#vComponenteAct").val($("#cboComponenteSelectAct option:selected").text());
+        general.tblactividades.draw().clear();
+        
+
+    });
+
+    $('#btnagregarActividad').on('click', function (event) {
+        //debugger;
+        if ($("#cboComponenteSelectAct").val() == 0) {
+            notif({
+                msg: "<b>Incorrecto:</b>Debe Seleccionar un componente, para agregar una actividad.",
+                type: "error"
+            });
+            $('#modalactividad1').modal('hide');
+            $('#cboComponenteSelectAct').focus();
+            return;
+        }
+        $.when(obtenerCorrelativo({ iCodIdentificacion: $("#cboComponenteSelectAct").val() }))
+            .done((Componentes) => {
+                debugger;
+                $("#vactividadact1").val(Componentes.vActividadCorrelativo);
+                $('#modalactividad1').modal('show');
+            }).fail((error) => {
+            });
+        
+        //if ($('#vdescripcioncom').val() == '') {
+        //    notif({
+        //        msg: "<b>Incorrecto:</b>Ingresar Descripcion de Componente",
+        //        type: "error"
+        //    });
+        //    return;
+        //}
+
+        //let datos = {};
+
+        //datos.iCodIdentificacion = general.iCodIdentificacion;
+        //datos.vDescripcion = $('#vdescripcioncom').val();
+        //datos.accion = 1;
+        //datos.iOpcion = 1;
+
+        //if (general.accion == 1) {
+        //    $.post(globals.urlWebApi + "api/Identificacion/InsertarCompDescrip", datos)
+        //        .done((respuesta) => {
+        //            if (respuesta.iCodComponenteDesc != 0) {
+        //                //$('#modalcomponente1').modal('hide');
+        //                notif({
+        //                    msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+        //                    type: "success"
+        //                });
+        //                debugger;
+        //                // Listar Select Nuevamente
+        //                $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+        //                    .done((Componentes) => {
+        //                        $('#cboComponenteSelect').empty();
+        //                        $('#cboComponenteSelect').append("<option value='0'>Seleccione</option>");
+        //                        $.each(Componentes, function (key, value) {
+        //                            $('#cboComponenteSelect').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+        //                        });
+        //                        $('#vdescripcioncom').val('');
+        //                    }).fail((error) => {
+        //                    });
+        //            }
+        //        });
+        //}
+    });
+
+    $('#btnEliminarDescripComp').on('click', function (event) {
+        //debugger;
+        if ($("#cboComponenteSelect").val() == 0) {
+            notif({
+                msg: "<b>Incorrecto:</b>Debe Seleccionar un componente para eliminarlo.",
+                type: "error"
+            });
+            //$('#modalactividad1').modal('hide');
+            $('#cboComponenteSelect').focus();
+            return;
+        }
+        let datos = {};
+        datos.iCodComponenteDesc = $("#cboComponenteSelect").val();
+        datos.iOpcion = 3;
+        $.post(globals.urlWebApi + "api/Identificacion/InsertarCompDescrip", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodComponenteDesc != 0) {
+                    debugger;
+                    $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+                        .done((Componentes) => {
+                            $('#cboComponenteSelect').empty();
+                            $('#cboComponenteSelect').append("<option value='0'>Seleccione</option>");
+                            $.each(Componentes, function (key, value) {
+                                $('#cboComponenteSelect').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                            });
+                            $('#vdescripcioncom').val('');
+
+                            $('#cboComponenteSelectAct').empty();
+                            $('#cboComponenteSelectAct').append("<option value='0'>Seleccione</option>");
+                            $.each(Componentes, function (key, value) {
+                                $('#cboComponenteSelectAct').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                            });
+                            $('#vdescripcioncom').val('');
+                        }).fail((error) => {
+                        });
+
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });
 
 
+    });
+    
 
+}
+
+function obtenerCorrelativo(data) {
+    return $.ajax({ type: "POST", url: globals.urlWebApi + "api/Identificacion/ActividadCorrelativo", headers: { Accept: "application/json" }, dataType: 'json', data: data });
+    
+}
+
+function obtenerComponentes(data) {
+    return $.ajax({ type: "POST", url: globals.urlWebApi + "api/Identificacion/ListarComponentesSelect", headers: { Accept: "application/json" }, dataType: 'json', data: data });
 }
 
 function ContarActividades(tipo) {
@@ -1986,9 +2226,11 @@ function ContarActividades(tipo) {
     });
     return contador+1;
 }
+
 function editarcomponente(obj) {
     //debugger;
     var listafila = new Array()
+
     general.indiceseleccionado = obj.parentElement.parentElement.parentElement.rowIndex;
     general.tractual = obj.parentElement.parentElement.parentElement;    
     listafila = obj.parentElement.parentElement.parentElement.cells;
@@ -1996,6 +2238,25 @@ function editarcomponente(obj) {
     general.accion = 2;
     limpiarcomponente1();
 
+    //$.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+    //    .done((Componentes) => {
+    //        $('#cboComponenteSelect').empty();
+    //        $('#cboComponenteSelect').append("<option value='0'>Seleccione</option>");
+    //        $.each(Componentes, function (key, value) {
+    //            $('#cboComponenteSelect').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+    //        });
+    //        $('#vdescripcioncom').val('');
+
+    //        $('#cboComponenteSelectAct').empty();
+    //        $('#cboComponenteSelectAct').append("<option value='0'>Seleccione</option>");
+    //        $.each(Componentes, function (key, value) {
+    //            $('#cboComponenteSelectAct').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+    //        });
+    //        $('#vdescripcioncom').val('');
+    //    }).fail((error) => {
+    //});
+    debugger; 
+    
     $('#vindicadorcomp1').val(listafila[0].innerText);
     $('#vunidadmedidaindcomp1').val(listafila[1].innerText);
     $('#vmetacomp1').val(listafila[2].innerText);
@@ -2038,6 +2299,7 @@ function editaractividad(obj) {
 
     $('#modalactividad1').modal('show');
 }
+
 function editaractividad2(obj) {
     var listafila = new Array()
     general.indiceseleccionado = obj.parentElement.parentElement.parentElement.rowIndex;
@@ -2055,12 +2317,13 @@ function editaractividad2(obj) {
 }
 
 function limpiaractividad() {
-   $('#vactividadact1').val('');
+   $('#cboComponenteSelectAct').val('');
    $('#vdescactividadact1').val('');
     $('#vunidadmedidadact1').val('');
    $('#vmetaact1').val('');
    $('#vmedioact1').val('');
 }
+
 function limpiaractividad2() {
     $('#vactividadact2').val('');
     $('#vdescactividadact2').val('');
@@ -2083,6 +2346,7 @@ function limpiarcomponente2() {
     $('#vmetacomp2').val('');
     $('#vmediocomp2').val('');
 }
+
 function AgregarindirectasaDirectas(texto) {
 
     $.each(general.listacausasdirectas, function (key, value) {
@@ -2091,6 +2355,7 @@ function AgregarindirectasaDirectas(texto) {
         }
     });
 }
+
 function AgregarEfectosIndirectosaDirectos(texto) {
     $.each(general.listaefectosdirectos, function (key, value) {
         if (value.id == general.indiceseleccionadodirecta) {
@@ -2098,17 +2363,20 @@ function AgregarEfectosIndirectosaDirectos(texto) {
         }
     });
 }
+
 function limpiar() {
     $('#vtecnologia1').val('');
     $('#vtecnologia2').val('');
     $('#vtecnologia3').val('');
 }
+
 function limpiarindicadores() {
     $('#cboindicador').val('');
     $('#vunidadmedidaind').val('');
     $('#vmeta').val('');
     $('#vmedio').val('');
 }
+
 function AgregarTecnologia(indice,vtecnologia1, vtecnologia2, vtecnologia3) {
 
     if (indice == 0) {
@@ -2179,6 +2447,7 @@ function EliminarIndicador(obj) {
     $('#modaleliminarindicador').modal({ backdrop: 'static', keyboard: false });
     $('#modaleliminarindicador').modal('show');
 }
+
 function EditarIndicador(obj) {
     general.elementoSeleccionadoIndicador = general.tblindicadores.row($(obj).parents('tr')).data();
     general.accion = 2;        
@@ -2199,6 +2468,7 @@ function eliminartecnologia(obj) {
     general.listatecnologias.splice(indicefila-1, 1);
     //console.log(indicefila);
 }
+
 function fila(obj) {
     //debugger;
     //console.log(obj);

@@ -34,7 +34,7 @@ function EjecutarDetalleInformacionGeneral() {
         general.tblactividad.clear().draw();
     });
 
-    //cargarusuario();
+    cargarusuario();
     //cargarcomponente();
     //$("#cboActividad").on('change', function (e) {
     //    console.log(e.currentTarget.value);
@@ -61,6 +61,13 @@ function EjecutarDetalleInformacionGeneral() {
         datos.iCodExtensionista = general.usuario;
 
         openData('POST', globals.urlWebApi + 'api/Costo/ExportarCosto', datos, '_blank');
+    });
+
+    $('#btnvistaprevia1').on('click', function () {
+        var datos = {};
+        datos.iCodExtensionista = general.usuario;
+
+        openData('POST', globals.urlWebApi + 'api/Costo/ExportarFichaTecnica', datos, '_blank');
     });
 
     

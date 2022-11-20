@@ -63,7 +63,7 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "iCodTipoDoc", title: "iCodTipoDoc", visible: false, orderable: false },
             { data: "vNroDocumento", title: "Nro Documento", visible: true, orderable: false },
             { data: "vCodUbigeo", title: "Ubigeo", visible: false, orderable: false },
-            { data: "vNomDepartamento", title: "Departamento", visible: false, orderable: false },
+            { data: "vNomDepartamento", title: "Departamento", visible: true, orderable: false },
             { data: "vNomProvincia", title: "Provincia", visible: false, orderable: false },
             { data: "vNomDistrito", title: "Distrito", visible: false, orderable: false },
             { data: "iCodCargo", title: "iCodCargo", visible: false, orderable: false },

@@ -18,6 +18,8 @@ function EjecutarDetalleInformacionGeneral() {
 
     general.usuario = arreglousuario[0];
 
+    cargarusuario();
+
     /**************************************************/
 
     $('#cboComponente').empty();

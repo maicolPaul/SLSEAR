@@ -5,7 +5,7 @@
 
 function EjecutarDetalleInformacionGeneral() {
     //alert('evaluador');
-
+    cargarusuario();
     $.post(globals.urlUbigeoDepartamento)
         .done((respuesta) => {
             //debugger;

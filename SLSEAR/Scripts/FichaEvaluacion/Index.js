@@ -34,7 +34,7 @@ function EjecutarDetalleInformacionGeneral() {
         general.tblactividad.clear().draw();
     });
 
-    //cargarusuario();
+    cargarusuario();
     //cargarcomponente();
     //$("#cboActividad").on('change', function (e) {
     //    console.log(e.currentTarget.value);
