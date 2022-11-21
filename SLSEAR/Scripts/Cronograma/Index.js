@@ -2,6 +2,7 @@
     usuario: 0,
     tblcronograma: null,
     elementoSeleccionado: null,
+    iCodIdentificacion:0,
     accion:1
 };
 
@@ -14,7 +15,40 @@ function EjecutarDetalleInformacionGeneral() {
     general.usuario = arreglousuario[0];
 
     cargarusuario();
-    cargarcomponente();
+
+    var dato = {};
+
+    dato.iCodExtensionista = general.usuario;
+    //debugger;
+    $.post(globals.urlWebApi + "api/Identificacion/ListarIdentificacion", dato)
+        .done((respuesta) => {
+            console.log("Datos Identificacion");
+            console.log(respuesta);
+            if (respuesta.length > 0) {
+                general.iCodIdentificacion = respuesta[0].iCodIdentificacion;
+
+                $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+                    .done((Componentes) => {
+                        $('#cboComponentefiltro').empty();
+                        $('#cboComponentefiltro').append("<option value='0'>Seleccione</option>");
+                        $.each(Componentes, function (key, value) {
+                            $('#cboComponentefiltro').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                        });
+
+                        $('#cboComponente').empty();
+                        $('#cboComponente').append("<option value='0'>Seleccione</option>");
+                        $.each(Componentes, function (key, value) {
+                            $('#cboComponente').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                        });                        
+                    }).fail((error) => {
+                    });
+
+            }
+        }).fail((error) => {
+            console.log(error);
+        });
+
+    //cargarcomponente();
     $("#cboActividad").on('change', function (e) {
         console.log(e.currentTarget.value);
         $('#vmetaactividad').val($("#cboActividad").find(':selected').data('value'));
@@ -46,16 +80,16 @@ function EjecutarDetalleInformacionGeneral() {
         general.tblcronograma.clear().draw();
     });
 
-    $('#cboComponentefiltro').empty();
-    $('#cboComponentefiltro').append("<option value='0'>Seleccione</option>");
-    debugger;
-    $.when(obtenerComponentes({ iCodExtensionista: general.usuario }))
-        .done((niveles) => {
-            debugger;
-            $.each(niveles, function (key, value) {
-                $('#cboComponentefiltro').append("<option value='" + value.iCodComponente + "' data-value='" + JSON.stringify(value.iCodComponente) + "'>" + value.vDescripcion + "</option>");
-            });
-        });
+    //$('#cboComponentefiltro').empty();
+    //$('#cboComponentefiltro').append("<option value='0'>Seleccione</option>");
+    //debugger;
+    //$.when(obtenerComponentes({ iCodExtensionista: general.usuario }))
+    //    .done((niveles) => {
+    //        debugger;
+    //        $.each(niveles, function (key, value) {
+    //            $('#cboComponentefiltro').append("<option value='" + value.iCodComponente + "' data-value='" + JSON.stringify(value.iCodComponente) + "'>" + value.vDescripcion + "</option>");
+    //        });
+    //    });
 
     general.tblcronograma = $("#tblcronograma").DataTable({
         bFilter: false
@@ -303,8 +337,7 @@ function EjecutarDetalleInformacionGeneral() {
 }
 
 function limpiar() {
-
-    $('#cboComponente').val('');
+    $('#cboComponente').val('0');
     $('#cboActividad').val('');
     $('#cboActividad').empty();
     $('#cboActividad').append("<option value=''>Seleccione</option>");
@@ -390,12 +423,5 @@ function openData(verb, url, data, target) {
 }
 
 function obtenerComponentes(data) {
-
-    return $.ajax({
-        type: "POST",
-        url: globals.urlWebApi + "api/PlanCapacitacion/ComponentesPorExtensionista",
-        headers: { Accept: "application/json"/*, Authorization: `Bearer ${globals.sesion.token}`*/ },
-        dataType: 'json',
-        data: data
-    });
+    return $.ajax({ type: "POST", url: globals.urlWebApi + "api/Identificacion/ListarComponentesSelect", headers: { Accept: "application/json" }, dataType: 'json', data: data });
 }

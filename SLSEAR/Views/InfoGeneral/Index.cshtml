@@ -67,7 +67,7 @@
                 </div>
                 <div class="row">
                     <label class="form-label">1.1.8 Localización del servicio<span class="text-red">*</span></label>
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-4 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Region<span class="text-red">*</span></label>
                             <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboregion">
@@ -75,15 +75,17 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-4 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Provincia<span class="text-red">*</span></label>
                             <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboprovincia">
                                 <option label="Seleccione">Seleccione</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="col-sm-4 col-md-4">
+                    </div>                   
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Distrito<span class="text-red">*</span></label>
                             <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="iCodUbigeoT1">
@@ -91,7 +93,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-4 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Localidad<span class="text-red">*</span></label>
                             <input type="text" class="form-control" placeholder="Localidad" id="vLocalidadT1">
@@ -100,19 +102,21 @@
                 </div>
                 <div class="row">
                     <label class="form-label">1.1.9 Ubicacion del servicio<span class="text-red">*</span></label>
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-4 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Zona UTM<span class="text-red">*</span></label>
                             <input type="text" class="form-control" placeholder="Zona UTM" id="vZonaUTMT1">
                         </div>
                     </div>
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-4 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Coordenadas UTM (Norte)<span class="text-red">*</span></label>
                             <input type="text" class="form-control" placeholder="Coordenadas UTM (Norte)" id="vCoordenadasUTMNorteT1">
                         </div>
-                    </div>
-                    <div class="col-sm-4 col-md-4">
+                    </div>                    
+                </div>               
+                <div class="row">
+                    <div class="col-sm-4 col-md-6">
                         <div class="form-group">
                             <label class="form-label">Coordenadas UTM (Este)<span class="text-red">*</span></label>
                             <input type="text" class="form-control" placeholder="Coordenadas UTM (Este)" id="vCoordenadasUTMEsteT1">
@@ -135,7 +139,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-4 col-md-6">
                         <div class="form-group">
                             <label class="form-label">1.1.11 Duración (días)<span class="text-red">*</span></label>
                             <input type="text" class="form-control solonumeros" readonly placeholder="Duración (días)" id="iDuracionT1">
@@ -199,7 +203,7 @@
                 <h5 style="font-weight:bold">1.3 DATOS DEL PROVEEDOR</h5>
                 <hr style="border: 1px solid black;height:0px !important" />
                 <div class="row">
-                    <div class="col-sm-4 col-md-4">
+                    <div class="col-sm-4 col-md-6">
                         <div class="form-group">
                             <label class="form-label">1.3.1 Tipo de personeria juridica<span class="text-red">*</span></label>
                             <select class="form-control form-select select2" readonly disabled data-bs-placeholder="Seleccione" id="iCodTipoPersoneriaT3">
@@ -293,37 +297,59 @@
                 <fieldset>
                     <legend>Resumen</legend>
                     <div class="row">
-                        <div class="col-sm-2 col-md-2">
+                        <div class="col-sm-2 col-md-9">            
+                        </div>
+                        <div class="col-sm-2 col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Total</label>
                                 <input type="text" class="form-control solonumeros" placeholder="Total" id="total" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2 col-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-md-9">
+                        </div>
+                        <div class="col-sm-2 col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Promedio</label>
                                 <input type="text" class="form-control" placeholder="Promedio" id="promedio" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2 col-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-md-9">
+                        </div>
+                        <div class="col-sm-2 col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Masculino</label>
                                 <input type="text" class="form-control" placeholder="Masculino" id="masculino" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2 col-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-md-9">
+                        </div>
+                        <div class="col-sm-2 col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Femenino</label>
                                 <input type="text" class="form-control" placeholder="Femenino" id="femenino" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2 col-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-md-9">
+                        </div>
+                        <div class="col-sm-2 col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Jovenes</label>
                                 <input type="text" class="form-control" placeholder="Jovenes" id="jovenes" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2 col-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-md-9">
+                        </div>
+                        <div class="col-sm-2 col-md-3">
                             <div class="form-group">
                                 <label class="form-label">% Femenino</label>
                                 <input type="text" class="form-control" placeholder="% Femenino" id="porfemenino" readonly>
@@ -331,19 +357,29 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-2 col-md-2">
+                        <div class="col-sm-2 col-md-9">
+                        </div>
+                        <div class="col-sm-2 col-md-3">
                             <div class="form-group">
                                 <label class="form-label">% Jovenes</label>
                                 <input type="text" class="form-control" placeholder="% Jovenes" id="porjovenes" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2 col-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-md-9">
+                        </div>
+                        <div class="col-sm-2 col-md-3">
                             <div class="form-group">
                                 <label class="form-label">Recibio CAP y/o AT</label>
                                 <input type="text" class="form-control" placeholder="% Jovenes" id="recibiocapa" readonly>
                             </div>
                         </div>
-                        <div class="col-sm-2 col-md-2">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 col-md-9">
+                        </div>
+                        <div class="col-sm-2 col-md-3">
                             <div class="form-group">
                                 <label class="form-label">% Recibio CAP</label>
                                 <input type="text" class="form-control" placeholder="% Recibio Capa" id="porrecibiocapa" readonly>
