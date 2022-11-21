@@ -134,6 +134,7 @@
     <Compile Include="Controllers\CurriculumVitaeController.cs" />
     <Compile Include="Controllers\EstatutoRegistralController.cs" />
     <Compile Include="Controllers\FichaEvaluacionController.cs" />
+    <Compile Include="Controllers\FinRegExtController.cs" />
     <Compile Include="Controllers\FormulacionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IdentificacionController.cs" />
@@ -1476,6 +1477,7 @@
     <Content Include="Scripts\CurriculumVitae\Index.js" />
     <Content Include="Scripts\EstatutoRegistral\Index.js" />
     <Content Include="Scripts\FichaEvaluacion\Index.js" />
+    <Content Include="Scripts\FinRegExt\Index.js" />
     <Content Include="Scripts\Formulacion\Index.js" />
     <Content Include="Scripts\Identificacion\Index.js" />
     <Content Include="Scripts\Indicaciones\Index.js" />
@@ -1535,6 +1537,7 @@
     <Content Include="Views\ComiteEvaluador\Index.cshtml" />
     <Content Include="Views\AsignacionEvaluador\Index.cshtml" />
     <Content Include="Views\Cortes\Index.cshtml" />
+    <Content Include="Views\FinRegExt\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

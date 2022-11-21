@@ -153,8 +153,7 @@ function EfectosDirectos() {
             },
             { data: "iCodEfecto", title: "iCodEfecto", visible: false, orderable: false },
             { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
-            { data: "vDescEfecto", title: "Descripcion", visible: false, orderable: false },
-            { data: "vDescEfectoCorta", title: "Descripcion", visible: true, orderable: false },
+            { data: "vDescEfecto", title: "Descripcion", visible: true, orderable: false },
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
@@ -237,8 +236,7 @@ function CargarEfectosIndirectos(iCodEfecto) {
                 { data: "iCodEfectoIndirecto", title: "iCodEfectoIndirecto", visible: false, orderable: false },
                 { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
                 { data: "iCodEfectoDirecto", title: "iCodEfectoDirecto", visible: false, orderable: false },
-                { data: "vDescEfectoIndirecto", title: "vDescEfectoIndirecto", visible: false, orderable: false },
-                { data: "vDescEfectoIndirectoCorta", title: "vDescEfectoIndirecto", visible: true, orderable: false },                
+                { data: "vDescEfectoIndirecto", title: "vDescEfectoIndirecto", visible: true, orderable: false },
                 {
                     data: (row) => {
                         let acciones = `<div class="nav-actions">`;
@@ -306,9 +304,7 @@ function CausasDirectas() {
             },
             { data: "iCodCausaDirecta", title: "iCodCausaDirecta", visible: false, orderable: false },
             { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
-            { data: "vdescrcausadirecta", title: "Descripcion", visible: false, orderable: false },  
-            { data: "vDescrCausaDirectaCorta", title: "Descripcion", visible: true, orderable: false }, 
-            
+            { data: "vdescrcausadirecta", title: "Descripcion", visible: true, orderable: false },            
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;                    
@@ -391,8 +387,7 @@ function CargarCausasIndirectas(iCodCausaDirecta, iCodComponente) {
                 { data: "iCodCausaIndirecta", title: "iCodCausaIndirecta", visible: false, orderable: false },
                 { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
                 { data: "iCodCausaDirecta", title: "iCodCausaDirecta", visible: false, orderable: false },                
-                { data: "vDescrCausaInDirecta", title: "Descripciòn", visible: false, orderable: false },  
-                { data: "vDescCausaIndirectaCorta", title: "Descripciòn", visible: true, orderable: false },
+                { data: "vDescrCausaInDirecta", title: "Descripciòn", visible: true, orderable: false },                
                 {
                     data: (row) => {
                         let acciones = `<div class="nav-actions">`;
