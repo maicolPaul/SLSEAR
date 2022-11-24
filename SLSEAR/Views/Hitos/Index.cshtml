@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">Hitos</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label class="form-label">Componentes</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboComponente">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label class="form-label">Actividades</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboActividades">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Lista de Plan de Capacitación</h4>
+                    <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblPlanCapa">
+                    </table>
+                </div>
+                <div class="row">
+                    <h4>Lista de Asitencia Tecnica</h4>
+                    <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblAsist">
+                    </table>
+                </div>
+                <div class="row">
+                    <h4>Lista de Costos</h4>
+                    <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcosto">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script type="text/javascript" src="~/Scripts/CurriculumVitae/Index.js?noCache=@Guid.NewGuid().ToString()"></script>*@
+<script type="text/javascript" src="~/Scripts/Hitos/Index.js?noCache=@Guid.NewGuid().ToString()"></script>

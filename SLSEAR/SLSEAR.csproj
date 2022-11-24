@@ -136,6 +136,7 @@
     <Compile Include="Controllers\FichaEvaluacionController.cs" />
     <Compile Include="Controllers\FinRegExtController.cs" />
     <Compile Include="Controllers\FormulacionController.cs" />
+    <Compile Include="Controllers\HitosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IdentificacionController.cs" />
     <Compile Include="Controllers\IndicacionesController.cs" />
@@ -1479,6 +1480,7 @@
     <Content Include="Scripts\FichaEvaluacion\Index.js" />
     <Content Include="Scripts\FinRegExt\Index.js" />
     <Content Include="Scripts\Formulacion\Index.js" />
+    <Content Include="Scripts\Hitos\Index.js" />
     <Content Include="Scripts\Identificacion\Index.js" />
     <Content Include="Scripts\Indicaciones\Index.js" />
     <Content Include="Scripts\InfoGeneral\Index.js" />
@@ -1538,6 +1540,7 @@
     <Content Include="Views\AsignacionEvaluador\Index.cshtml" />
     <Content Include="Views\Cortes\Index.cshtml" />
     <Content Include="Views\FinRegExt\Index.cshtml" />
+    <Content Include="Views\Hitos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

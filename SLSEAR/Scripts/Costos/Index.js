@@ -175,7 +175,7 @@ function EjecutarDetalleInformacionGeneral() {
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodCosto"
                 , pvSortOrder: "asc"
-                , iCodActividad: general.elementoSeleccionado !== null ? general.elementoSeleccionado.iCodActividad : 0            
+                , iCodActividad:22 //general.elementoSeleccionado !== null ? general.elementoSeleccionado.iCodActividad : 0            
             };
             $.ajax({
                 type: "POST",
