@@ -13,24 +13,27 @@ function EjecutarDetalleInformacionGeneral() {
     general.usuario = arreglousuario[0];
 
     $('#btnGenerarExportado').on('click', function () {
-
-        debugger;
         var datos = {};
         datos.iCodExtensionista = general.usuario;
-
         openData('POST', globals.urlWebApi + 'api/Costo/ExportarFichaTecnica', datos, '_blank');
-
-        openData('POST', globals.urlWebApi + 'api/Costo/ExportarCosto', datos, '_blank');
-
-        openData('POST', globals.urlWebApi + 'api/Cronograma/ExportarCronograma', datos, '_blank');
-
-        openData('POST', globals.urlWebApi + 'api/PlanCapacitacion/ExportarPlanCapa', datos, '_blank');
-
-        openData('POST', globals.urlWebApi + 'api/PlanAsistenciaTec/ExportarPlanAsistenciaTec', datos, '_blank');
     });
 
     $('#btnEnviar').on('click', function () {
-        
+        var datos = {};
+        datos.iCodComponente = general.usuario; 
+
+        $.post(globals.urlWebApi + "api/Identificacion/EnviarRegistroEvaluacion", datos)
+            .done((respuesta) => {
+                console.log(respuesta);
+                notif({
+                    msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                    type: "success"
+                });
+                //general.tblPlanSesion.clear().draw();
+                //$('#modalplanSesion').modal('hide');
+            }).fail((error) => {
+                console.log(error);
+            });
         
     });
 

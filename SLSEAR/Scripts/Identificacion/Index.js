@@ -2062,10 +2062,19 @@ function EjecutarDetalleInformacionGeneral() {
             return;
         }
 
+        if ($('#cboTipoComponenteSelect').val() == '0') {
+            notif({
+                msg: "<b>Incorrecto:</b>Debe seleccionar el tipo del Componente",
+                type: "error"
+            });
+            return;
+        }
+        debugger;
         let datos = {};
 
         datos.iCodIdentificacion = general.iCodIdentificacion;
         datos.vDescripcion = $('#vdescripcioncom').val();
+        datos.iTipo = $('#cboTipoComponenteSelect').val();
         datos.accion = 1;
         datos.iOpcion = 1;
 

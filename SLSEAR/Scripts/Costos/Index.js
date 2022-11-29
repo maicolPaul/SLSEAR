@@ -137,7 +137,7 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "vDescripcionCorta", title: "Descripcion", visible: true, orderable: false },
             { data: "vUnidadMedidaCorta", title: "Unidad Medida", visible: true, orderable: false },
             { data: "vMetaCorta", title: "Meta", visible: true, orderable: false },
-            { data: "vMedioCorta", title: "Medio", visible: true, orderable: false },
+            { data: "vMedioCorta", title: "Medio", visible: false, orderable: false },
             //{ data: "dFecha", title: "Fecha", visible: true, orderable: false },
             //{ data: "Estado", title: "Estado", visible: false, orderable: false },
 
@@ -179,7 +179,7 @@ function EjecutarDetalleInformacionGeneral() {
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodCosto"
                 , pvSortOrder: "asc"
-                , iCodActividad:22 //general.elementoSeleccionado !== null ? general.elementoSeleccionado.iCodActividad : 0            
+                , iCodActividad:general.elementoSeleccionado !== null ? general.elementoSeleccionado.iCodActividad : 0            
             };
             $.ajax({
                 type: "POST",
@@ -460,8 +460,9 @@ function limpiar() {
 }
 
 function AgregarCosto(obj) {
-    //debugger;
+    debugger;
     limpiar();
+    general.accion = 1;
     general.elementoSeleccionado = general.tblactividad.row($(obj).parents('tr')).data();
     $('#vActividad').val(general.elementoSeleccionado.vActividad);
     $('#modalcostos').modal({ backdrop: 'static', keyboard: false });

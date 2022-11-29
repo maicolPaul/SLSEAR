@@ -40,8 +40,9 @@ function EjecutarDetalleInformacionGeneral() {
             console.log(respuesta);
             if (respuesta.length > 0) {
                 general.iCodIdentificacion = respuesta[0].iCodIdentificacion;
+                
 
-                $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+                $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion , iTipo : 1}))
                     .done((Componentes) => {
                         $('#cboComponente').empty();
                         $('#cboComponente').append("<option value='0'>Seleccione</option>");
@@ -148,10 +149,11 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "iCodActividad", title: "iCodActividad", visible: false, orderable: false },
             //{ data: "iTipoMatServ", title: "iTipoMatServ", visible: false, orderable: false },
             { data: "vActividad", title: "Actividad", visible: true, orderable: false },
-            { data: "vDescripcion", title: "Descripcion", visible: true, orderable: false },
+            { data: "vDescripcion", title: "Descripcion", visible: false, orderable: false },
+            { data: "vDescripcionCorta", title: "Descripcion", visible: true, orderable: false },
             { data: "vUnidadMedida", title: "Unidad Medida", visible: true, orderable: false },
             { data: "vMeta", title: "Meta", visible: true, orderable: false },
-            { data: "vMedio", title: "Medio", visible: true, orderable: false },
+            { data: "vMedio", title: "Medio", visible: false, orderable: false },
             //{ data: "dFecha", title: "Fecha", visible: true, orderable: false },
             //{ data: "Estado", title: "Estado", visible: false, orderable: false },
 
@@ -661,7 +663,7 @@ function MostrarEditarPlanCapa(obj) {
 //    });
 //}
 function obtenerComponentes(data) {
-    return $.ajax({ type: "POST", url: globals.urlWebApi + "api/Identificacion/ListarComponentesSelect", headers: { Accept: "application/json" }, dataType: 'json', data: data });
+    return $.ajax({ type: "POST", url: globals.urlWebApi + "api/Identificacion/ListarComponentesSelectPlanCapa", headers: { Accept: "application/json" }, dataType: 'json', data: data });
 }
 
 function VerSesiones(obj) {
@@ -705,7 +707,7 @@ function AgregarPlanCapa(obj) {
     limpiar();
     general.accion = 1;
     general.elementoSeleccionado = general.tblactividad.row($(obj).parents('tr')).data();
-    //$('#vActividad').val(general.elementoSeleccionado.vActividad);
+    $('#vActividad').val(general.elementoSeleccionado.vActividad);
     $('#modalplan').modal({ backdrop: 'static', keyboard: false });
     $('#modalplan').modal('show'); 
 }
