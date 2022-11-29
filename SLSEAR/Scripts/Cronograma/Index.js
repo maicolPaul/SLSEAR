@@ -57,7 +57,7 @@ function EjecutarDetalleInformacionGeneral() {
         console.log(e.currentTarget.value);
 
         var tipoactividad = { iopcion: e.currentTarget.value, iCodExtensionista: general.usuario }
-
+        debugger;
         $.post(globals.urlWebApi + "api/Cronograma/ListaActividades", tipoactividad)
             .done((distritos) => {
                 $('#cboActividad').empty();
@@ -288,6 +288,7 @@ function EjecutarDetalleInformacionGeneral() {
                 return;
             }
         } else {
+            debugger;
             var resumen = $("#cboActividad").find(':selected').data('resumen');
             var sumado =parseInt(resumen) +parseInt(meta);
 
