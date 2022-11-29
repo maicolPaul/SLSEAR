@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<input type="hidden" id="hdnusuario" value="@ViewBag.usuario" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">Ficha de Supervisiòn a la Capacitacion</h4>
+            </div>
+            <div class="card-body">
+                <div class="col-sm-12 col-md-12" style="text-align:right">                  
+                    <button class="btn btn-primary" id="btnregistrar" type="button">Grabar</button>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Componentes</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboComponente">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Actividades</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboActividad">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Rubros</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboRubro" disabled >
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-success" id="btngrabarrubro" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i>Grabar Rubro</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Fundamento / Comentario</label>
+                            <textarea id="txtfundamentorubro" cols="100" rows="10">     
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <h4>Criterios</h4>
+                            <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcriterios">
+                            </table>
+                        </div>
+                    </div>
+                </div>      
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Observaciones Generales</label>
+                            <textarea id="txtobsgeneral" cols="100" rows="10">     
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Recomendaciones</label>
+                            <textarea id="txtrecomendacion" cols="100" rows="10">     
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="txtnomsupervisor" class="form-label">Nombre Supervisor</label>
+                            <input type="text" class="form-control" id="txtnomsupervisor" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="txtcargosupervisor" class="form-label">Cargo Supervisor</label>
+                            <input type="text" class="form-control" id="txtcargosupervisor" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="txtentidadsupervisor" class="form-label">Entidad Supervisor</label>
+                            <input type="text" class="form-control" id="txtentidadsupervisor" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="txtfechasupervisor" class="form-label">Fecha Supervisor</label>
+                            <input type="date" class="form-control" id="txtfechasupervisor" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Calificacion</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboCalificacion">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/SupervisionCap/Index.js?noCache=@Guid.NewGuid().ToString()"></script>

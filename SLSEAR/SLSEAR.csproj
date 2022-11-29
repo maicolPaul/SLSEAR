@@ -147,6 +147,7 @@
     <Compile Include="Controllers\PlanCapaController.cs" />
     <Compile Include="Controllers\RegistroProveedorController.cs" />
     <Compile Include="Controllers\RegistroRucController.cs" />
+    <Compile Include="Controllers\SupervisionCapController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1500,6 +1501,7 @@
     <Content Include="Scripts\PlanCapa\Index.js" />
     <Content Include="Scripts\RegistroProveedor\Index.js" />
     <Content Include="Scripts\RegistroRuc\Index.js" />
+    <Content Include="Scripts\SupervisionCap\Index.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1541,6 +1543,7 @@
     <Content Include="Views\Cortes\Index.cshtml" />
     <Content Include="Views\FinRegExt\Index.cshtml" />
     <Content Include="Views\Hitos\Index.cshtml" />
+    <Content Include="Views\SupervisionCap\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
