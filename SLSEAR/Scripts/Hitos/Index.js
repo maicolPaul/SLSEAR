@@ -6,7 +6,8 @@
     accion: 1,
     tblPlanCapa: null,
     tblAsist: null,
-    tblcosto: null
+    tblcosto: null,
+    tblcostoPlanAT:null
 };
 
 function EjecutarDetalleInformacionGeneral() {
@@ -30,13 +31,23 @@ function EjecutarDetalleInformacionGeneral() {
             if (respuesta.length > 0) {
                 general.iCodIdentificacion = respuesta[0].iCodIdentificacion;
 
-                $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion }))
+                $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion, iTipo: 1 }))
                     .done((Componentes) => {                  
 
                         $('#cboComponente').empty();
                         $('#cboComponente').append("<option value='0'>Seleccione</option>");
                         $.each(Componentes, function (key, value) {
                             $('#cboComponente').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                        });
+                    }).fail((error) => {
+                    });
+                $.when(obtenerComponentes({ iCodIdentificacion: general.iCodIdentificacion, iTipo: 2 }))
+                    .done((Componentes) => {
+
+                        $('#cboComponentePlanAT').empty();
+                        $('#cboComponentePlanAT').append("<option value='0'>Seleccione</option>");
+                        $.each(Componentes, function (key, value) {
+                            $('#cboComponentePlanAT').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
                         });
                     }).fail((error) => {
                     });
@@ -84,11 +95,56 @@ function EjecutarDetalleInformacionGeneral() {
                 cuandoAjaxFalla(error.status);
             });
     });
+    $('#cboComponentePlanAT').on('change', function (e) {
+        console.log(e.currentTarget.value);
+        //debugger;
+        let paginaActual = 1
+        let parametro = {
+            piPageSize: 100
+            , piCurrentPage: paginaActual
+            , pvSortColumn: "iCodActividad"
+            , pvSortOrder: "asc"
+            , iCodIdentificacion: e.currentTarget.value
+        };
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: globals.urlWebApi + "api/Identificacion/ListarActividadesPorComponente",
+            headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+            dataType: 'json',
+            data: parametro
+        })
+            .done(function (actividades) {
+                console.log(actividades);
+
+                $('#cboActividadesPlanAT').empty();
+                $('#cboActividadesPlanAT').append("<option value='0'>Seleccione</option>");
+                $.each(actividades, function (key, value) {
+                    $('#cboActividadesPlanAT').append("<option value='" + value.iCodActividad + "' data-value='" + JSON.stringify(value.iCodActividad) + "'>" + value.vDescripcion + "</option>");
+                });
+                //callback({
+                //    data: data,
+                //    recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
+                //    recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
+                //});
+            })
+            .fail(function (error) {
+                console.log(error);
+                cuandoAjaxFalla(error.status);
+            });
+    });
     $('#cboActividades').on('change', function (e) {
         general.tblPlanCapa.draw().clear();
-        general.tblAsist.draw().clear();
+        //general.tblAsist.draw().clear();
         general.tblcosto.draw().clear();
     });
+
+    $('#cboActividadesPlanAT').on('change', function (e) {
+        //general.tblPlanCapa.draw().clear();
+        general.tblAsist.draw().clear();
+        general.tblcostoPlanAT.draw().clear();
+    });
+
     general.tblPlanCapa = $("#tblPlanCapa").DataTable({
         bFilter: false
         , serverSide: true
@@ -196,7 +252,7 @@ function EjecutarDetalleInformacionGeneral() {
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodPlanCap"
                 , pvSortOrder: "asc"
-                , iCodActividad: $('#cboActividades').val()
+                , iCodActividad: $('#cboActividadesPlanAT').val()
             };
             debugger;
             $.ajax({
@@ -337,6 +393,87 @@ function EjecutarDetalleInformacionGeneral() {
             }
         ]
     });
+
+    general.tblcostoPlanAT = $("#tblcostoPlanAT").DataTable({
+        bFilter: false
+        , serverSide: true
+        , searching: false
+        , lengthChange: false
+        , paging: true
+        , autoWidth: false
+        , processing: true
+        //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
+        , drawCallback: function () {
+            //$('select[name="tblComunidadOpa_length"]').formSelect();
+            //$('.tooltipped').tooltip();
+            $('#tblComunidadOpa thead').attr('class', 'table-success');
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        , language: globals.lenguajeDataTable
+        , ajax: function (data, callback, settings) {
+            let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+            let parametro = {
+                piPageSize: parseInt(settings._iDisplayLength)
+                , piCurrentPage: paginaActual
+                , pvSortColumn: "iCodCosto"
+                , pvSortOrder: "asc"
+                , iCodActividad: $('#cboActividadesPlanAT').val()
+            };
+            $.ajax({
+                type: "POST",
+                url: globals.urlWebApi + "api/Costo/ListarCosto",
+                headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                dataType: 'json',
+                data: parametro
+            })
+                .done(function (data) {
+                    callback({
+                        data: data,
+                        recordsTotal: data.length !== 0 ? data[0].iRecordCount : 0,
+                        recordsFiltered: data.length !== 0 ? data[0].iRecordCount : 0
+                    });
+                    //if (general.tablaproductores.data().length > 0) {
+                    //    $('#btndescargar').removeAttr('disabled');
+                    //}
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    cuandoAjaxFalla(error.status);
+                });
+        }
+        , columns: [
+            //{ data: "Nro", title: "Nro", visible: true, orderable: false },
+            { data: "iCodCosto", title: "iCodCosto", visible: false, orderable: false },
+            { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
+            { data: "iCodComponente", title: "iCodComponente", visible: false, orderable: false },
+            { data: "iCodActividad", title: "iCodActividad", visible: false, orderable: false },
+            { data: "iTipoMatServ", title: "iTipoMatServ", visible: false, orderable: false },
+            { data: "TipoMatServ", title: "Tipo Mat/Serv", visible: true, orderable: false },
+            { data: "vDescripcion", title: "Descripcion", visible: true, orderable: false },
+            { data: "vUnidadMedida", title: "U. Med", visible: true, orderable: false },
+            { data: "iCantidad", title: "Cant.", visible: true, orderable: false },
+            { data: "dCostoUnitario", title: "Costo Unid", visible: true, orderable: false },
+            { data: "dFecha", title: "Fecha", visible: true, orderable: false },
+            { data: "Estado", title: "Estado", visible: false, orderable: false },
+            {
+                data: (row) => {
+                    let acciones = `<div class="nav-actions" style="text-align:center">`;
+                    let checked = ``;
+                    if (row.iCodHito != 0) {
+                        checked = ` checked `;
+                    }
+                    acciones += `<input type="checkbox" class="form-check-input" id="chk` + row.iCodCosto + `"` + checked + ` onclick='elegirhito(this,` + row.iCodCosto + `,"CC")'>`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    //if (row.existe == 0) {
+                    //acciones += `<a href="javascript:void(0);" onclick ="eliminarCostos(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
+                    //}
+                    acciones += `</div>`;
+                    return acciones;
+                }, title: "Acciones", visible: true, orderable: false
+            }
+        ]
+    });
 }
 
 function elegirhito(obj, iCodPlanCap,vTipo)
@@ -372,5 +509,5 @@ function elegirhito(obj, iCodPlanCap,vTipo)
 }
 
 function obtenerComponentes(data) {
-    return $.ajax({ type: "POST", url: globals.urlWebApi + "api/Identificacion/ListarComponentesSelect", headers: { Accept: "application/json" }, dataType: 'json', data: data });
+    return $.ajax({ type: "POST", url: globals.urlWebApi + "api/Identificacion/ListarComponentesSelectPlanCapa", headers: { Accept: "application/json" }, dataType: 'json', data: data });
 }
