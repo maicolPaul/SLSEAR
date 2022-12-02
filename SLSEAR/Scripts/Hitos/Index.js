@@ -594,30 +594,91 @@ function EjecutarDetalleInformacionGeneral() {
 function VerProductores(obj, vTipo) {       
     $('#dfechacapa').val('');
     general.vTipo = vTipo;
+    if (general.vTipo == "CP") {
+        $('#lblfecha').html('Fecha Capacitacion');
+    } else {
+        $('#lblfecha').html('Fecha Asitencia Tecnica');
+    }
     general.tablaproductores.draw().clear();
     $('#modalproductores').modal({ backdrop: 'static', keyboard: false });
     $('#modalproductores').modal('show');
     
 }
 function elegirproductor(obj, icodproductor) {
+    debugger;
+    if ($(obj).is(':checked') == true) {
+        if ($('#dfechacapa').val() != "") {
+            let parametro = {};
 
-    if ($('#dfechacapa').val() != "") {
+            if (general.vTipo == "CP") {
+              
+                parametro.iCodComponente = $('#cboComponente').val();
+                parametro.iCodActividad = $('#cboActividades').val();
+                parametro.iCodProductor = icodproductor;
+                parametro.dFechaCapa = $('#dfechacapa').val();
+                parametro.dFechaCapa = parametro.dFechaCapa.split("-")[2] + "-" + parametro.dFechaCapa.split("-")[1] + "-" + parametro.dFechaCapa.split("-")[0];
+                parametro.vTipo = general.vTipo;
+            } else {
+      
+                parametro.iCodComponente = $('#cboComponentePlanAT').val();
+                parametro.iCodActividad = $('#cboActividadesPlanAT').val();
+                parametro.iCodProductor = icodproductor;
+                parametro.dFechaCapa = $('#dfechacapa').val();
+                parametro.dFechaCapa = parametro.dFechaCapa.split("-")[2] + "-" + parametro.dFechaCapa.split("-")[1] + "-" + parametro.dFechaCapa.split("-")[0];
+                parametro.vTipo = general.vTipo;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: globals.urlWebApi + "api/Hito/InsertarProductorEje",
+                headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                dataType: 'json',
+                data: parametro
+            })
+                .done(function (hito) {
+                    console.log('grabo');
+                    console.log(hito);
+                    if (general.vTipo == "CP") {
+                        general.tblPlanCapa.draw().clear();
+                    } else {
+                        general.tblAsist.draw().clear();
+                    }
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    cuandoAjaxFalla(error.status);
+                });
+        } else {
+            debugger;
+            $(obj).prop('checked', false);
+            if (general.vTipo == "CP") {
+                notif({
+                    msg: "<b>Incorrecto:</b>Ingresar Fecha Capacitacion",
+                    type: "error"
+                });
+            } else {
+                notif({
+                    msg: "<b>Incorrecto:</b>Ingresar Fecha Asistencia Tecnica",
+                    type: "error"
+                });
+            }
+        }
+    } else {
         let parametro = {};
-
         if (general.vTipo == "CP") {
-            
+
             parametro.iCodComponente = $('#cboComponente').val();
             parametro.iCodActividad = $('#cboActividades').val();
             parametro.iCodProductor = icodproductor;
             parametro.dFechaCapa = $('#dfechacapa').val();
             parametro.vTipo = general.vTipo;
-        }else{
+        } else {
             parametro.iCodComponente = $('#cboComponentePlanAT').val();
             parametro.iCodActividad = $('#cboActividadesPlanAT').val();
             parametro.iCodProductor = icodproductor;
             parametro.dFechaCapa = $('#dfechacapa').val();
             parametro.vTipo = general.vTipo;
-        }   
+        }
 
         $.ajax({
             type: "POST",
@@ -634,14 +695,8 @@ function elegirproductor(obj, icodproductor) {
                 console.log(error);
                 cuandoAjaxFalla(error.status);
             });
-    } else {
-        debugger;
-        $(obj).prop('checked', false);
-        notif({
-            msg: "<b>Incorrecto:</b>Ingresar Fecha Capacitacion",
-            type: "error"
-        });
     }
+  
     
     //alert(icodproductor);
 }
