@@ -2,7 +2,8 @@
     iCodIdentificacion:0,
     tblcriterios: null,
     iCodFichaTecnica: null,
-    iCodSuperCab:0
+    iCodSuperCab: 0,
+    iCodCriterio:0
 };
 
 function EjecutarDetalleInformacionGeneral() {
@@ -71,9 +72,15 @@ function EjecutarDetalleInformacionGeneral() {
 
                 $('#cboCalificacion').empty();
                 $('#cboCalificacion').append("<option value='0'>Seleccione</option>");
+
+                $('#cboCalificacioncriterio').empty();
+                $('#cboCalificacioncriterio').append("<option value='0'>Seleccione</option>");
+                
                 $.each(respuesta, function (key, value) {
                     $('#cboCalificacion').append("<option value='" + value.iCodCalificacion + "' data-value='" + JSON.stringify(value.iCodCalificacion) + "'>" + value.vDescripcion + "</option>");
+                    $('#cboCalificacioncriterio').append("<option value='" + value.iCodCalificacion + "' data-value='" + JSON.stringify(value.iCodCalificacion) + "'>" + value.vDescripcion + "</option>");
                 });
+
             }
         }).fail((error) => {
             console.log(error);
@@ -128,15 +135,56 @@ function EjecutarDetalleInformacionGeneral() {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
                     //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
-                    acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
-                    acciones += `<a href="javascript:void(0);" onclick ="eliminarCostos(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
+                    acciones += `<a href="javascript:void(0);" onclick ="elegircalificacion(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-card-checklist"></i></a>`;
                     //}
                     acciones += `</div>`;
                     return acciones;
                 }, title: "Acciones", visible: true, orderable: false
             }
         ]
+    });
+
+    $('#btngrabarcalificacion').on('click', function (e) {
+
+        if ($('#cboRubro').val() == 0) {
+            notif({
+                msg: "<b>Incorrecto:</b>Debe Seleccionar Rubro",
+                type: "error"
+            });
+            $('#cboRubro').focus();
+            return;
+        }
+
+        if ($('#cboCalificacioncriterio').val() == "0") {
+            notif({
+                msg: "<b>Incorrecto:</b>Debe Seleccionar Calificacion",
+                type: "error"
+            });
+            $('#cboCalificacioncriterio').focus();
+            return;
+        }
+
+        let parametros = {};
+
+        parametros.iCodSuperCab = general.iCodSuperCab;
+        parametros.iCodRubro = $('#cboRubro').val();
+        parametros.iCodCrtierio = general.iCodCriterio;
+        parametros.iCodCalificacion = $('#cboCalificacioncriterio').val();
+        parametros.vFundamento = "";
+    
+        $.post(globals.urlWebApi + "api/SuperVisionCapa/InsertarSuperVisionDet2Cap", parametros)
+            .done((respuesta) => {
+                console.log(respuesta);
+                if (respuesta.iCodSuperDet > 0) {                                  
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                }
+            });
+
     });
 
     $("#cboComponente").on('change', function (e) { 
@@ -155,8 +203,9 @@ function EjecutarDetalleInformacionGeneral() {
         $.post(globals.urlWebApi + "api/Costo/ListarActividad", parametro)
                 .done((respuesta) => {
                     console.log(respuesta);
-                    //var parametrosdescarga = { path: respuesta[0].vRutaArchivo };
-                    //openData('POST', globals.urlWebApi + "api/Archivo/DescargarArchivoFile", parametrosdescarga, '_blank');
+                    $.each(respuesta, function (key, value) {
+                        $('#cboActividad').append("<option value='" + value.iCodActividad + "' data-value='" + JSON.stringify(value.iCodActividad) + "'>" + value.vDescripcion + "</option>");
+                    });
                 });
     });
     $("#cboRubro").on('change', function (e) {
@@ -184,15 +233,12 @@ function EjecutarDetalleInformacionGeneral() {
 
         parametros.iCodSuperCab = general.iCodSuperCab;
         parametros.iCodRubro = $('#cboRubro').val();
-        parametros.vFundamento = $('#txtfundamentorubro').value;
+        parametros.vFundamento = $('#txtfundamentorubro').val();
 
         $.post(globals.urlWebApi + "api/SuperVisionCapa/InsertarSuperVisionDetCap", parametros)
             .done((respuesta) => {
                 console.log(respuesta);
-                if (respuesta.iCodSuperDet > 0) {
-                    //general.iCodSuperCab = respuesta.iCodSuperCab;
-                    //$('#cboRubro').removeAttr('disabled');
-                    //$('#btngrabarrubro').removeAttr('disabled');
+                if (respuesta.iCodSuperDet > 0) {          
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                         type: "success"
@@ -299,6 +345,11 @@ function EjecutarDetalleInformacionGeneral() {
     });
 }
 
+function elegircalificacion(obj) {
+    general.iCodCriterio = general.tblcriterios.row($(obj).parents('tr')).data().iCodCriterio;
+    $('#modalcalificacion').modal({ backdrop: 'static', keyboard: false });
+    $('#modalcalificacion').modal('show');
+}
 function obtenerComponentes(data) {
     return $.ajax({ type: "POST", url: globals.urlWebApi + "api/Identificacion/ListarComponentesSelect", headers: { Accept: "application/json" }, dataType: 'json', data: data });
 }

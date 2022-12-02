@@ -126,5 +126,35 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="modalcalificacion" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Calificacion de Criterio</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <h4>Productores</h4>
+                    <div class="col-sm-6 col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Calificacion</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboCalificacioncriterio">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblproductores">
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btngrabarcalificacion" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="~/Scripts/SupervisionCap/Index.js?noCache=@Guid.NewGuid().ToString()"></script>
