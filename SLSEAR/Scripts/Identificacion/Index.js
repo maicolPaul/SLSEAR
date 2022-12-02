@@ -1028,13 +1028,14 @@ function EjecutarDetalleInformacionGeneral() {
         $.post(globals.urlWebApi + "api/Identificacion/EliminarActividad", datos)
             .done((respuesta) => {
                 if (respuesta.iCodActividad != 0) {
-                    debugger;
-                    $('#tblactividades' + general.iCodComponente).DataTable().draw().clear();
+                    //debugger;
+                    //$('#tblactividades')..draw().clear();
                     $('#modaleliminaractividad').modal('hide');
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                         type: "success"
                     });
+                    general.tblactividades.draw().clear();
                 }
             });
     });

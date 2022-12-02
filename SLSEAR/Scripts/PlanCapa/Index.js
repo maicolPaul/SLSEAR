@@ -154,7 +154,8 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "vUnidadMedida", title: "Unidad Medida", visible: true, orderable: false },
             { data: "vMeta", title: "Meta", visible: true, orderable: false },
             { data: "vMedio", title: "Medio", visible: false, orderable: false },
-            //{ data: "dFecha", title: "Fecha", visible: true, orderable: false },
+            { data: "dFecha", title: "F. Inicio", visible: true, orderable: false },
+            { data: "dFechaFin", title: "F. Fin ", visible: true, orderable: false },
             //{ data: "Estado", title: "Estado", visible: false, orderable: false },
 
             {
@@ -303,7 +304,7 @@ function EjecutarDetalleInformacionGeneral() {
         , columns: [
             { data: "iCodPlanSesion", title: "iCodPlanSesion", visible: false, orderable: false },
             { data: "iCodPlanCap", title: "iCodPlanCap", visible: false, orderable: false },
-            { data: "iDuracion", title: "Duracion", visible: true, orderable: false },
+            { data: "iDuracion", title: "Duracion (MIN)", visible: true, orderable: false },
             { data: "vTematica", title: "Tematica", visible: true, orderable: false },
             { data: "vDescripMetodologia", title: "Descripción Metodologia", visible: true, orderable: false },
             { data: "vMateriales", title: "Materiales", visible: true, orderable: false },
@@ -361,7 +362,7 @@ function EjecutarDetalleInformacionGeneral() {
         var vModuloTema = $('#vModuloTema').val();
         var vObjetivo = $('#vObjetivo').val();
         var iMeta = $('#iMeta').val();
-        var iBeneficiario = $('#iBeneficiario').val();
+        //var iBeneficiario = $('#iBeneficiario').val();
         var vdia = $('#vdia').val();
         var iTotalTeoria = $('#iTotalTeoria').val();
         var iTotalPractica = $('#iTotalPractica').val();
@@ -403,31 +404,31 @@ function EjecutarDetalleInformacionGeneral() {
             }
         }
 
-        if (iBeneficiario.trim() == '') {
-            notif({
-                msg: "<b>Incorrecto:</b>Ingresar Cantidad Beneficiarios",
-                type: "error"
-            });
-            $('#iBeneficiario').focus();
-            return;
-        } else {
-            if (iMeta <= 0) {
-                notif({
-                    msg: "<b>Incorrecto:</b>El Valor de la cantidad de los beneficiarios debe ser mayor a 0",
-                    type: "error"
-                });
-                return;
-            }
-        }
+        //if (iBeneficiario.trim() == '') {
+        //    notif({
+        //        msg: "<b>Incorrecto:</b>Ingresar Cantidad Beneficiarios",
+        //        type: "error"
+        //    });
+        //    $('#iBeneficiario').focus();
+        //    return;
+        //} else {
+        //    if (iMeta <= 0) {
+        //        notif({
+        //            msg: "<b>Incorrecto:</b>El Valor de la cantidad de los beneficiarios debe ser mayor a 0",
+        //            type: "error"
+        //        });
+        //        return;
+        //    }
+        //}
 
-        if ($('#vdia').val().trim() == '') {
-            notif({
-                msg: "<b>Incorrecto:</b>Ingresar Dia",
-                type: "error"
-            });
-            $('#vdia').focus();
-            return;
-        }
+        //if ($('#vdia').val().trim() == '') {
+        //    notif({
+        //        msg: "<b>Incorrecto:</b>Ingresar Dia",
+        //        type: "error"
+        //    });
+        //    $('#vdia').focus();
+        //    return;
+        //}
 
         if (iTotalTeoria.trim() == '') {
             notif({
@@ -470,8 +471,8 @@ function EjecutarDetalleInformacionGeneral() {
         datos.vModuloTema = vModuloTema;
         datos.vObjetivo = vObjetivo;
         datos.iMeta = parseInt(iMeta);
-        datos.iBeneficiario = parseInt(iBeneficiario);
-        datos.dFechaActividad = vdia;
+        //datos.iBeneficiario = parseInt(iBeneficiario);
+        //datos.dFechaActividad = vdia;
         datos.iTotalTeoria = parseInt(iTotalTeoria);
         datos.iTotalPractica = parseInt(iTotalPractica);
         datos.iopcion = general.accion;

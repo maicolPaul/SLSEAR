@@ -148,35 +148,8 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "vUnidadMedida", title: "Unidad Medida", visible: true, orderable: false },
             { data: "vMeta", title: "Meta", visible: true, orderable: false },
             { data: "iCantidad", title: "Cantidad", visible: true, orderable: false },
-            { data: "dFecha", title: "Fecha", visible: true, orderable: false },            
-            //{
-            //    data: (row) => {
-            //        if (row.iSexo == 1) {
-            //            return "MASCULINO";
-            //        } else {
-            //            return "FEMENINO";
-            //        }
-            //    }, title: "Sexo", visible: true, orderable: false
-            //},
-            //{ data: "iPerteneceOrganizacion", title: "iPerteneceOrganizacion", visible: false, orderable: false },
-            //{
-            //    data: (row) => {
-            //        if (row.iEsRepresentante) {
-            //            return "SI";
-            //        } else {
-            //            return "NO";
-            //        }
-            //    }, title: "Es Representante", visible: true, orderable: false
-            //},
-            //{
-            //    data: (row) => {
-            //        if (row.iRecibioCapacitacion) {
-            //            return "SI";
-            //        } else {
-            //            return "NO";
-            //        }
-            //    }, title: "Recibio Capacitación", visible: true, orderable: false
-            //},            
+            { data: "dFecha", title: "Fecha Inicio", visible: true, orderable: false },
+            { data: "dFechaFin", title: "Fecha Fin", visible: true, orderable: false },
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
@@ -231,7 +204,7 @@ function EjecutarDetalleInformacionGeneral() {
         var actividad = $('#cboActividad').val();        
         var meta = $('#vmeta').val();
         var dia = $('#vdia').val();
-
+        var diaFin = $('#vdiaFin').val();
         if ($('#cboComponente').val() == '') {
             notif({
                 msg: "<b>Incorrecto:</b>Seleccionar Componente",
@@ -268,10 +241,19 @@ function EjecutarDetalleInformacionGeneral() {
 
         if ($('#vdia').val().trim() == '') {
             notif({
-                msg: "<b>Incorrecto:</b>Ingresar Dia",
+                msg: "<b>Incorrecto:</b>Ingresar Fecha Inicio",
                 type: "error"
             });
             $('#vdia').focus();
+            return;
+        }
+
+        if ($('#vdiaFin').val().trim() == '') {
+            notif({
+                msg: "<b>Incorrecto:</b>Ingresar Fecha Fin",
+                type: "error"
+            });
+            $('#vdiaFin').focus();
             return;
         }
 
@@ -310,7 +292,8 @@ function EjecutarDetalleInformacionGeneral() {
         datos.iCodComponente = componente;
         datos.iCodActividad = actividad;
         datos.iCantidad = meta;
-        datos.dFecha= dia;
+        datos.dFecha = dia;
+        datos.dFechaFin = diaFin;
         datos.iopcion = general.accion;
         
         if (general.accion == 2) {
@@ -387,7 +370,7 @@ function EditarCronograma(obj) {
         });
     $('#vmeta').val(general.elementoSeleccionado.iCantidad);
     $('#vdia').val(general.elementoSeleccionado.dFecha);
-
+    $('#vdiaFin').val(general.elementoSeleccionado.dFechaFin);
     $('#modalcronograma').modal('show');
 }
 function cargarcomponente() {
