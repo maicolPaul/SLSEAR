@@ -172,6 +172,7 @@ function EjecutarDetalleInformacionGeneral() {
         parametros.iCodRubro = $('#cboRubro').val();
         parametros.iCodCrtierio = general.iCodCriterio;
         parametros.iCodCalificacion = $('#cboCalificacioncriterio').val();
+        parametros.vFundamento = "";
     
         $.post(globals.urlWebApi + "api/SuperVisionCapa/InsertarSuperVisionDet2Cap", parametros)
             .done((respuesta) => {
