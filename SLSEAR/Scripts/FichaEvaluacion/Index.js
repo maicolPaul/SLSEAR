@@ -57,10 +57,10 @@ function EjecutarDetalleInformacionGeneral() {
     //});
 
     $('#btnvistaprevia').on('click', function () {
-        var datos = {};
-        datos.iCodExtensionista = general.usuario;
+        //var datos = {};
+        //datos.iCodExtensionista = general.usuario;
 
-        openData('POST', globals.urlWebApi + 'api/Costo/ExportarCosto', datos, '_blank');
+        //openData('POST', globals.urlWebApi + 'api/Costo/ExportarCosto', datos, '_blank');
     });
 
     
@@ -120,17 +120,18 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "iCodComiteEvaluador", title: "iCodComiteEvaluador", visible: false, orderable: false },
             { data: "iCodIdentificacion", title: "iCodIdentificacion", visible: false, orderable: false },
             { data: "vNombreSearT1", title: "Nombre Sear", visible: true, orderable: false },
-            { data: "vDireccionT2", title: "Direccion", visible: true, orderable: false },
+            { data: "vDireccionT2", title: "Direccion", visible: false, orderable: false },
             { data: "iCodUbigeoT1", title: "iCodUbigeoT1", visible: false, orderable: false },
             { data: "vNomDepartamento", title: "Departamento", visible: true, orderable: false },
             { data: "vNomProvincia", title: "Provincia", visible: true, orderable: false },
             { data: "vNomDistrito", title: "Distrito", visible: true, orderable: false },
-           
+            { data: "iCodExtensionista", title: "iCodExtensionista", visible: false, orderable: false },
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
-                    acciones += `&nbsp&nbsp&nbsp<a href="javascript:void(0);" onclick ="VerFichaEvaluacion(this);" data-toggle="tooltip" title="Ver Detalle"><i class="bi bi-card-checklist"></i></a>&nbsp&nbsp&nbsp`;
-                    //acciones += `<a href="javascript:void(0);" onclick ="AgregarCosto(this);" data-toggle="tooltip" title="Agregar"><i class="bi bi-plus-circle-fill"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `&nbsp&nbsp&nbsp<a href="javascript:void(0);" onclick ="VerFichaEvaluacion(this);" data-toggle="tooltip" title="Ver Evaluacion"><i class="bi bi-card-checklist"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="DescargarFicha(this);" data-toggle="tooltip" title="Descargar Ficha"><i class="fa fa-print"></i></a>&nbsp&nbsp&nbsp`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="DescargarG(this);" data-toggle="tooltip" title="Descargar Ficha"><i class="fa fa-print"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
                     //acciones += `<a href="javascript:void(0);" onclick ="eliminarCosto(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
                     //}
@@ -201,7 +202,7 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "PuntajeMaximo", title: "Puntaje Max.", visible: true, orderable: false },
             { data: "dPuntajeEvaluacion", title: "Puntaje Evaluacion", visible: true, orderable: false },
             { data: "vJustificacion", title: "Justificacion", visible: true, orderable: false },
-            //{ data: "dFecha", title: "Fecha", visible: false, orderable: false },
+            //{ data: "iCodExtensionista", title: "iCodExtensionista", visible: false, orderable: false },
             //{ data: "Estado", title: "Estado", visible: false, orderable: false },           
              
             {
@@ -316,6 +317,12 @@ function EjecutarDetalleInformacionGeneral() {
     $('#subitemmenu27').css('color', '#6c5ffc');
 }
 
+function DescargarFicha(obj) {
+    general.elementoSeleccionado = general.tblSearEvaluador.row($(obj).parents('tr')).data();
+    var datos = {};
+    datos.iCodExtensionista = general.elementoSeleccionado.iCodExtensionista;
+    openData('POST', globals.urlWebApi + 'api/Costo/ExportarFichaTecnica', datos, '_blank');
+}
 
 function openData(verb, url, data, target) {
     var form = document.createElement("form");

@@ -207,6 +207,14 @@ function EjecutarDetalleInformacionGeneral() {
             return;
         }
 
+        if ($('#txtpassword').val() == '') {
+            $('#txtpassword').focus();
+            notif({
+                msg: "<b>Incortecto:</b> Debe ingresar correo",
+                type: "error"
+            });
+            return;
+        }
 
         let datos = {};
 
@@ -221,6 +229,7 @@ function EjecutarDetalleInformacionGeneral() {
         datos.vCelular = $('#txtcelular').val();
         datos.vCorreo = $('#txtcorreo').val();
         datos.iCodArchivos = 0;
+        datos.vContrasena = $('#txtpassword').val() ;
         datos.iopcion = general.accion;
 
         if (general.accion == 2) {

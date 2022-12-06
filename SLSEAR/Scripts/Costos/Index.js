@@ -138,7 +138,8 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "vUnidadMedidaCorta", title: "Unidad Medida", visible: true, orderable: false },
             { data: "vMetaCorta", title: "Meta", visible: true, orderable: false },
             { data: "vMedioCorta", title: "Medio", visible: false, orderable: false },
-            //{ data: "dFecha", title: "Fecha", visible: true, orderable: false },
+            { data: "dFecha", title: "Fecha Inicio", visible: true, orderable: false },
+            { data: "dFechaFin", title: "Fecha Fin", visible: true, orderable: false },
             //{ data: "Estado", title: "Estado", visible: false, orderable: false },
 
             {
@@ -215,7 +216,7 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "vUnidadMedida", title: "U. Med", visible: true, orderable: false },
             { data: "iCantidad", title: "Cant.", visible: true, orderable: false },
             { data: "dCostoUnitario", title: "Costo Unid", visible: true, orderable: false },
-            { data: "dFecha", title: "Fecha", visible: true, orderable: false },
+            //{ data: "dFecha", title: "Fecha", visible: false, orderable: false },
             { data: "Estado", title: "Estado", visible: false, orderable: false },           
              
             {
@@ -273,7 +274,7 @@ function EjecutarDetalleInformacionGeneral() {
         var vUnidadMedida = $('#vUnidadMedida').val(); 
         var iCantidad = $('#iCantidad').val(); 
         var dCostoUnitario = $('#dCostoUnitario').val();
-        var dia = $('#vdia').val();
+        //var dia = $('#vdia').val();
 
         if (iTipoMatServ == '') {
             notif({
@@ -337,14 +338,14 @@ function EjecutarDetalleInformacionGeneral() {
         }
         //sdsdsds
 
-        if ($('#vdia').val().trim() == '') {
-            notif({
-                msg: "<b>Incorrecto:</b>Ingresar Dia",
-                type: "error"
-            });
-            $('#vdia').focus();
-            return;
-        }
+        //if ($('#vdia').val().trim() == '') {
+        //    notif({
+        //        msg: "<b>Incorrecto:</b>Ingresar Dia",
+        //        type: "error"
+        //    });
+        //    $('#vdia').focus();
+        //    return;
+        //}
 
 
 
@@ -384,7 +385,7 @@ function EjecutarDetalleInformacionGeneral() {
         datos.vUnidadMedida = vUnidadMedida;
         datos.iCantidad = parseInt(iCantidad);
         datos.dCostoUnitario = parseFloat(dCostoUnitario);
-        datos.dFecha= dia;
+        //datos.dFecha= dia;
         datos.iopcion = general.accion;
         
         if (general.accion == 2) {
@@ -455,7 +456,7 @@ function limpiar() {
     $('#vUnidadMedida').val('');
     $('#iCantidad').val('');
     $('#dCostoUnitario').val('');
-    $('#vdia').val('');
+    //$('#vdia').val('');
    
 }
 
@@ -465,6 +466,8 @@ function AgregarCosto(obj) {
     general.accion = 1;
     general.elementoSeleccionado = general.tblactividad.row($(obj).parents('tr')).data();
     $('#vActividad').val(general.elementoSeleccionado.vActividad);
+    //$('#vdia').val(general.elementoSeleccionado.dFecha);
+    //$('#vdiaFin').val(general.elementoSeleccionado.dFechaFin);
     $('#modalcostos').modal({ backdrop: 'static', keyboard: false });
     $('#modalcostos').modal('show'); 
 }
@@ -492,7 +495,7 @@ function MostrarEditar(obj) {
     $('#vUnidadMedida').val(general.costoSeleccionado.vUnidadMedida);
     $('#iCantidad').val(general.costoSeleccionado.iCantidad);
     $('#dCostoUnitario').val(general.costoSeleccionado.dCostoUnitario);
-    $('#vdia').val(general.costoSeleccionado.dFecha);
+    //$('#vdia').val(general.costoSeleccionado.dFecha);
     $('#modalcostos').modal({ backdrop: 'static', keyboard: false });
     $('#modalcostos').modal('show');
 }

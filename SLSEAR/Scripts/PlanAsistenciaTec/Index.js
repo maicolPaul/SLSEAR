@@ -126,7 +126,8 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "vUnidadMedida", title: "Unidad Medida", visible: true, orderable: false },
             { data: "vMeta", title: "Meta", visible: true, orderable: false },
             { data: "vMedio", title: "Medio", visible: false, orderable: false },
-            //{ data: "dFecha", title: "Fecha", visible: true, orderable: false },
+            { data: "dFecha", title: "F Inicio", visible: true, orderable: false },
+            { data: "dFechaFin", title: "F Fin", visible: true, orderable: false },
             //{ data: "Estado", title: "Estado", visible: false, orderable: false },
 
             {
@@ -202,9 +203,9 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "vObjetivo", title: "Objetivo", visible: false, orderable: false },
             { data: "vObjetivoCorta", title: "Objetivo", visible: true, orderable: false },
             { data: "iMeta", title: "iMeta", visible: false, orderable: false },
-            { data: "iBeneficiario", title: "iBeneficiario", visible: false, orderable: false },
-            { data: "dFechaActividad", title: "Fecha Inicio", visible: true, orderable: false },
-            { data: "dFechaActividadFin", title: "Fecha FIn", visible: true, orderable: false },
+            //{ data: "iBeneficiario", title: "iBeneficiario", visible: false, orderable: false },
+            //{ data: "dFechaActividad", title: "Fecha Inicio", visible: true, orderable: false },
+            //{ data: "dFechaActividadFin", title: "Fecha FIn", visible: true, orderable: false },
             { data: "iTotalTeoria", title: "H. Teoria", visible: true, orderable: false },
             { data: "iTotalPractica", title: "H. Práctica", visible: true, orderable: false },       
              
@@ -360,9 +361,9 @@ function EjecutarDetalleInformacionGeneral() {
         //var vModuloTema = $('#vModuloTema').val();
         var vObjetivo = $('#vObjetivo').val();
         var iMeta = $('#iMeta').val();
-        var iBeneficiario = $('#iBeneficiario').val();
-        var vdia = $('#vdia').val();
-        var vdia2 = $('#vdia2').val();
+        //var iBeneficiario = $('#iBeneficiario').val();
+        //var vdia = $('#vdia').val();
+        //var vdia2 = $('#vdia2').val();
         var iTotalTeoria = $('#iTotalTeoria').val();
         var iTotalPractica = $('#iTotalPractica').val();
 
@@ -403,40 +404,40 @@ function EjecutarDetalleInformacionGeneral() {
             }
         }
 
-        if (iBeneficiario.trim() == '') {
-            notif({
-                msg: "<b>Incorrecto:</b>Ingresar Cantidad Beneficiarios",
-                type: "error"
-            });
-            $('#iBeneficiario').focus();
-            return;
-        } else {
-            if (iMeta <= 0) {
-                notif({
-                    msg: "<b>Incorrecto:</b>El Valor de la cantidad de los beneficiarios debe ser mayor a 0",
-                    type: "error"
-                });
-                return;
-            }
-        }
+        //if (iBeneficiario.trim() == '') {
+        //    notif({
+        //        msg: "<b>Incorrecto:</b>Ingresar Cantidad Beneficiarios",
+        //        type: "error"
+        //    });
+        //    $('#iBeneficiario').focus();
+        //    return;
+        //} else {
+        //    if (iMeta <= 0) {
+        //        notif({
+        //            msg: "<b>Incorrecto:</b>El Valor de la cantidad de los beneficiarios debe ser mayor a 0",
+        //            type: "error"
+        //        });
+        //        return;
+        //    }
+        //}
 
-        if ($('#vdia').val().trim() == '') {
-            notif({
-                msg: "<b>Incorrecto:</b>Ingresar Dia",
-                type: "error"
-            });
-            $('#vdia').focus();
-            return;
-        }
+        //if ($('#vdia').val().trim() == '') {
+        //    notif({
+        //        msg: "<b>Incorrecto:</b>Ingresar Dia",
+        //        type: "error"
+        //    });
+        //    $('#vdia').focus();
+        //    return;
+        //}
 
-        if ($('#vdia2').val().trim() == '') {
-            notif({
-                msg: "<b>Incorrecto:</b>Ingresar Dia",
-                type: "error"
-            });
-            $('#vdia2').focus();
-            return;
-        }
+        //if ($('#vdia2').val().trim() == '') {
+        //    notif({
+        //        msg: "<b>Incorrecto:</b>Ingresar Dia",
+        //        type: "error"
+        //    });
+        //    $('#vdia2').focus();
+        //    return;
+        //}
 
         if (iTotalTeoria.trim() == '') {
             notif({
@@ -479,9 +480,9 @@ function EjecutarDetalleInformacionGeneral() {
         //datos.vModuloTema = vModuloTema;
         datos.vObjetivo = vObjetivo;
         datos.iMeta = parseInt(iMeta);
-        datos.iBeneficiario = parseInt(iBeneficiario);
-        datos.dFechaActividad = vdia;
-        datos.dFechaActividadFin = vdia2;
+        //datos.iBeneficiario = parseInt(iBeneficiario);
+        //datos.dFechaActividad = vdia;
+        //datos.dFechaActividadFin = vdia2;
         datos.iTotalTeoria = parseFloat(iTotalTeoria);
         datos.iTotalPractica = parseFloat(iTotalPractica);
         datos.iopcion = general.accion;
@@ -648,9 +649,9 @@ function MostrarEditarPlanCapa(obj) {
     //$("#vModuloTema").val(general.planCapaSeleccionado.vModuloTema);
     $("#vObjetivo").val(general.planCapaSeleccionado.vObjetivo);
     $("#iMeta").val(general.planCapaSeleccionado.iMeta);
-    $("#iBeneficiario").val(general.planCapaSeleccionado.iBeneficiario);
-    $("#vdia").val(general.planCapaSeleccionado.dFechaActividad);
-    $("#vdia2").val(general.planCapaSeleccionado.dFechaActividadFin);
+    //$("#iBeneficiario").val(general.planCapaSeleccionado.iBeneficiario);
+    //$("#vdia").val(general.planCapaSeleccionado.dFechaActividad);
+    //$("#vdia2").val(general.planCapaSeleccionado.dFechaActividadFin);
     $("#iTotalTeoria").val(general.planCapaSeleccionado.iTotalTeoria);
     $("#iTotalPractica").val(general.planCapaSeleccionado.iTotalPractica);
 
@@ -708,9 +709,9 @@ function limpiar() {
     //$('#vModuloTema').val('');
     $('#vObjetivo').val('');
     $('#iMeta').val('');
-    $('#iBeneficiario').val('');
-    $('#vdia').val('');
-    $('#vdia2').val('');
+    //$('#iBeneficiario').val('');
+    //$('#vdia').val('');
+    //$('#vdia2').val('');
     $('#iTotalTeoria').val('');
     $('#iTotalPractica').val('');
    
