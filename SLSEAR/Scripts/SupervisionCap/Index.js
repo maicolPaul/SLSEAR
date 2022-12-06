@@ -29,7 +29,7 @@ function EjecutarDetalleInformacionGeneral() {
                         $('#cboComponente').empty();
                         $('#cboComponente').append("<option value='0'>Seleccione</option>");
                         $.each(Componentes, function (key, value) {
-                            $('#cboComponente').append("<option value='" + value.iCodComponenteDesc + "' data-value='" + JSON.stringify(value.iCodComponenteDesc) + "'>" + value.vDescripcion + "</option>");
+                            $('#cboComponente').append("<option value='" + value.iCodComponenteDesc + "-" + value.iTipo + "' data-value='" + JSON.stringify(value.iTipo) + "'>" + value.vDescripcion + "</option>");
                         });
                     }).fail((error) => {
                     });
@@ -172,29 +172,72 @@ function EjecutarDetalleInformacionGeneral() {
         parametros.iCodRubro = $('#cboRubro').val();
         parametros.iCodCrtierio = general.iCodCriterio;
         parametros.iCodCalificacion = $('#cboCalificacioncriterio').val();
-        parametros.vFundamento = "";
+        parametros.vFundamento = $("#txtfundamentocioncriterio").val();
     
         $.post(globals.urlWebApi + "api/SuperVisionCapa/InsertarSuperVisionDet2Cap", parametros)
             .done((respuesta) => {
                 console.log(respuesta);
-                if (respuesta.iCodSuperDet > 0) {                                  
+                if (respuesta.iCodSuperDet > 0) {  
+                    $('#modalcalificacion').modal('hide');
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                         type: "success"
                     });
                 }
             });
-
     });
 
+    $('#cboProductor').empty();
+    $('#cboProductor').append("<option value='0'>Seleccione</option>");
+
+    let parametro = {
+        piPageSize: 50
+        , piCurrentPage: 1
+        , pvSortColumn: "iCodProductor"
+        , pvSortOrder: "asc"
+        , iCodExtensionista: general.usuario
+        , iPerteneceOrganizacion: 1
+    };
+
+    $.ajax({
+        type: "POST",
+        url: globals.urlWebApi + "api/ActaAlianzaEstrategica/ListarProductor",
+        headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+        dataType: 'json',
+        data: parametro
+    })
+        .done(function (data) {
+            debugger;
+            console.log(data);
+            $.each(data, function (key, value) {
+                $('#cboProductor').append("<option value='" + value.iCodProductor + "' data-value='" + JSON.stringify(value.iCodProductor) + "'>" + value.vApellidosNombres + "</option>");
+            });  
+        })
+        .fail(function (error) {
+            console.log(error);
+            cuandoAjaxFalla(error.status);
+        });
+
     $("#cboComponente").on('change', function (e) { 
+        debugger;
+        if (e.currentTarget.value.split('-')[1] == 2) {
+            $('#cboProductor').removeAttr('disabled');
+            $('#txtfundamentorubro').attr('disabled', true);    
+            $('#txtfundamentorubro').val('');
+            $('#cboCalificacion').attr('disabled', true);    
+        } else {
+            $('#cboProductor').attr('disabled', true);            
+            $('#txtfundamentorubro').removeAttr('disabled');
+            $('#cboCalificacion').removeAttr('disabled');  
+        }
+
         let parametro = {
               piPageSize: 1000
             , piCurrentPage: 1
             , pvSortColumn: "iCodActividad"
             , pvSortOrder: "asc"
             , iCodExtensionista: general.usuario
-            , iCodIdentificacion:e.currentTarget.value
+            , iCodIdentificacion: e.currentTarget.value.split('-')[0]
         };
 
         $('#cboActividad').empty();
@@ -211,6 +254,13 @@ function EjecutarDetalleInformacionGeneral() {
     $("#cboRubro").on('change', function (e) {
         general.tblcriterios.draw().clear();
     });
+    $("#cboCalificacion").on('change', function (e) {
+        obtenersupervisioncab();
+    });
+    $("#cboProductor").on('change', function (e) {
+        obtenersupervisioncab();
+    });
+
     $('#btngrabarrubro').on('click', function () {
 
         if ($('#cboRubro').val() == 0) {
@@ -304,21 +354,32 @@ function EjecutarDetalleInformacionGeneral() {
             $('#txtfechasupervisor').focus();
             return;
         }
-
-        if ($('#cboCalificacion').val() == "0") {
-            notif({
-                msg: "<b>Incorrecto:</b>Debe Seleccionar Calificacion",
-                type: "error"
-            });
-            $('#cboCalificacion').focus();
-            return;
+        debugger;
+        if ($('#cboComponente').val().split('-')[1] == 2) {
+            if ($('#cboProductor').val() == "0") {
+                notif({
+                    msg: "<b>Incorrecto:</b>Debe Seleccionar Productor",
+                    type: "error"
+                });
+                $('#cboProductor').focus();
+                return;
+            }
+        } else {
+            if ($('#cboCalificacion').val() == "0") {
+                notif({
+                    msg: "<b>Incorrecto:</b>Debe Seleccionar Calificacion",
+                    type: "error"
+                });
+                $('#cboCalificacion').focus();
+                return;
+            }
         }
 
         let parametros = {};
-
+        parametros.iCodSuperCab = general.iCodSuperCab;
         parametros.iCodIdentificacion = general.iCodIdentificacion;
         parametros.iCodFichaTecnica = general.iCodFichaTecnica;
-        parametros.iCodComponente = $('#cboComponente').val(); //30;
+        parametros.iCodComponente = $('#cboComponente').val().split('-')[0]; //30;
         parametros.iCodActividad = $('#cboActividad').val(); //27;
         parametros.vObservaciongeneral = $('#txtobsgeneral').val();
         parametros.vRecomendacion = $('#txtrecomendacion').val();
@@ -329,13 +390,27 @@ function EjecutarDetalleInformacionGeneral() {
         parametros.dFechaSupervisor = parametros.dFechaSupervisor.split("-")[2] + "-" + parametros.dFechaSupervisor.split("-")[1] + "-" + parametros.dFechaSupervisor.split("-")[0];
         parametros.iCodCalificacion = $("#cboCalificacion").val();
 
+        if ($('#cboComponente').val().split('-')[1] == 2) {
+            parametros.iCodProductor = $('#cboProductor').val();
+        } else {
+            parametros.iCodProductor = 0;
+        }
+        
+
         $.post(globals.urlWebApi + "api/SuperVisionCapa/InsertarSuperVisionCabCap", parametros)
             .done((respuesta) => {
                 console.log(respuesta);       
                 if (respuesta.iCodSuperCab > 0) {
                     general.iCodSuperCab = respuesta.iCodSuperCab;
                     $('#cboRubro').removeAttr('disabled');
-                    $('#btngrabarrubro').removeAttr('disabled');
+                    debugger;
+                    if ($('#cboComponente').val().split('-')[1] == 1) {
+                        $('#btngrabarrubro').removeAttr('disabled');
+                        $('#txtfundamentorubro').removeAttr('disabled');
+                    } else {
+                        $('#txtfundamentorubro').attr('disabled', true);
+                        
+                    }                    
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                         type: "success"
@@ -347,9 +422,38 @@ function EjecutarDetalleInformacionGeneral() {
 
 function elegircalificacion(obj) {
     general.iCodCriterio = general.tblcriterios.row($(obj).parents('tr')).data().iCodCriterio;
+
+    if ($('#cboComponente').val().split('-')[1] == 1) {
+        $('#txtfundamentocioncriterio').attr('disabled', true);
+    } else {
+        $('#txtfundamentocioncriterio').removeAttr('disabled');
+    }
+
+    $('#cboCalificacioncriterio').val(0);
+    $('#txtfundamentocioncriterio').val('');
+
     $('#modalcalificacion').modal({ backdrop: 'static', keyboard: false });
     $('#modalcalificacion').modal('show');
 }
 function obtenerComponentes(data) {
     return $.ajax({ type: "POST", url: globals.urlWebApi + "api/Identificacion/ListarComponentesSelect", headers: { Accept: "application/json" }, dataType: 'json', data: data });
+}
+function obtenersupervisioncab() {
+
+    let parametros = {};
+
+    parametros.iCodIdentificacion = general.iCodIdentificacion;
+    parametros.iCodFichaTecnica = general.iCodFichaTecnica;
+    parametros.iCodComponente = $('#cboComponente').val().split('-')[0];
+    parametros.iCodActividad = $('#cboActividad').val();
+    parametros.iCodCalificacion = $("#cboCalificacion").val();
+    parametros.iCodProductor = $("#cboProductor").val();
+
+    $.post(globals.urlWebApi + "api/SuperVisionCapa/ObtenerSupervisionCapCab", parametros)
+        .done((respuesta) => {
+            console.log(respuesta);
+            if (respuesta.iCodSuperCab > 0) {
+                general.iCodSuperCab = respuesta.iCodSuperCab;          
+            }
+        });
 }

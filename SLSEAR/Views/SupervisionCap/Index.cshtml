@@ -12,7 +12,7 @@
                 <h4 class="card-title">Ficha de Supervisiòn a la Capacitacion</h4>
             </div>
             <div class="card-body">
-                <div class="col-sm-12 col-md-12" style="text-align:right">                  
+                <div class="col-sm-12 col-md-12" style="text-align:right">
                     <button class="btn btn-primary" id="btnregistrar" type="button">Grabar</button>
                 </div>
                 <div class="row">
@@ -39,7 +39,7 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label class="form-label">Rubros</label>
-                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboRubro" disabled >
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboRubro" disabled>
                                 <option label="Seleccione">Seleccione</option>
                             </select>
                         </div>
@@ -60,6 +60,16 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Productor</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboProductor">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-12">
                         <div class="form-group">
                             <h4>Criterios</h4>
@@ -67,7 +77,7 @@
                             </table>
                         </div>
                     </div>
-                </div>      
+                </div>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -144,6 +154,13 @@
                             <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboCalificacioncriterio">
                                 <option label="Seleccione">Seleccione</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Fundamento</label>
+                            <textarea id="txtfundamentocioncriterio" cols="100" rows="10">     
+                            </textarea>
                         </div>
                     </div>
                     <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblproductores">
