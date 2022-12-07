@@ -3,7 +3,9 @@
     tblcriterios: null,
     iCodFichaTecnica: null,
     iCodSuperCab: 0,
-    iCodCriterio:0
+    iCodCriterio: 0,
+    tblrubros: null,
+    iCodRubro:0
 };
 
 function EjecutarDetalleInformacionGeneral() {
@@ -50,20 +52,20 @@ function EjecutarDetalleInformacionGeneral() {
             console.log(error);
         });
 
-    $.post(globals.urlWebApi + "api/SuperVisionCapa/ListarRubros")
-        .done((respuesta) => {         
-            console.log(respuesta);
-            if (respuesta.length > 0) {            
-                $('#cboRubro').empty();
-                $('#cboRubro').append("<option value='0'>Seleccione</option>");
-                $.each(respuesta, function (key, value) {
-                            $('#cboRubro').append("<option value='" + value.iCodRubro + "' data-value='" + JSON.stringify(value.iCodRubro) + "'>" + value.vDescripcion + "</option>");
-                        });                
+    //$.post(globals.urlWebApi + "api/SuperVisionCapa/ListarRubros")
+    //    .done((respuesta) => {         
+    //        console.log(respuesta);
+    //        if (respuesta.length > 0) {            
+    //            $('#cboRubro').empty();
+    //            $('#cboRubro').append("<option value='0'>Seleccione</option>");
+    //            $.each(respuesta, function (key, value) {
+    //                        $('#cboRubro').append("<option value='" + value.iCodRubro + "' data-value='" + JSON.stringify(value.iCodRubro) + "'>" + value.vDescripcion + "</option>");
+    //                    });                
 
-            }
-        }).fail((error) => {
-            console.log(error);
-        });
+    //        }
+    //    }).fail((error) => {
+    //        console.log(error);
+    //    });
 
     $.post(globals.urlWebApi + "api/SuperVisionCapa/ListarCalificacion")
         .done((respuesta) => {
@@ -95,7 +97,7 @@ function EjecutarDetalleInformacionGeneral() {
         , autoWidth: false
         , processing: true
         //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
-        , drawCallback: function () {            
+        , drawCallback: function () {
             $('#tblcriterios thead').attr('class', 'table-success');
             $('[data-toggle="tooltip"]').tooltip();
         }
@@ -107,11 +109,71 @@ function EjecutarDetalleInformacionGeneral() {
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodCriterio"
                 , pvSortOrder: "asc"
-                , iCodRubro: $('#cboRubro').val() 
+                , iCodRubro: general.iCodRubro
             };
             $.ajax({
                 type: "POST",
                 url: globals.urlWebApi + "api/SuperVisionCapa/ListarCriterio",
+                headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
+                dataType: 'json',
+                data: parametro
+            })
+                .done(function (data) {
+                    callback({
+                        data: data,
+                        recordsTotal: data.length !== 0 ? data[0].iRecordCount : 0,
+                        recordsFiltered: data.length !== 0 ? data[0].iRecordCount : 0
+                    });
+                })
+                .fail(function (error) {
+                    console.log(error);
+                    cuandoAjaxFalla(error.status);
+                });
+        }
+        , columns: [
+            { data: "iCodCriterio", title: "iCodCosto", visible: false, orderable: false },
+            { data: "vDescripcion", title: "Descripcion", visible: true, orderable: false },
+            {
+                data: (row) => {
+                    let acciones = `<div class="nav-actions">`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
+                    //acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    //if (row.existe == 0) {
+                    acciones += `<a href="javascript:void(0);" onclick ="elegircalificacion(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-card-checklist"></i></a>`;
+                    //}
+                    acciones += `</div>`;
+                    return acciones;
+                }, title: "Acciones", visible: true, orderable: false
+            }
+        ]
+    });
+
+    general.tblrubros = $("#tblrubros").DataTable({
+        bFilter: false
+        , serverSide: true
+        , searching: false
+        , lengthChange: false
+        , paging: true
+        , autoWidth: false
+        , processing: true
+        //, dom: 'tr<"footer"l<"paging-info valign-wrapper"ip>>'
+        , drawCallback: function () {            
+            $('#tblrubros thead').attr('class', 'table-success');
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        , language: globals.lenguajeDataTable
+        , ajax: function (data, callback, settings) {
+            let paginaActual = 1 + (parseInt(settings._iDisplayStart) / parseInt(settings._iDisplayLength));
+            let parametro = {
+                piPageSize: parseInt(settings._iDisplayLength)
+                , piCurrentPage: paginaActual
+                , pvSortColumn: "iCodCriterio"
+                , pvSortOrder: "asc"
+                , iCodSuperCab: general.iCodSuperCab
+            };
+            $.ajax({
+                type: "POST",
+                url: globals.urlWebApi + "api/SuperVisionCapa/ListarRubros",
                 headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
                 dataType: 'json',
                 data: parametro
@@ -129,15 +191,18 @@ function EjecutarDetalleInformacionGeneral() {
                 });
         }
         , columns: [            
-            { data: "iCodCriterio", title: "iCodCosto", visible: false, orderable: false },
+            { data: "iCodRubro", title: "iCodRubro", visible: false, orderable: false },
             { data: "vDescripcion", title: "Descripcion", visible: true, orderable: false }, 
+            { data: "vFundamento", title: "vFundamento", visible: true, orderable: false },             
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
-                    //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
+                    acciones += `<a href="javascript:void(0);" onclick ="VerCriterio(this);" data-toggle="tooltip" title="Ver Criterios"><i class="fa fa-eye"></i></a>&nbsp&nbsp&nbsp`;
                     //acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
-                    acciones += `<a href="javascript:void(0);" onclick ="elegircalificacion(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-card-checklist"></i></a>`;
+                    if ($('#cboComponente').val().split('-')[1] == 1) {
+                        acciones += `<a href="javascript:void(0);" onclick ="asignarfundamento(this);"  data-toggle="tooltip" title="Asignar Fundamento"><i class="bi bi-card-checklist"></i></a>`;
+                    }
                     //}
                     acciones += `</div>`;
                     return acciones;
@@ -148,14 +213,14 @@ function EjecutarDetalleInformacionGeneral() {
 
     $('#btngrabarcalificacion').on('click', function (e) {
 
-        if ($('#cboRubro').val() == 0) {
-            notif({
-                msg: "<b>Incorrecto:</b>Debe Seleccionar Rubro",
-                type: "error"
-            });
-            $('#cboRubro').focus();
-            return;
-        }
+        //if ($('#cboRubro').val() == 0) {
+        //    notif({
+        //        msg: "<b>Incorrecto:</b>Debe Seleccionar Rubro",
+        //        type: "error"
+        //    });
+        //    $('#cboRubro').focus();
+        //    return;
+        //}
 
         if ($('#cboCalificacioncriterio').val() == "0") {
             notif({
@@ -169,7 +234,7 @@ function EjecutarDetalleInformacionGeneral() {
         let parametros = {};
 
         parametros.iCodSuperCab = general.iCodSuperCab;
-        parametros.iCodRubro = $('#cboRubro').val();
+        parametros.iCodRubro = general.iCodRubro;
         parametros.iCodCrtierio = general.iCodCriterio;
         parametros.iCodCalificacion = $('#cboCalificacioncriterio').val();
         parametros.vFundamento = $("#txtfundamentocioncriterio").val();
@@ -225,8 +290,10 @@ function EjecutarDetalleInformacionGeneral() {
             $('#txtfundamentorubro').attr('disabled', true);    
             $('#txtfundamentorubro').val('');
             $('#cboCalificacion').attr('disabled', true);    
+            $('#cboCalificacion').val(0);
         } else {
-            $('#cboProductor').attr('disabled', true);            
+            $('#cboProductor').attr('disabled', true);       
+            $('#cboProductor').val(0);       
             $('#txtfundamentorubro').removeAttr('disabled');
             $('#cboCalificacion').removeAttr('disabled');  
         }
@@ -261,16 +328,20 @@ function EjecutarDetalleInformacionGeneral() {
         obtenersupervisioncab();
     });
 
-    $('#btngrabarrubro').on('click', function () {
+    $('#cboComponente').on('change', function (e) {
+        obtenersupervisioncab();
+    });
 
-        if ($('#cboRubro').val() == 0) {
-            notif({
-                msg: "<b>Incorrecto:</b>Debe Seleccionar Rubro",
-                type: "error"
-            });
-            $('#cboRubro').focus();
-            return;
-        }
+    $('#btngrabarfundamentorubro').on('click', function () {
+
+        //if ($('#cboRubro').val() == 0) {
+        //    notif({
+        //        msg: "<b>Incorrecto:</b>Debe Seleccionar Rubro",
+        //        type: "error"
+        //    });
+        //    $('#cboRubro').focus();
+        //    return;
+        //}
         if ($('#txtfundamentorubro').val() == "") {
             notif({
                 msg: "<b>Incorrecto:</b>Debe Ingresar Fundamento / Comentario",
@@ -282,13 +353,16 @@ function EjecutarDetalleInformacionGeneral() {
         let parametros = {};
 
         parametros.iCodSuperCab = general.iCodSuperCab;
-        parametros.iCodRubro = $('#cboRubro').val();
+        parametros.iCodRubro = general.iCodRubro;
         parametros.vFundamento = $('#txtfundamentorubro').val();
 
         $.post(globals.urlWebApi + "api/SuperVisionCapa/InsertarSuperVisionDetCap", parametros)
             .done((respuesta) => {
                 console.log(respuesta);
-                if (respuesta.iCodSuperDet > 0) {          
+                if (respuesta.iCodSuperDet > 0) {  
+                    general.tblrubros.draw().clear();
+                    $('#modalfundamento').modal('hide');
+
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                         type: "success"
@@ -419,7 +493,16 @@ function EjecutarDetalleInformacionGeneral() {
             });
     });
 }
-
+function asignarfundamento(obj) {
+    general.iCodRubro = general.tblrubros.row($(obj).parents('tr')).data().iCodRubro;
+    $('#txtfundamentorubro').val('');
+    $('#modalfundamento').modal({ backdrop: 'static', keyboard: false });
+    $('#modalfundamento').modal('show');
+}
+function VerCriterio(obj) {
+    general.iCodRubro = general.tblrubros.row($(obj).parents('tr')).data().iCodRubro;
+    general.tblcriterios.draw().clear();
+}
 function elegircalificacion(obj) {
     general.iCodCriterio = general.tblcriterios.row($(obj).parents('tr')).data().iCodCriterio;
 
@@ -452,8 +535,9 @@ function obtenersupervisioncab() {
     $.post(globals.urlWebApi + "api/SuperVisionCapa/ObtenerSupervisionCapCab", parametros)
         .done((respuesta) => {
             console.log(respuesta);
-            if (respuesta.iCodSuperCab > 0) {
-                general.iCodSuperCab = respuesta.iCodSuperCab;          
-            }
+            //if (respuesta.iCodSuperCab > 0) {
+            general.iCodSuperCab = respuesta.iCodSuperCab;          
+            general.tblrubros.draw().clear();
+            //}
         });
 }
