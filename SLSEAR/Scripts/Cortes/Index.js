@@ -227,12 +227,12 @@ function EjecutarDetalleInformacionGeneral() {
                 });
         }
         , columns: [
-            {
-                className: 'dt-control',
-                orderable: false,
-                data: null,
-                defaultContent: '',
-            },
+            //{
+            //    className: 'dt-control',
+            //    orderable: false,
+            //    data: null,
+            //    defaultContent: '',
+            //},
             { data: "iCodCorteDetalle", title: "iCodCorteDetalle", visible: false, orderable: false },
             { data: "Entregable", title: "Entregable", visible: true, orderable: false }, 
             { data: "idias", title: "Dias", visible: true, orderable: false },             

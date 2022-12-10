@@ -173,7 +173,7 @@ function EjecutarDetalleInformacionGeneral() {
             debugger;
             $.ajax({
                 type: "POST",
-                url: globals.urlWebApi + "api/PlanAsistenciaTec/ListarPlanAsistenciaTec",
+                url: globals.urlWebApi + "api/PlanAsistenciaTec/ListarPlanAsistenciaTec2",
                 headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
                 dataType: 'json',
                 data: parametros

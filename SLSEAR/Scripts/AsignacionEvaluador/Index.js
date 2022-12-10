@@ -36,7 +36,7 @@ function EjecutarDetalleInformacionGeneral() {
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodIdentificacion"
                 , pvSortOrder: "asc"
-                , iCodUbigeoT1: ""
+                , iCodUbigeoT1: $("#cbodepartamento").val()
             };
             $.ajax({
                 type: "POST",
@@ -95,6 +95,10 @@ function EjecutarDetalleInformacionGeneral() {
             tr.addClass('shown');
             cargarDetalle(row.data().iCodIdentificacion);            
         }
+    });
+
+    $("#cbodepartamento").on('change', function (e) {
+        general.tblsearsx10328.clear().draw();
     });
 
     $('#btneliminar').on('click', function () {

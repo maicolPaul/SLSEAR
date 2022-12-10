@@ -196,12 +196,13 @@ function EjecutarDetalleInformacionGeneral() {
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodPlanCap"
                 , pvSortOrder: "asc"
-               , iCodActividad: general.elementoSeleccionado !== null ? general.elementoSeleccionado.iCodActividad : 0            
+                , iCodActividad: general.elementoSeleccionado !== null ? general.elementoSeleccionado.iCodActividad : 0  
+                , iCodExtensionista: general.usuario
             };
             debugger;
             $.ajax({
                 type: "POST",
-                url: globals.urlWebApi + "api/PlanCapacitacion/ListarPlanCapacitacion",
+                url: globals.urlWebApi + "api/PlanCapacitacion/ListarPlanCapacitacion2",
                 headers: { Accept: "application/json" /*, Authorization: `Bearer ${globals.sesion.token}`*/ },
                 dataType: 'json',
                 data: parametros
