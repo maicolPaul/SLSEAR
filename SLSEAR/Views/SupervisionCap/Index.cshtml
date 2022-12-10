@@ -12,7 +12,7 @@
                 <h4 class="card-title">Ficha de Supervisiòn a la Capacitacion</h4>
             </div>
             <div class="card-body">
-                <div class="col-sm-12 col-md-12" style="text-align:right">                  
+                <div class="col-sm-12 col-md-12" style="text-align:right">
                     <button class="btn btn-primary" id="btnregistrar" type="button">Grabar</button>
                 </div>
                 <div class="row">
@@ -36,26 +36,35 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12">
                         <div class="form-group">
-                            <label class="form-label">Rubros</label>
-                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboRubro" disabled >
-                                <option label="Seleccione">Seleccione</option>
-                            </select>
+                            <h4>Rubros</h4>
+                            <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblrubros">
+                            </table>
                         </div>
                     </div>
-                    <div class="col-6">
+                    @*<div class="col-6">
                         <div class="form-group">
                             <button type="button" class="btn btn-success" id="btngrabarrubro" disabled><i class="fa fa-plus-circle" aria-hidden="true"></i>Grabar Rubro</button>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
-                <div class="row">
+                @*<div class="row">
                     <div class="col-6">
                         <div class="form-group">
                             <label class="form-label">Fundamento / Comentario</label>
                             <textarea id="txtfundamentorubro" cols="100" rows="10">     
                             </textarea>
+                        </div>
+                    </div>
+                </div>*@
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Productor</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboProductor">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -67,7 +76,7 @@
                             </table>
                         </div>
                     </div>
-                </div>      
+                </div>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -146,13 +155,45 @@
                             </select>
                         </div>
                     </div>
-                    <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblproductores">
-                    </table>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Fundamento</label>
+                            <textarea id="txtfundamentocioncriterio" cols="100" rows="10">     
+                            </textarea>
+                        </div>
+                    </div>                    
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
                 <button class="btn btn-primary" id="btngrabarcalificacion" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalfundamento" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fundamento del Rubro</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">             
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label">Fundamento</label>
+                            <textarea id="txtfundamentorubro" cols="50" rows="10">     
+                            </textarea>
+                        </div>
+                    </div>           
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btngrabarfundamentorubro" type="button">Ok</button>
             </div>
         </div>
     </div>
