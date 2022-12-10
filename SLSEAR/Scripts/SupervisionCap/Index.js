@@ -139,7 +139,7 @@ function EjecutarDetalleInformacionGeneral() {
                     //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
                     //acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
-                    acciones += `<a href="javascript:void(0);" onclick ="elegircalificacion(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-card-checklist"></i></a>`;
+                    acciones += `<a href="javascript:void(0);" onclick ="elegircalificacion(this);"  data-toggle="tooltip" title="Calificacion"><i class="bi bi-card-checklist"></i></a>`;
                     //}
                     acciones += `</div>`;
                     return acciones;
@@ -536,7 +536,20 @@ function obtenersupervisioncab() {
         .done((respuesta) => {
             console.log(respuesta);
             //if (respuesta.iCodSuperCab > 0) {
-            general.iCodSuperCab = respuesta.iCodSuperCab;          
+            general.iCodSuperCab = respuesta.iCodSuperCab;       
+            $('#txtobsgeneral').val('');
+            $('#txtobsgeneral').val(respuesta.vObservaciongeneral);
+            $('#txtrecomendacion').val('');            
+            $('#txtrecomendacion').val(respuesta.vRecomendacion);  
+            $('#txtnomsupervisor').val('');            
+            $('#txtnomsupervisor').val(respuesta.vNombreSupervisor);
+            $('#txtcargosupervisor').val('');
+            $('#txtcargosupervisor').val(respuesta.vCargoSupervisor);
+            $('#txtentidadsupervisor').val('');
+            $('#txtentidadsupervisor').val(respuesta.vEntidadSupervisor);
+            //$('#txtfechasupervisor').val('2022-01-01')
+            $('#txtfechasupervisor').val(respuesta.dFechaSupervisor);
+
             general.tblrubros.draw().clear();
             //}
         });
