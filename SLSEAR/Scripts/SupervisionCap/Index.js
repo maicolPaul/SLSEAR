@@ -110,6 +110,7 @@ function EjecutarDetalleInformacionGeneral() {
                 , pvSortColumn: "iCodCriterio"
                 , pvSortOrder: "asc"
                 , iCodRubro: general.iCodRubro
+                , iCodSuperCab:general.iCodSuperCab
             };
             $.ajax({
                 type: "POST",
@@ -193,16 +194,18 @@ function EjecutarDetalleInformacionGeneral() {
         , columns: [            
             { data: "iCodRubro", title: "iCodRubro", visible: false, orderable: false },
             { data: "vDescripcion", title: "Descripcion", visible: true, orderable: false }, 
-            { data: "vFundamento", title: "vFundamento", visible: true, orderable: false },             
+            { data: "vFundamento", title: "Fundamento", visible: true, orderable: false },             
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
-                    acciones += `<a href="javascript:void(0);" onclick ="VerCriterio(this);" data-toggle="tooltip" title="Ver Criterios"><i class="fa fa-eye"></i></a>&nbsp&nbsp&nbsp`;
-                    //acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
-                    //if (row.existe == 0) {
-                    if ($('#cboComponente').val().split('-')[1] == 1) {
-                        acciones += `<a href="javascript:void(0);" onclick ="asignarfundamento(this);"  data-toggle="tooltip" title="Asignar Fundamento"><i class="bi bi-card-checklist"></i></a>`;
-                    }
+                    if (general.iCodSuperCab > 0) {
+                        acciones += `<a href="javascript:void(0);" onclick ="VerCriterio(this);" data-toggle="tooltip" title="Ver Criterios"><i class="fa fa-eye"></i></a>&nbsp&nbsp&nbsp`;
+                        //acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                        //if (row.existe == 0) {
+                        if ($('#cboComponente').val().split('-')[1] == 1) {
+                            acciones += `<a href="javascript:void(0);" onclick ="asignarfundamento(this);"  data-toggle="tooltip" title="Asignar Fundamento"><i class="bi bi-card-checklist"></i></a>`;
+                        }
+                    }                    
                     //}
                     acciones += `</div>`;
                     return acciones;
@@ -321,9 +324,13 @@ function EjecutarDetalleInformacionGeneral() {
     $("#cboRubro").on('change', function (e) {
         general.tblcriterios.draw().clear();
     });
-    $("#cboCalificacion").on('change', function (e) {
-        obtenersupervisioncab();
+    $("#cboActividad").on('change', function (e) {
+        debugger;
+        if ($('#cboComponente').val().split('-')[1] == 1) {
+            obtenersupervisioncab();
+        }        
     });
+
     $("#cboProductor").on('change', function (e) {
         obtenersupervisioncab();
     });
@@ -485,6 +492,7 @@ function EjecutarDetalleInformacionGeneral() {
                         $('#txtfundamentorubro').attr('disabled', true);
                         
                     }                    
+                    general.tblrubros.draw().clear();
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                         type: "success"
