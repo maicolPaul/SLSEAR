@@ -539,7 +539,7 @@ function obtenerComponentes(data) {
 function obtenersupervisioncab() {
 
     let parametros = {};
-
+    console.log(parametros);
     parametros.iCodIdentificacion = general.iCodIdentificacion;
     parametros.iCodFichaTecnica = general.iCodFichaTecnica;
     parametros.iCodComponente = $('#cboComponente').val().split('-')[0];
@@ -550,21 +550,32 @@ function obtenersupervisioncab() {
     $.post(globals.urlWebApi + "api/SuperVisionCapa/ObtenerSupervisionCapCab", parametros)
         .done((respuesta) => {
             console.log(respuesta);
-            //if (respuesta.iCodSuperCab > 0) {
-            general.iCodSuperCab = respuesta.iCodSuperCab;       
-            $('#txtobsgeneral').val('');
-            $('#txtobsgeneral').val(respuesta.vObservaciongeneral);
-            $('#txtrecomendacion').val('');            
-            $('#txtrecomendacion').val(respuesta.vRecomendacion);  
-            $('#txtnomsupervisor').val('');            
-            $('#txtnomsupervisor').val(respuesta.vNombreSupervisor);
-            $('#txtcargosupervisor').val('');
-            $('#txtcargosupervisor').val(respuesta.vCargoSupervisor);
-            $('#txtentidadsupervisor').val('');
-            $('#txtentidadsupervisor').val(respuesta.vEntidadSupervisor);            
-            $('#txtfechasupervisor').val(respuesta.dFechaSupervisor);
-            $("#cboCalificacion").val(respuesta.iCodCalificacion);
-            general.tblrubros.draw().clear();
-            //}
+            if (respuesta.iCodSuperCab > 0) {
+                debugger;
+                general.iCodSuperCab = respuesta.iCodSuperCab;
+                $('#txtobsgeneral').val('');
+                $('#txtobsgeneral').val(respuesta.vObservaciongeneral);
+                $('#txtrecomendacion').val('');
+                $('#txtrecomendacion').val(respuesta.vRecomendacion);
+                $('#txtnomsupervisor').val('');
+                $('#txtnomsupervisor').val(respuesta.vNombreSupervisor);
+                $('#txtcargosupervisor').val('');
+                $('#txtcargosupervisor').val(respuesta.vCargoSupervisor);
+                $('#txtentidadsupervisor').val('');
+                $('#txtentidadsupervisor').val(respuesta.vEntidadSupervisor);
+                $('#txtfechasupervisor').val(respuesta.dFechaSupervisor);
+                $("#cboCalificacion").val(respuesta.iCodCalificacion);
+                general.tblrubros.draw().clear();
+            } else {
+                general.iCodSuperCab = 0;
+                $('#txtobsgeneral').val('');                
+                $('#txtrecomendacion').val('');                
+                $('#txtnomsupervisor').val('');                
+                $('#txtcargosupervisor').val('');                
+                $('#txtentidadsupervisor').val('');                                
+                $('#txtfechasupervisor').val('');
+                $("#cboCalificacion").val(0);
+                general.tblrubros.draw().clear();
+            }
         });
 }
