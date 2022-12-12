@@ -561,10 +561,9 @@ function obtenersupervisioncab() {
             $('#txtcargosupervisor').val('');
             $('#txtcargosupervisor').val(respuesta.vCargoSupervisor);
             $('#txtentidadsupervisor').val('');
-            $('#txtentidadsupervisor').val(respuesta.vEntidadSupervisor);
-            //$('#txtfechasupervisor').val('2022-01-01')
+            $('#txtentidadsupervisor').val(respuesta.vEntidadSupervisor);            
             $('#txtfechasupervisor').val(respuesta.dFechaSupervisor);
-
+            $("#cboCalificacion").val(respuesta.iCodCalificacion);
             general.tblrubros.draw().clear();
             //}
         });
