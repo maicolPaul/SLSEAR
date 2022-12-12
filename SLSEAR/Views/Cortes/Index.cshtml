@@ -47,6 +47,44 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header cardheadertitle">
+                <h4 class="card-title">
+                    Cronograma Detallado
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-9">
+                        <h4>Lista de Cronograma</h4>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-label">Componentes Por Usuario</label>
+                            <select class="form-control form-select select2" data-bs-placeholder="Seleccione" id="cboComponentefiltro">
+                                <option label="Seleccione">Seleccione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row">
+                    <div class="col-sm-12 col-md-12" style="text-align:right">
+                        <button type="button" class="btn btn-success" id="btnagregar"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i> Agregar</button>
+                    </div>
+                </div>*@
+                <table class="table table-bordered text-nowrap border-bottom dataTable" id="tblcronograma">
+                </table>
+                @*<div class="row">
+                    <div class="col-sm-12 col-md-12" style="text-align:right">
+                        <button type="button" class="btn btn-success" id="btnvistaprevia"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i> Vista Previa</button>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="modalasignarCorte" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -93,6 +131,46 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
                 <button class="btn btn-primary" id="btneliminarcorteOK" type="button">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalasignarFechaRealCorte" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Asignacion de Corte de Fecha Inicio y Fin Real</h5>
+                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">                
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <label class="form-group">
+                            <label class="form-label">Actividad</label>
+                            <input type="text" class="form-control mayuscula" id="txtactividad" disabled readonly>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Fecha Inicio Real<span class="text-red">*</span></label>
+                            <input type="date" class="form-control mayuscula" id="txtfechainicio" placeholder="dias">
+                        </label>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <label class="form-group">
+                            <label class="form-label">Fecha Fin Real<span class="text-red">*</span></label>
+                            <input type="date" class="form-control mayuscula" id="txtfechafin" placeholder="dias">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" id="btncerrar">Cerrar</button>
+                <button class="btn btn-primary" id="btnasignarfechas" type="button">Ok</button>
             </div>
         </div>
     </div>
