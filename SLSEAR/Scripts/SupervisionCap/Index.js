@@ -134,6 +134,8 @@ function EjecutarDetalleInformacionGeneral() {
         , columns: [
             { data: "iCodCriterio", title: "iCodCosto", visible: false, orderable: false },
             { data: "vDescripcion", title: "Descripcion", visible: true, orderable: false },
+            { data: "vFundamento", title: "Fundamento", visible: true, orderable: false },            
+            { data: "vDescripcionCal", title: "Calificacion", visible: true, orderable: false },            
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
@@ -247,6 +249,7 @@ function EjecutarDetalleInformacionGeneral() {
                 console.log(respuesta);
                 if (respuesta.iCodSuperDet > 0) {  
                     $('#modalcalificacion').modal('hide');
+                    general.tblcriterios.draw().clear();
                     notif({
                         msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                         type: "success"
@@ -504,25 +507,29 @@ function EjecutarDetalleInformacionGeneral() {
 function asignarfundamento(obj) {
     general.iCodRubro = general.tblrubros.row($(obj).parents('tr')).data().iCodRubro;
     $('#txtfundamentorubro').val('');
+    $('#txtfundamentorubro').val(general.tblrubros.row($(obj).parents('tr')).data().vFundamento);
     $('#modalfundamento').modal({ backdrop: 'static', keyboard: false });
     $('#modalfundamento').modal('show');
 }
 function VerCriterio(obj) {
     general.iCodRubro = general.tblrubros.row($(obj).parents('tr')).data().iCodRubro;
+    $('#lblcriterios').html("Criterios del Rubro " + general.tblrubros.row($(obj).parents('tr')).data().vDescripcion);
     general.tblcriterios.draw().clear();
 }
 function elegircalificacion(obj) {
+    debugger;
     general.iCodCriterio = general.tblcriterios.row($(obj).parents('tr')).data().iCodCriterio;
-
+    console.log(general.tblcriterios.row($(obj).parents('tr')).data());
     if ($('#cboComponente').val().split('-')[1] == 1) {
         $('#txtfundamentocioncriterio').attr('disabled', true);
+        $('#txtfundamentocioncriterio').val('');
     } else {
         $('#txtfundamentocioncriterio').removeAttr('disabled');
+        $('#txtfundamentocioncriterio').val(general.tblcriterios.row($(obj).parents('tr')).data().vFundamento);
     }
 
-    $('#cboCalificacioncriterio').val(0);
-    $('#txtfundamentocioncriterio').val('');
-
+    $('#cboCalificacioncriterio').val(general.tblcriterios.row($(obj).parents('tr')).data().iCodCalificacion);
+    
     $('#modalcalificacion').modal({ backdrop: 'static', keyboard: false });
     $('#modalcalificacion').modal('show');
 }
