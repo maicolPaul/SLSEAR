@@ -62,7 +62,7 @@ function EjecutarDetalleInformacionGeneral() {
         general.tblactividad.clear().draw();
     });
 
-    cargarusuario();
+    cargarusuario(25);
     //cargarcomponente();
     //$("#cboActividad").on('change', function (e) {
     //    console.log(e.currentTarget.value);

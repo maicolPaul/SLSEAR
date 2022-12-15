@@ -783,7 +783,7 @@ function EjecutarDetalleInformacionGeneral() {
 
     general.usuario = arreglousuario[0];
 
-    cargarusuario();
+    cargarusuario(22);
     CargarComponentes();
     CausasDirectas();
     EfectosDirectos();

@@ -503,6 +503,7 @@ function EjecutarDetalleInformacionGeneral() {
                 }
             });
     });
+    cargarusuario(11);
 }
 function asignarfundamento(obj) {
     general.iCodRubro = general.tblrubros.row($(obj).parents('tr')).data().iCodRubro;

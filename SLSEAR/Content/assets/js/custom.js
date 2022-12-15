@@ -412,6 +412,7 @@ $(document).ready(function () {
         localStorage.setItem("horizantal", "True");
         // $('#slide-left').addClass('d-none');
         // $('#slide-right').addClass('d-none');
+        debugger;
         $('#slide-left').removeClass('d-none');
         $('#slide-right').removeClass('d-none');
         if (document.querySelector('.horizontal').firstElementChild.classList.contains('login-img') !== true) {
@@ -763,10 +764,9 @@ function abrirformulacion() {
     window.location.href = $('#hdnpaginaformulacion').val();     
 }
 
-function cargarusuario() {
+function cargarusuario(codigo) {
 
-    let usuario = $('#hdnusuario').val();
-
+    let usuario = $('#hdnusuario').val();    
     let arreglousuario = new Array();
     arreglousuario = usuario.split('|');    
     document.getElementById('lblusuariologeado').innerHTML = arreglousuario[1] + " " + arreglousuario[2] + " " + arreglousuario[3];
@@ -776,4 +776,70 @@ function cargarusuario() {
         $('#subitemmenu7').attr('style', 'visibility:hidden');  
         $('#subitemmenu8').attr('style', 'visibility:hidden');        
     }
+    //debugger;
+    var entidad = {};
+    entidad.iTipoReg = arreglousuario[7];
+    //entidad.iTipoReg = 2;
+
+    $.post(globals.urlWebApi + "api/Extensionista/ObtenerMenu", entidad)
+        .done((respuesta) => {            
+            console.log('logeado');
+            console.log(respuesta);                    
+            let menuarr = [];
+            $.each(respuesta, function (index, value) {
+                console.log(value);                
+                if (value.iPadre == 0) {
+                    value.subitems = [];
+                    menuarr.push(value);                   
+                }
+            });
+
+            console.log(menuarr);
+            debugger;
+            $.each(menuarr, function (index, value) {                
+                $.each(respuesta, function (index1, value1) {                  
+                    if (value1.iPadre != 0) {
+                        if (value.iCodMenu == value1.iPadre) {
+                            value.subitems.push(value1);
+                        }
+                    }                    
+                });
+            });
+            console.log(menuarr);
+
+            console.log("menu");
+            let menu = "";
+            $.each(menuarr, function (index, value) {
+                console.log(value);
+                menu=menu+'<li class="sub-slide" id="menu'+(index+1)+'">';
+                menu = menu + '<a class="sub-side-menu__item" data-bs-toggle="sub-slide" onclick="expandirmenu(this)" href="javascript:void(0)">';
+                menu = menu + '<span class="sub-side-menu__label">' + value.vTitulo +'</span><i class="sub-angle fe fe-chevron-right"></i>';
+                menu = menu + '</a>';
+                menu = menu + '<ul class="sub-slide-menu">';
+                $.each(value.subitems, function (index1, value1) {
+                    console.log(value1);
+                    menu = menu + '<li><a class="sub-slide-item" id="subitemmenu' + (index + 1)+''+(index1+1)+'" href="' + value1.vRuta +'">' + value1.vTitulo +'</a></li >';                                                     
+                });
+                menu = menu + '</ul>';   
+                menu = menu + '</li>';
+            });
+            $('#menu').html(menu);
+            console.log(menu);       
+            
+            $(document.getElementById('subitemmenu'+codigo).parentNode.parentNode.parentNode.parentNode.parentNode).addClass('is-expanded');
+            $(document.getElementById('subitemmenu'+codigo).parentNode.parentNode.parentNode).addClass('is-expanded');
+            $(document.getElementById('subitemmenu' + codigo)).css('color', '#6c5ffc');
+
+        }).fail((error) => {
+            console.log(error);
+        });
+}
+function expandirmenu(obj) {
+    //debugger;
+    console.log(obj);
+    if ($(obj.parentNode).attr("class") == "sub-slide") {
+        $(obj.parentNode).addClass("is-expanded")
+    } else {
+        $(obj.parentNode).removeClass("is-expanded")
+    }    
 }

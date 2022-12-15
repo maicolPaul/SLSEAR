@@ -215,10 +215,10 @@ function EjecutarDetalleInformacionGeneral() {
             });
     });
 
-    cargarusuario();
-    $('#menuformulacion').addClass('is-expanded');
-    $('#submenuacreditacion').addClass('is-expanded');    
-    $('#subitemmenu3').css('color', '#6c5ffc');    
+    cargarusuario(13);
+    //$('#menuformulacion').addClass('is-expanded');
+    //$('#submenuacreditacion').addClass('is-expanded');    
+    //$('#subitemmenu3').css('color', '#6c5ffc');    
 }
 
 function openData(verb, url, data, target) {

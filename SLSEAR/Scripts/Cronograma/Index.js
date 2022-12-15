@@ -14,7 +14,7 @@ function EjecutarDetalleInformacionGeneral() {
 
     general.usuario = arreglousuario[0];
 
-    cargarusuario();
+    cargarusuario(23);
 
     var dato = {};
 

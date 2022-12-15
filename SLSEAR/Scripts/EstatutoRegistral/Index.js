@@ -24,10 +24,11 @@ function EjecutarDetalleInformacionGeneral() {
             }
         });
 
-    $('#menuformulacion').addClass('is-expanded');
-    $('#submenuacreditacion').addClass('is-expanded');
-    $('#subitemmenu7').css('color', '#6c5ffc');
-    cargarusuario();
+    //$('#menuformulacion').addClass('is-expanded');
+    //$('#submenuacreditacion').addClass('is-expanded');
+    //$('#subitemmenu7').css('color', '#6c5ffc');
+    cargarusuario(17);
+
     $('#file').on('change', function () {
         var fileInput = document.getElementById('file');
         var filePath = fileInput.value;

@@ -605,9 +605,8 @@
                                     <i class="side-menu__icon fe fe-cpu"></i>
                                     <span class="side-menu__label">Formulación</span><i class="angle fe fe-chevron-right"></i>
                                 </a>
-                                <ul class="slide-menu">
-                                    <li class="side-menu-label1"><a href="javascript:void(0)">Submenu items</a></li>
-                                    <li class="sub-slide" id="submenuacreditacion">
+                                <ul class="slide-menu" id="menu">                                    
+                                    @*<li class="sub-slide" id="submenuacreditacion">
                                         <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)">
                                             <span class="sub-side-menu__label">Acreditación de la Alianza Estratégica</span><i class="sub-angle fe fe-chevron-right"></i>
                                         </a>
@@ -622,8 +621,7 @@
                                             <li><a class="sub-slide-item" id="subitemmenu8" href="@Url.Action("Index","AcreditacionExtensionista")">Acreditación de extensionista</a></li>
                                         </ul>
                                     </li>
-                                    <li class="sub-slide" id="subfichatecnica">
-                                        @*<a href="javascript:void(0)" class="slide-item">Submenu-1</a>*@
+                                    <li class="sub-slide" id="subfichatecnica">                                        
                                         <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)">
                                             <span class="sub-side-menu__label">Ficha Tecnica</span><i class="sub-angle fe fe-chevron-right"></i>
                                         </a>
@@ -635,37 +633,27 @@
                                             <li><a class="sub-slide-item" id="subitemmenu25" href="@Url.Action("Index","PlanCapa")">Plan Capacitacion</a></li>
                                             <li><a class="sub-slide-item" id="subitemmenu26" href="@Url.Action("Index","PlanAtencionTec")">Plan Asistencia Tecnica</a></li>
                                             <li><a class="sub-slide-item" id="subitemmenu26" href="@Url.Action("Index","FinRegExt")">Envio de Informacion - Evaluación</a></li>
-                                            @*<li><a class="sub-slide-item" id="subitemmenu28" href="@Url.Action("Index","ComiteEvaluador")">Comite Evaluador</a></li>
-                <li><a class="sub-slide-item" id="subitemmenu29" href="@Url.Action("Index","AsignacionEvaluador")">Asignacion Evaluador</a></li>
-                <li><a class="sub-slide-item" id="subitemmenu27" href="@Url.Action("Index","FichaEvaluacion")">Ficha Evaluacion</a></li>*@
-
                                         </ul>
                                     </li>
-                                    <li class="sub-slide" id="subfichatecnica">
-                                        @*<a href="javascript:void(0)" class="slide-item">Submenu-1</a>*@
+                                    <li class="sub-slide" id="subfichatecnica">                                        
                                         <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)">
                                             <span class="sub-side-menu__label">Administración</span><i class="sub-angle fe fe-chevron-right"></i>
                                         </a>
                                         <ul class="sub-slide-menu">
                                             <li><a class="sub-slide-item" id="subitemmenu28" href="@Url.Action("Index","ComiteEvaluador")">Comite Evaluador</a></li>
                                             <li><a class="sub-slide-item" id="subitemmenu29" href="@Url.Action("Index","AsignacionEvaluador")">Asignacion Evaluador</a></li>
-                                            @*<li><a class="sub-slide-item" id="subitemmenu27" href="@Url.Action("Index","FichaEvaluacion")">Ficha Evaluacion</a></li>*@
-
                                         </ul>
                                     </li>
-                                    <li class="sub-slide" id="subfichatecnica">
-                                        @*<a href="javascript:void(0)" class="slide-item">Submenu-1</a>*@
+                                    <li class="sub-slide" id="subfichatecnica">                                        
                                         <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)">
                                             <span class="sub-side-menu__label">Evaluacion</span><i class="sub-angle fe fe-chevron-right"></i>
                                         </a>
                                         <ul class="sub-slide-menu">
                                             <li><a class="sub-slide-item" id="subitemmenu27" href="@Url.Action("Index","FichaEvaluacion")">Ficha Evaluacion</a></li>
-
                                         </ul>
                                     </li>
 
-                                    <li class="sub-slide" id="subfichatecnica">
-                                        @*<a href="javascript:void(0)" class="slide-item">Submenu-1</a>*@
+                                    <li class="sub-slide" id="subfichatecnica">                                        
                                         <a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0)">
                                             <span class="sub-side-menu__label">Post Evaluacion</span><i class="sub-angle fe fe-chevron-right"></i>
                                         </a>
@@ -679,8 +667,8 @@
                                         <ul class="sub-slide-menu">
                                             <li><a class="sub-slide-item" id="subitemmenu27" href="@Url.Action("Index","Cortes")">Orden de Servicio</a></li>
                                         </ul>
-                                    </li>
-                                </ul>
+                                    </li>*@
+                                </ul>                             
                             </li>
                             @*<li>
                                     <a class="side-menu__item" href="widgets.html">
@@ -1487,7 +1475,7 @@
     <!--<script src="~/Content/assets/js/tooltip&popover.js"></script>-->
 
     <!-- CUSTOM JS -->
-    <script src="~/Content/assets/js/custom.js"></script>
+    <script src="~/Content/assets/js/custom.js?noCache=@Guid.NewGuid().ToString()"></script>
 
 </body>
 

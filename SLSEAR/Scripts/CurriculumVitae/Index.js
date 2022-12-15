@@ -722,12 +722,11 @@ function EjecutarDetalleInformacionGeneral() {
         }
     });
 
+    cargarusuario(14);
 
-    cargarusuario();
-
-    $('#menuformulacion').addClass('is-expanded');
-    $('#submenuacreditacion').addClass('is-expanded');
-    $('#subitemmenu4').css('color', '#6c5ffc');
+    //$('#menuformulacion').addClass('is-expanded');
+    //$('#submenuacreditacion').addClass('is-expanded');
+    //$('#subitemmenu4').css('color', '#6c5ffc');
 
     $('#dFechaInicio').on('blur', function () {        
         if ($('#dFechaInicio').val() != "" && $('#dFechaFin').val() != "") {

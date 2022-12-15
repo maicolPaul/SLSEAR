@@ -36,8 +36,7 @@ function EjecutarDetalleInformacionGeneral() {
             });
         
     });
-
-
+    cargarusuario(27);
 }
 
 function openData(verb, url, data, target) {

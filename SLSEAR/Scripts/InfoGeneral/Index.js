@@ -32,7 +32,7 @@ function EjecutarDetalleInformacionGeneral() {
 
     general.usuario = arreglousuario[0];
 
-    cargarusuario();
+    cargarusuario(21);
 
     var entidad = {};
 
@@ -804,10 +804,10 @@ function EjecutarDetalleInformacionGeneral() {
             });
     });  
 
-    $('#menuformulacion').addClass('is-expanded');
-    //$('#submenuacreditacion').addClass('is-expanded');
-    $('#subfichatecnica').addClass('is-expanded');    
-    $('#subitemmenu21').css('color', '#6c5ffc');    
+    //$('#menuformulacion').addClass('is-expanded');
+    ////$('#submenuacreditacion').addClass('is-expanded');
+    //$('#subfichatecnica').addClass('is-expanded');    
+    //$('#subitemmenu21').css('color', '#6c5ffc');    
 }
 
 function monthDiff(d1, d2) {

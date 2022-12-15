@@ -353,10 +353,10 @@ function EjecutarDetalleInformacionGeneral() {
         }  
     });
 
-    cargarusuario();
-    $('#menuformulacion').addClass('is-expanded');
-    $('#submenuacreditacion').addClass('is-expanded');
-    $('#subitemmenu2').css('color', '#6c5ffc');    
+    cargarusuario(12);
+    //$('#menuformulacion').addClass('is-expanded');
+    //$('#submenuacreditacion').addClass('is-expanded');
+    //$('#subitemmenu2').css('color', '#6c5ffc');    
 }
 function ControlRepresentante(op) {
     $('#divrepresentante').empty();

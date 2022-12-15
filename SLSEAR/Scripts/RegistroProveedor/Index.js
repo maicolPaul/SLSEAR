@@ -127,9 +127,9 @@ function EjecutarDetalleInformacionGeneral() {
         document.body.appendChild(form);
         form.submit();
     }
-    cargarusuario();
-    $('#menuformulacion').addClass('is-expanded');
-    $('#submenuacreditacion').addClass('is-expanded');
-    $('#subitemmenu6').css('color', '#6c5ffc');
+    cargarusuario(16);
+    //$('#menuformulacion').addClass('is-expanded');
+    //$('#submenuacreditacion').addClass('is-expanded');
+    //$('#subitemmenu6').css('color', '#6c5ffc');
 
 }

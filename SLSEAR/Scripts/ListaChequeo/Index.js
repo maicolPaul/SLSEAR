@@ -359,11 +359,7 @@ function EjecutarDetalleInformacionGeneral() {
         form.submit();
     }
 
-    cargarusuario();
-
-    $('#menuformulacion').addClass('is-expanded');
-    $('#submenuacreditacion').addClass('is-expanded');
-    $('#subitemmenu1').css('color', '#6c5ffc');
+    cargarusuario(11);
     
     //$('#subitemmenu1').add("style", "color: #6c5ffc !important;");
     //$('#subitemmenu1').add("style", "background: #6c5ffc !important;");

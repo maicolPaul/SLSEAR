@@ -50,7 +50,7 @@ $('#btningresar').on('click', function (e) {
 
                 globals.usuario = respuesta.iCodExtensionista;
 
-                var objusuario = { iCodUsuario: respuesta.iCodExtensionista + "|" + respuesta.vNombres + "|" + respuesta.vApepat + "|" + respuesta.vApemat + "|" + respuesta.dFechaUltimoAcceso + "|" + respuesta.iCodEmpresa + "|" + respuesta.vNombrePropuesta };
+                var objusuario = { iCodUsuario: respuesta.iCodExtensionista + "|" + respuesta.vNombres + "|" + respuesta.vApepat + "|" + respuesta.vApemat + "|" + respuesta.dFechaUltimoAcceso + "|" + respuesta.iCodEmpresa + "|" + respuesta.vNombrePropuesta +"|"+respuesta.iEnvio };
 
                 $.ajax({
                     url: $('#hdrutasession').val(),
