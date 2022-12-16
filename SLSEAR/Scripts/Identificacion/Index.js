@@ -31,7 +31,9 @@ let general = {
     iCodEfecto: null,
     iCodEfectoIndirecto: null,
     tblindicadores: null,
-    elementoSeleccionadoIndicador:null
+    elementoSeleccionadoIndicador: null,
+    cantidadtencnologias: 0,
+    cantidadproductores:0
 };
 
 function Indicadores() {
@@ -826,6 +828,7 @@ function EjecutarDetalleInformacionGeneral() {
                         recordsTotal: data.length !== 0 ? data[0].totalRegistros : 0,
                         recordsFiltered: data.length !== 0 ? data[0].totalRegistros : 0
                     });
+                    general.cantidadtencnologias = data.length !== 0 ? data[0].totalRegistros : 0;
                     //if (general.tablaproductores.data().length > 0) {
                     //    $('#btndescargar').removeAttr('disabled');
                     //}
@@ -841,9 +844,9 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "vtecnologia1", title: "Tecnologia 1", visible: false, orderable: false },
             { data: "vtecnologia2", title: "Tecnologia 2", visible: false, orderable: false },
             { data: "vtecnologia3", title: "Tecnologia 3", visible: false, orderable: false },
-            { data: "vtecnologia1Corta", title: "Tecnologia 1", visible: true, orderable: false },
-            { data: "vtecnologia2Corta", title: "Tecnologia 2", visible: true, orderable: false },
-            { data: "vtecnologia3Corta", title: "Tecnologia 3", visible: true, orderable: false },
+            { data: "vtecnologia1Corta", title: "Tecnologias/practicas utilizadas en la situacion actual", visible: true, orderable: false },
+            { data: "vtecnologia2Corta", title: "Tecnologias/practicas presentes en el mercado", visible: true, orderable: false },
+            { data: "vtecnologia3Corta", title: "Tecnologia idonea para los productores (las que necesita el productor)", visible: true, orderable: false },
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
@@ -903,6 +906,7 @@ function EjecutarDetalleInformacionGeneral() {
                 $('#vrendimientocadenaproductiva').val(respuesta[0].vRendimientoCadenaProductiva);
                 $('#vgremios').val(respuesta[0].vGremios);
                 $('#vobjetivocentral').val(respuesta[0].vObjetivoCentral);
+                general.cantidadproductores = respuesta[0].cantidadproductores;
                 ActivarBotones(false);
 
                 general.acciongeneral = 2;
@@ -977,9 +981,25 @@ function EjecutarDetalleInformacionGeneral() {
                 //            }                           
                 //        });
                 //    });
-
             }
         });
+
+    $('#cboindicador').on('change', function (e) {       
+        debugger;
+        if (e.currentTarget.value == '1') {
+            $('#vunidadmedidaind').val("TECNOLOGIA");
+            $('#vmeta').val(general.cantidadtencnologias);
+        }
+        if (e.currentTarget.value == '2') {
+            $('#vunidadmedidaind').val("PRODUCTOR");
+            $('#vmeta').val(general.cantidadproductores);
+        }
+        if (e.currentTarget.value == '3') {
+            $('#vunidadmedidaind').val("UNIDAD");
+            $('#vmeta').val($('#vnumerounidadesproductivas').val());
+            
+        }        
+    });
 
     $('#btneliminarcausadirecta').on('click', function () {
         //alert('elimino');

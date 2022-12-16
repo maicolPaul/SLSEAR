@@ -12,7 +12,7 @@ function EjecutarDetalleInformacionGeneral() {
 
     general.usuario = arreglousuario[0];
 
-    cargarusuario();
+    cargarusuario(11);
 
     general.tblcomiteevaluador = $("#tblcomiteevaluador").DataTable({
         bFilter: false
