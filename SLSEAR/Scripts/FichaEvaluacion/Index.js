@@ -5,7 +5,8 @@
     tblFichaEvaluacion: null,
     elementoSeleccionado: null,
     FichaEvaluacionSeleccionado:null,
-    accion:1
+    accion: 1,
+    iEnvio:0
 };
 
 function EjecutarDetalleInformacionGeneral() {
@@ -13,8 +14,9 @@ function EjecutarDetalleInformacionGeneral() {
     var arreglousuario = new Array();
 
     arreglousuario = $('#hdnusuario').val().split('|');
-
+    debugger;
     general.usuario = arreglousuario[0];
+    general.iEnvio = arreglousuario[7];
 
     /**************************************************/
 
@@ -88,7 +90,7 @@ function EjecutarDetalleInformacionGeneral() {
                 , piCurrentPage: paginaActual
                 , pvSortColumn: "iCodActividad"
                 , pvSortOrder: "asc"
-                , iCodComiteEvaluador: general.usuario
+                , iCodComiteEvaluador: general.iEnvio==4 ? general.usuario : 0
                 , iCodIdentificacion: $("#cboComponente").val()
             };
             debugger;
@@ -126,11 +128,14 @@ function EjecutarDetalleInformacionGeneral() {
             { data: "vNomProvincia", title: "Provincia", visible: true, orderable: false },
             { data: "vNomDistrito", title: "Distrito", visible: true, orderable: false },
             { data: "iCodExtensionista", title: "iCodExtensionista", visible: false, orderable: false },
+            { data: "EvaluadoFinalizar", title: "EvaluadoFinalizar", visible: false, orderable: false },
             {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
                     acciones += `&nbsp&nbsp&nbsp<a href="javascript:void(0);" onclick ="VerFichaEvaluacion(this);" data-toggle="tooltip" title="Ver Evaluacion"><i class="bi bi-card-checklist"></i></a>&nbsp&nbsp&nbsp`;
                     acciones += `<a href="javascript:void(0);" onclick ="DescargarFicha(this);" data-toggle="tooltip" title="Descargar Ficha"><i class="fa fa-print"></i></a>&nbsp&nbsp&nbsp`;
+                    acciones += `<a href="javascript:void(0);" onclick ="Finalizarevaluacion(this);" data-toggle="tooltip" title="Finalizar Evaluacion"><i class="fa fa-check"></i></a>&nbsp&nbsp&nbsp`;
+                    
                     //acciones += `<a href="javascript:void(0);" onclick ="DescargarG(this);" data-toggle="tooltip" title="Descargar Ficha"><i class="fa fa-print"></i></a>&nbsp&nbsp&nbsp`;
                     //if (row.existe == 0) {
                     //acciones += `<a href="javascript:void(0);" onclick ="eliminarCosto(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
@@ -209,7 +214,9 @@ function EjecutarDetalleInformacionGeneral() {
                 data: (row) => {
                     let acciones = `<div class="nav-actions">`;
                     //acciones += `<a href="javascript:void(0);" onclick ="VerComunidad(this);" class="tooltipped" data-position="left" data-delay="50" data-tooltip="Ver Detalle"><i class="material-icons yelow-text">visibility</i></a>`;
-                    acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    if (general.elementoSeleccionado.EvaluadoFinalizar == 0) {
+                        acciones += `<a href="javascript:void(0);" onclick ="MostrarEditar(this);" data-toggle="tooltip" title="Editar"><i class="bi bi-pencil"></i></a>&nbsp&nbsp&nbsp`;
+                    }                    
                     //if (row.existe == 0) {
                     //acciones += `<a href="javascript:void(0);" onclick ="eliminarCostos(this);"  data-toggle="tooltip" title="Eliminar"><i class="bi bi-trash-fill"></i></a>`;
                     //}
@@ -248,6 +255,28 @@ function EjecutarDetalleInformacionGeneral() {
                 });
                 general.tblcosto.clear().draw();
                 $('#modaleliminarcostos').modal('hide');
+            }).fail((error) => {
+                console.log(error);
+            });   
+    });
+
+    $('#btnfinalizareva').on('click', function () {
+        let datos = {};
+        datos.iCodIdentificacion = general.elementoSeleccionado.iCodComiteIdentificacion;
+
+        $.post(globals.urlWebApi + "api/FichaEvaluacion/FinalizarEvaluacion", datos)
+            .done((respuesta) => {
+                if (respuesta.iCodComiteIdentificacion > 0) {
+                    console.log(respuesta);
+                    notif({
+                        msg: "<b>Correcto:</b>" + respuesta.vMensaje,
+                        type: "success"
+                    });
+                    general.tblSearEvaluador.clear().draw();
+                    general.elementoSeleccionado = null;
+                    general.tblFichaEvaluacion.clear().draw();
+                    $('#modalfinalizarevaluacion').modal('hide');
+                }                
             }).fail((error) => {
                 console.log(error);
             });   
@@ -323,6 +352,13 @@ function DescargarFicha(obj) {
     datos.iCodExtensionista = general.elementoSeleccionado.iCodExtensionista;
     openData('POST', globals.urlWebApi + 'api/Costo/ExportarFichaTecnica', datos, '_blank');
 }
+function Finalizarevaluacion(obj) {
+    debugger;
+    general.elementoSeleccionado = general.tblSearEvaluador.row($(obj).parents('tr')).data();
+        
+    $('#modalfinalizarevaluacion').modal({ backdrop: 'static', keyboard: false });
+    $('#modalfinalizarevaluacion').modal('show');
+}    
 
 function openData(verb, url, data, target) {
     var form = document.createElement("form");
