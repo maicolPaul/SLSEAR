@@ -147,6 +147,16 @@ function EjecutarDetalleInformacionGeneral() {
         general.tblcostoPlanAT.draw().clear();
     });
 
+    $('#btnGenerar').on('click', function () {
+        debugger;
+        var datos = {};
+        datos.iCodExtensionista = general.usuario;
+        openData('POST', globals.urlWebApi + 'api/Hito/ExportarEjecucionTecFin', datos, '_blank');
+    });
+
+
+    
+
     general.tblPlanCapa = $("#tblPlanCapa").DataTable({
         bFilter: false
         , serverSide: true
@@ -591,6 +601,26 @@ function EjecutarDetalleInformacionGeneral() {
     });
 
 }
+
+function openData(verb, url, data, target) {
+    debugger;
+    var form = document.createElement("form");
+    form.action = url;
+    form.method = verb;
+    form.target = target || "_self";
+    if (data) {
+        for (var key in data) {
+            var input = document.createElement("textarea");
+            input.name = key;
+            input.value = typeof data[key] === "object" ? JSON.stringify(data[key]) : data[key];
+            form.appendChild(input);
+        }
+    }
+    form.style.display = 'none';
+    document.body.appendChild(form);
+    form.submit();
+}
+
 function VerProductores(obj, vTipo) {       
     $('#dfechacapa').val('');
     general.vTipo = vTipo;

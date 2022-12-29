@@ -98,7 +98,7 @@ function EjecutarDetalleInformacionGeneral() {
     });
 
     $("#cbodepartamento").on('change', function (e) {
-        general.tblsearsx10328.clear().draw();
+        general.tblsears.clear().draw();
     });
 
     $('#btneliminar').on('click', function () {
