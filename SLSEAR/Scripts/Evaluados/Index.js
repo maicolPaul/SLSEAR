@@ -34,7 +34,8 @@ function EjecutarDetalleInformacionGeneral() {
             .done((respuesta) => {
                 console.log(respuesta);
                 if (respuesta.iCodganador > 0) {
-                    $('#modalelegirganador').modal('hide');
+                    $('#modalelegirganador').modal('hide'); 
+                    general.tblsears.clear().draw();
                 }
             }).fail((error) => {
                 console.log(error);
