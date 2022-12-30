@@ -133,6 +133,7 @@
     <Compile Include="Controllers\CronogramaController.cs" />
     <Compile Include="Controllers\CurriculumVitaeController.cs" />
     <Compile Include="Controllers\EstatutoRegistralController.cs" />
+    <Compile Include="Controllers\EvaluadosController.cs" />
     <Compile Include="Controllers\FichaEvaluacionController.cs" />
     <Compile Include="Controllers\FinRegExtController.cs" />
     <Compile Include="Controllers\FormulacionController.cs" />
@@ -1478,6 +1479,7 @@
     <Content Include="Scripts\Cronograma\Index.js" />
     <Content Include="Scripts\CurriculumVitae\Index.js" />
     <Content Include="Scripts\EstatutoRegistral\Index.js" />
+    <Content Include="Scripts\Evaluados\Index.js" />
     <Content Include="Scripts\FichaEvaluacion\Index.js" />
     <Content Include="Scripts\FinRegExt\Index.js" />
     <Content Include="Scripts\Formulacion\Index.js" />
@@ -1544,6 +1546,7 @@
     <Content Include="Views\FinRegExt\Index.cshtml" />
     <Content Include="Views\Hitos\Index.cshtml" />
     <Content Include="Views\SupervisionCap\Index.cshtml" />
+    <Content Include="Views\Evaluados\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

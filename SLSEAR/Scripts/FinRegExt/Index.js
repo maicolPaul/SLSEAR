@@ -19,6 +19,7 @@ function EjecutarDetalleInformacionGeneral() {
     });
 
     $('#btnEnviar').on('click', function () {
+        
         var datos = {};
         datos.iCodComponente = general.usuario; 
 
@@ -29,12 +30,13 @@ function EjecutarDetalleInformacionGeneral() {
                     msg: "<b>Correcto:</b>" + respuesta.vMensaje,
                     type: "success"
                 });
+
+                salir();
                 //general.tblPlanSesion.clear().draw();
                 //$('#modalplanSesion').modal('hide');
             }).fail((error) => {
                 console.log(error);
-            });
-        
+            });        
     });
     cargarusuario(27);
 }
